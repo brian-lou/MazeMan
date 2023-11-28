@@ -1,0 +1,47 @@
+{
+  "name": "lower-case-dashed-name-of-project",
+  "repository": "cos426finalproject",
+  "version": "0.1.0",
+  "title": "PROJECT TITLE HERE",
+  "description": "SHORT DESCRIPTION OF PROJECT HERE. ONE TO TWO SENTENCES MAX",
+  "keywords": [
+    "Princeton",
+    "graphics",
+    "three.js",
+    "COS 426",
+    "keywor0d",
+    "keyword1",
+    "keyword2-etc",
+    "but this last entry CANNOT have a comma after it ->"
+  ],
+  "scripts": {
+    "start": "webpack-dev-server --mode development --output-public-path \"\"",
+    "prebuild": "rimraf ./build && mkdirp ./build",
+    "build": "npm run prebuild && webpack --mode production --progress --output-public-path \"\"",
+    "format": "prettier --write '*.js' 'src/**/*.js'",
+    "deploy": "npm run prebuild && webpack --mode production --progress && gh-pages -d build"
+  },
+  "dependencies": {
+    "dat.gui": "^0.7.7",
+    "three": "^0.133.1",
+    "three-obj-loader": "^1.1.3",
+    "webpack-cli": "^4.9.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.15.8",
+    "@babel/preset-env": "^7.15.8",
+    "babel-loader": "^8.2.2",
+    "file-loader": "^6.2.0",
+    "gh-pages": "^3.2.3",
+    "html-webpack-plugin": "^5.3.2",
+    "mkdirp": "^1.0.4",
+    "prettier": "^2.4.1",
+    "raw-loader": "^4.0.2",
+    "rimraf": "^3.0.2",
+    "webpack": "^5.58.1",
+    "webpack-dev-server": "^4.3.1"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  }
+}
