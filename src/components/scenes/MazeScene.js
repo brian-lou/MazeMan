@@ -1,6 +1,6 @@
 import * as Dat from 'dat.gui';
 import { Scene, Color } from 'three';
-import { Flower, Land, Player } from 'objects';
+import { Flower, Land, Player, Maze } from 'objects';
 import { BasicLights } from 'lights';
 
 class MazeScene extends Scene {
@@ -19,11 +19,12 @@ class MazeScene extends Scene {
         this.background = new Color(0x000000);
 
         // Add meshes to scene
-        // const land = new Land();
+        const land = new Land();
         // const flower = new Flower(this);
         const player = new Player(this);
+        const maze = new Maze();
         const lights = new BasicLights();
-        this.add(player, lights);
+        this.add(player, maze, lights);
 
         // Populate GUI
         this.state.gui.add(this.state, 'rotationSpeed', 0, 0 );
