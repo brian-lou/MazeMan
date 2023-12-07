@@ -1,5 +1,6 @@
 import { PlaneGeometry, Mesh, MeshBasicMaterial, DoubleSide, BufferAttribute, BufferGeometry } from 'three';
 import { Group } from 'three';
+import Generator from './Generator';
 
 class Maze extends Group {
     constructor() {
@@ -7,7 +8,10 @@ class Maze extends Group {
         super();
 
         this.name = 'maze';
-
+        const maze = new Generator(100,100);
+        console.log(maze.maze)
+        maze.generate();
+        console.log(maze.maze)
         // const geometry = new PlaneGeometry( 1, 1 );
         // const material = new MeshBasicMaterial( {color: 0xffff00, side: DoubleSide} );
         // const plane = new Mesh( geometry, material );
@@ -32,7 +36,6 @@ class Maze extends Group {
         const material = new MeshBasicMaterial( { color: 0xffffff } );
         const mesh = new Mesh( geometry, material );
         this.add(mesh);
-        console.log(this)
         // parent.addToUpdateList(this);
     }
 }
