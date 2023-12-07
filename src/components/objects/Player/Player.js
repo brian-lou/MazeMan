@@ -22,7 +22,7 @@ class Player extends Group {
         this.name = 'player';
         loader.load(MODEL, (gltf) => {
             const model = gltf.scene;
-            model.scale.set(0.2, 0.2, 0.2);
+            model.scale.set(0.15, 0.15, 0.15);
             this.add(model);
         });
 
