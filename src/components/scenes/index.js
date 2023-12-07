@@ -1,1 +1,1 @@
-export { default as SeedScene } from './SeedScene.js';
+export { default as MazeScene } from './Maze.js';

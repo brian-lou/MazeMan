@@ -8,10 +8,10 @@
  */
 import { WebGLRenderer, PerspectiveCamera, Vector3 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import { SeedScene } from 'scenes';
+import { MazeScene } from 'scenes';
 
 // Initialize core ThreeJS components
-const scene = new SeedScene();
+const scene = new MazeScene();
 const camera = new PerspectiveCamera();
 const renderer = new WebGLRenderer({ antialias: true });
 
@@ -32,7 +32,7 @@ const controls = new OrbitControls(camera, canvas);
 controls.enableDamping = true;
 controls.enablePan = false;
 // disable camera panning by user
-controls.enabled = false;
+controls.enabled = true;
 controls.minDistance = 4;
 controls.maxDistance = 16;
 controls.update();
