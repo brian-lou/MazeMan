@@ -31,6 +31,8 @@ document.body.appendChild(canvas);
 const controls = new OrbitControls(camera, canvas);
 controls.enableDamping = true;
 controls.enablePan = false;
+// disable camera panning by user
+controls.enabled = false;
 controls.minDistance = 4;
 controls.maxDistance = 16;
 controls.update();

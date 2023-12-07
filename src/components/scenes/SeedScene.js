@@ -11,12 +11,12 @@ class SeedScene extends Scene {
         // Init state
         this.state = {
             gui: new Dat.GUI(), // Create GUI for scene
-            rotationSpeed: 1,
+            rotationSpeed: 0,
             updateList: [],
         };
 
         // Set background to a nice color
-        this.background = new Color(0x7ec0ee);
+        this.background = new Color(0x000000);
 
         // Add meshes to scene
         const land = new Land();
@@ -25,7 +25,7 @@ class SeedScene extends Scene {
         this.add(land, flower, lights);
 
         // Populate GUI
-        this.state.gui.add(this.state, 'rotationSpeed', -5, 5);
+        this.state.gui.add(this.state, 'rotationSpeed', 0, 0 );
     }
 
     addToUpdateList(object) {
