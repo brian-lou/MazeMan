@@ -9,14 +9,21 @@
 import { WebGLRenderer, PerspectiveCamera, Vector3 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { MazeScene } from 'scenes';
+import { handleKeyDown, handleKeyUp } from "./js/handlers";
+
+
+// Global Vars
+const keypress = {};
 
 // Initialize core ThreeJS components
-const scene = new MazeScene();
+const scene = new MazeScene(keypress);
 const camera = new PerspectiveCamera(65);
 const renderer = new WebGLRenderer({ antialias: true });
 
+
 // Set up camera
-camera.position.set(-10, 70, 0);
+const cameraOffset = new Vector3(-5, 10, 0);
+camera.position.add(cameraOffset);
 // camera.lookAt(new Vector3(40, 40, 40));
 
 // Set up renderer, canvas, and minor CSS adjustments
@@ -38,11 +45,20 @@ controls.maxDistance = 16;
 controls.update();
 
 // Render loop
+let prevTimestamp = 0;
 const onAnimationFrameHandler = (timeStamp) => {
     controls.update();
+    scene.update && scene.update(timeStamp - prevTimestamp, renderer);
+
+    let playerPosition = new Vector3();
+    let player = scene.getPlayer();
+    player.getWorldPosition(playerPosition);
+    camera.position.copy(playerPosition).add(cameraOffset);
+    camera.lookAt(playerPosition);
+    
     renderer.render(scene, camera);
-    scene.update && scene.update(timeStamp);
     window.requestAnimationFrame(onAnimationFrameHandler);
+    prevTimestamp = timeStamp;
 };
 window.requestAnimationFrame(onAnimationFrameHandler);
 
@@ -55,3 +71,5 @@ const windowResizeHandler = () => {
 };
 windowResizeHandler();
 window.addEventListener('resize', windowResizeHandler, false);
+window.addEventListener('keydown', event => handleKeyDown(event, keypress), false);
+window.addEventListener('keyup', event => handleKeyUp(event, keypress), false);

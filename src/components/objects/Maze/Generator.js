@@ -4,9 +4,10 @@ class Generator{
         this.maze = Array(rows).fill().map(() => Array(cols).fill(0));
     }
 
-    generate(){
-        genRandom();
+    generate(maze_rows, maze_cols){
+        genRandom(maze_rows, maze_cols);
         this.maze = getTiles();
+        // console.table(this.maze)
     }
     
 }

@@ -1,13 +1,14 @@
-import { Group } from 'three';
+import { Group, Vector3} from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
 import MODEL from './player.glb';
 
 class Player extends Group {
-    constructor(parent) {
+    constructor(parent, maze, keypress) {
         // Call parent Group() constructor
         super();
-
+        this.keypress = keypress;
+        this.maze = maze;
         // Init state
         this.state = {
             gui: parent.state.gui,
@@ -22,7 +23,7 @@ class Player extends Group {
         this.name = 'player';
         loader.load(MODEL, (gltf) => {
             const model = gltf.scene;
-            model.scale.set(0.15, 0.15, 0.15);
+            model.scale.set(0.1, 0.1, 0.1);
             this.add(model);
         });
 
@@ -55,19 +56,29 @@ class Player extends Group {
         jumpUp.start();
     }
 
-    update(timeStamp) {
-        if (this.state.bob) {
-            // Bob back and forth
-            this.rotation.z = 0.05 * Math.sin(timeStamp / 300);
-        }
+    update(deltaT) {
         if (this.state.twirl > 0) {
             // Lazy implementation of twirl
             this.state.twirl -= Math.PI / 8;
             this.rotation.y += Math.PI / 8;
         }
+        let dir = new Vector3();
+        if (this.keypress["up"]){
+            dir = new Vector3(1/deltaT,0,0);
+        } else if (this.keypress["left"]){
+            dir = new Vector3(0,0,-1/deltaT);
+        } else if (this.keypress["right"]){
+            dir = new Vector3(0,0,1/deltaT);
+        } else if (this.keypress["down"]){
+            dir = new Vector3(-1/deltaT,0,0);
+        }
+        this.position.add(dir);
 
         // Advance tween animations, if any exist
         TWEEN.update();
+    }
+    move(delta){
+
     }
 }
 

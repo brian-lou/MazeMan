@@ -30,8 +30,8 @@ var cells = [];
 var tallRows = [];
 var narrowCols = [];
 
-var rows = 15; // HARDCODED
-var cols = 15;
+var rows = 0; // HARDCODED
+var cols = 0;
 
 var reset = function() {
     var i;
@@ -86,8 +86,9 @@ var reset = function() {
     c.connect[UP] = c.connect[LEFT] = true;
 };
 
-var genRandom = function() {
-
+var genRandom = function(maze_rows, maze_cols) {
+    rows = maze_rows; 
+    cols = maze_cols;
     var getLeftMostEmptyCells = function() {
         var x;
         var leftCells = [];
