@@ -30,8 +30,8 @@ var cells = [];
 var tallRows = [];
 var narrowCols = [];
 
-var rows = 40;
-var cols = 40;
+var rows = 15; // HARDCODED
+var cols = 15;
 
 var reset = function() {
     var i;

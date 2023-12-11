@@ -1,4 +1,14 @@
-import { PlaneGeometry, Mesh, DoubleSide, BufferAttribute, BufferGeometry, BoxGeometry, MeshBasicMaterial, Group } from 'three';
+import {
+    PlaneGeometry,
+    Mesh,
+    DoubleSide,
+    BufferAttribute,
+    BufferGeometry,
+    BoxGeometry,
+    MeshBasicMaterial,
+    Group,
+    Euler,
+} from 'three';
 import Generator from './Generator';
 
 class Maze extends Group {
@@ -6,28 +16,50 @@ class Maze extends Group {
         // Call parent Group() constructor
         super();
         this.name = 'maze';
-        const maze = new Generator(100,100);
+        const EPS = 1e-2;
+        const WALL_LEN = 1;
+        const MAZE_LEN = 15; // Have to change pacmangen as well, hardcoded
+        const maze = new Generator(MAZE_LEN, MAZE_LEN);
         // console.log(maze.maze)
-        maze.generate();
+        maze.generate(MAZE_LEN, MAZE_LEN);
         const mazeArray = maze.maze;
-        const wallLength = 1;
-        const wallGeo= new BoxGeometry(wallLength, wallLength, wallLength);
-        const wallMat = new MeshBasicMaterial({ color: 0x0000FF});
-        
+        const wallGeo = new BoxGeometry(WALL_LEN, WALL_LEN, WALL_LEN);
+        const wallMat = new MeshBasicMaterial({ color: 0xfbe9d2 });
+
+        // add walls (and side walls)
         for (let i = 0; i < mazeArray.length; i++) {
             for (let j = 0; j < mazeArray[i].length; j++) {
+                if (
+                    i == 0 ||
+                    i == mazeArray.length - 1 ||
+                    j == 0 ||
+                    j == mazeArray[i].length - 1
+                ) {
+                    const wall = new Mesh(wallGeo, wallMat);
+                    wall.position.set(i * WALL_LEN, 0, j * WALL_LEN);
+                    this.add(wall);
+                }
                 if (mazeArray[i][j] === 1) {
                     const wall = new Mesh(wallGeo, wallMat);
-                    wall.position.set(i * wallLength, 0, j * wallLength);
+                    wall.position.set(i * WALL_LEN, 0, j * WALL_LEN);
                     this.add(wall);
                 }
             }
         }
-        // console.log(maze.maze)
-        // const geometry = new PlaneGeometry( 1, 1 );
-        // const material = new MeshBasicMaterial( {color: 0xffff00, side: DoubleSide} );
-        // const plane = new Mesh( geometry, material );
-        // this.add( plane );
+
+        // add floor
+        const floorGeometry = new PlaneGeometry(
+            MAZE_LEN * 2 + 1,
+            MAZE_LEN * 2 + 1
+        );
+        const floorMaterial = new MeshBasicMaterial({
+            color: 0xc8baa8,
+            side: DoubleSide,
+        });
+        const floor = new Mesh(floorGeometry, floorMaterial);
+        floor.rotation.set(Math.PI / 2, 0, Math.PI / 2);
+        floor.position.set(MAZE_LEN, -0.5 * WALL_LEN - EPS, MAZE_LEN);
+        this.add(floor);
 
         // const geometry = new BufferGeometry();
 
@@ -49,16 +81,7 @@ class Maze extends Group {
         // const mesh = new Mesh( geometry, material );
         // this.add(mesh);
         // parent.addToUpdateList(this);
-
-        
     }
 }
 
 export default Maze;
-
-
-
-
-
-
-
