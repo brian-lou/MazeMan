@@ -96,4 +96,5 @@ window.addEventListener(
     false
 );
 // ******** INIT ***********
+pages.initIcons(document);
 pages.game(document, canvas);

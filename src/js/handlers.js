@@ -32,6 +32,6 @@ export function updateScore(document, score) {
 export function updateAttributes(document, health, items) {
     let healthBar = document.getElementById('health');
     let itemBar = document.getElementById('items');
-    healthBar.innerHTML = 'Health: '.concat(health);
+    //healthBar.innerHTML = 'Health: '.concat(health);
     itemBar.innerHTML = 'Items: TBD';
 }
