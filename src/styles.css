@@ -1,0 +1,25 @@
+body,
+html {
+    font-family: 'Radio Canada', sans-serif;
+    height: 100%;
+    color: black;
+}
+
+#instructions {
+    position: absolute;
+    top: 8%;
+    left: 50%;
+    margin-top: -50px;
+    margin-left: -50px;
+    width: 100px;
+    height: 100px;
+    color: black;
+}
+
+#attributes {
+    position: absolute;
+    top: 90%;
+    left: 50%;
+    width: 100%;
+    color: black;
+}

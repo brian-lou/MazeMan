@@ -9,17 +9,25 @@
 import { WebGLRenderer, PerspectiveCamera, Vector3 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { MazeScene } from 'scenes';
-import { handleKeyDown, handleKeyUp } from "./js/handlers";
-
+import {
+    handleKeyDown,
+    handleKeyUp,
+    updateScore,
+    updateAttributes,
+} from './js/handlers';
+import * as pages from './js/pages.js';
+import './styles.css';
 
 // ******** Global Vars ***********
 const keypress = {}; // dict that stores which keys are pressed
+let score = 0; // score
+let health = 3; // health
+let items; // items
 
 // ******** Initialize Core ThreeJS components ***********
 const scene = new MazeScene(keypress);
 const camera = new PerspectiveCamera(65);
 const renderer = new WebGLRenderer({ antialias: true });
-
 
 // ******** Camera ***********
 const cameraOffset = new Vector3(-5, 10, 0);
@@ -56,8 +64,12 @@ const onAnimationFrameHandler = (timeStamp) => {
     player.getWorldPosition(playerPosition);
     camera.position.copy(playerPosition).add(cameraOffset);
     camera.lookAt(playerPosition);
-    
+
     renderer.render(scene, camera);
+    // update score
+    score += 0.01;
+    updateScore(document, score.toFixed(2));
+    updateAttributes(document, health, items);
     window.requestAnimationFrame(onAnimationFrameHandler);
     prevTimestamp = timeStamp;
 };
@@ -73,5 +85,15 @@ const windowResizeHandler = () => {
 windowResizeHandler();
 // ******** Handlers ***********
 window.addEventListener('resize', windowResizeHandler, false);
-window.addEventListener('keydown', event => handleKeyDown(event, keypress), false);
-window.addEventListener('keyup', event => handleKeyUp(event, keypress), false);
+window.addEventListener(
+    'keydown',
+    (event) => handleKeyDown(event, keypress),
+    false
+);
+window.addEventListener(
+    'keyup',
+    (event) => handleKeyUp(event, keypress),
+    false
+);
+// ******** INIT ***********
+pages.game(document, canvas);
