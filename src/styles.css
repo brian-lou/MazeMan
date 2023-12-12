@@ -2,7 +2,7 @@ body,
 html {
     font-family: 'Radio Canada', sans-serif;
     height: 100%;
-    color: black;
+    color: white;
 }
 
 i + i {
@@ -21,17 +21,15 @@ i + i {
 }
 
 #attributes {
-    display: inline;
+    display: inline-block;
     position: absolute;
-    top: 90%;
-    left: 40%;
+    top: 80%;
+    left: 20%;
     width: 100%;
     color: black;
 }
-#space {
-    margin: 10%;
-}
 
 #health {
+    margin: 15%;
     color: red;
 }

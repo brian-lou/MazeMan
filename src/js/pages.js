@@ -17,13 +17,9 @@ export function game(document, canvas) {
     let items = document.createElement('span');
     items.id = 'items';
 
-    let space = document.createElement('span');
-    space.id = 'space';
-
     let attributes = document.createElement('div');
     attributes.id = 'attributes';
     attributes.append(healthBar);
-    attributes.append(space);
     attributes.append(items);
     document.body.appendChild(attributes);
 }
