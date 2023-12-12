@@ -102,18 +102,24 @@ class Maze extends Group {
         // this.add(mesh);
         // parent.addToUpdateList(this);
     }
-    getAllowedPosition(x, z, box){
+    getAllowedPosition(pos, offset, box){
+        let x = pos.x + offset.x; 
+        let z = pos.z + offset.z;
         let i = Math.floor(x/this.WALL_LEN);
         let j = Math.floor(z/this.WALL_LEN);
+        let newBox = new Box3();
+        newBox.copy(box);
+        newBox.translate(offset);
+        console.log([box, newBox, offset])
         for (let dx of [-1,0,1]){
             for (let dy of [-1,0,1]){
                 if (dx == 0 && dy == 0) continue;
                 let newX = i + dx;
                 let newZ = j + dy;
                 if (newX >= 0 && newX < this.mazeHeight && newZ >= 0 && newZ < this.mazeWidth){
-                    console.log([this.wallBoxes[newX][newZ], box])
+                    // console.log([this.wallBoxes[newX][newZ], box])
                     if (this.wallBoxes[newX][newZ] != null && 
-                        this.wallBoxes[newX][newZ].intersectsBox(box)){
+                        this.wallBoxes[newX][newZ].intersectsBox(newBox)){
                         return false;
                     }
                 }
