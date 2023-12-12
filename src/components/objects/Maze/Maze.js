@@ -109,17 +109,19 @@ class Maze extends Group {
         let j = Math.floor(z/this.WALL_LEN);
         let newBox = new Box3();
         newBox.copy(box);
+        newBox.translate(pos);
         newBox.translate(offset);
-        console.log([box, newBox, offset])
+        // console.log([box, newBox, offset])
         for (let dx of [-1,0,1]){
             for (let dy of [-1,0,1]){
                 if (dx == 0 && dy == 0) continue;
                 let newX = i + dx;
                 let newZ = j + dy;
                 if (newX >= 0 && newX < this.mazeHeight && newZ >= 0 && newZ < this.mazeWidth){
-                    // console.log([this.wallBoxes[newX][newZ], box])
+                    
                     if (this.wallBoxes[newX][newZ] != null && 
                         this.wallBoxes[newX][newZ].intersectsBox(newBox)){
+                            console.log([this.wallBoxes[newX][newZ], newBox])
                         return false;
                     }
                 }

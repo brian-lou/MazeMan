@@ -23,7 +23,9 @@ class Player extends Group {
             this.boxSize
         );
         this.helper = new Box3Helper(this.playerBox, 0x000000);
+        this.renderOrder = 10;
         this.add(this.helper);
+        this.add(this.playerBox)
         // Set random spawn point (for now)
         let [x,z] = mazeObj.getSpawnPoint();
         this.position.set(x, 0, z);
@@ -109,19 +111,7 @@ class Player extends Group {
         )){
             this.position.add(offset);
             if (this.playerBox){
-                this.playerBox.setFromCenterAndSize(
-                        new Vector3(
-                            this.position.x + this.boxSize.x,
-                            this.position.y + this.boxSize.y,
-                            this.position.z + this.boxSize.z,
-                        ),
-                        this.boxSize
-                    );
-                // this.remove(this.helper);
-                let h = new Box3Helper(this.playerBox,0x000000);
-                this.helper = h;
-                this.add(h);
-                // this.playerBox.setFromObject(this);
+                
             }
         }
 
