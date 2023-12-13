@@ -121,6 +121,16 @@ class Maze extends Group {
     }
 
 
+    checkValidPosition(x,z){
+        let i = Math.floor(x/this.WALL_LEN);
+        let j = Math.floor(z/this.WALL_LEN);
+        if (i >= 0 && i < this.mazeHeight && j >= 0 && j < this.mazeWidth){
+            if (this.allowedLocations[i][j]){
+                return true;
+            }
+        }
+        return false;
+    }
     // Coordinate system:
     // +
     // |
@@ -146,8 +156,6 @@ class Maze extends Group {
         let newZ = dxdz[1] + j;
         if (newX >= 0 && newX < this.mazeHeight && newZ >= 0 && newZ < this.mazeWidth){
             if (this.allowedLocations[newX][newZ]){
-                pos.add(offset);
-                // console.log(true)
                 return true;
             }
             // console.log(i, j)
@@ -162,28 +170,24 @@ class Maze extends Group {
         // check if the new position is still valid
         if (dxdz[0] == 1 && dxdz[1] == 0){ // up
             if (Math.ceil(goToX) == Math.ceil(pos.x/this.WALL_LEN)){
-                pos.add(offset);
                 return true;
             } else {
                 pos.set(Math.ceil(pos.x), pos.y, pos.z);
             }
         } else if (dxdz[0] == -1 && dxdz[1] == 0){// down
             if (Math.floor(goToX) == Math.floor(pos.x/this.WALL_LEN)){
-                pos.add(offset);
                 return true;
             } else {
                 pos.set(Math.floor(pos.x), pos.y, pos.z);
             }
         } else if (dxdz[0] == 0 && dxdz[1] == -1){// left
             if (Math.floor(goToZ) == Math.floor(pos.z/this.WALL_LEN)){
-                pos.add(offset);
                 return true;// ok
             } else {
                 pos.set(pos.x, pos.y, Math.ceil(z));
             }
         } else if (dxdz[0] == 0 && dxdz[1] == 1){// right
             if (Math.ceil(goToZ) == Math.ceil(pos.z/this.WALL_LEN)){
-                pos.add(offset);
                 return true;
             } else {
                 pos.set(pos.x, pos.y, Math.floor(z));

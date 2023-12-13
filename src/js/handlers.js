@@ -10,8 +10,9 @@ export function handleKeyDown(event, keypress) {
     if (event.key == "d") keypress['right'] = Date.now();
     if (event.key == " "){
         for (let p in keypress){
-            delete keypress[p];
+            keypress[p] = 0;
         }
+        keypress[" "] = 1;
     }
 }
 

@@ -20,7 +20,16 @@ import './styles.css';
 import globalVars from './js/globalVars.js';
 
 // ******** Global Vars ***********
-const keypress = {}; // dict that stores which keys are pressed
+const keypress = {
+    " ": 0,
+    "up" : 0,
+    "down": 0,
+    "left" : 0,
+    "right" : 0
+}; // dict that stores which keys are pressed
+let score = 0; // score
+let health = 3; // health
+let items; // items
 
 // ******** Initialize Core ThreeJS components ***********
 const scene = new MazeScene(keypress);

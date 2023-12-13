@@ -30,6 +30,8 @@ class Player extends Group {
         let [x,z] = mazeObj.getSpawnPoint();
         this.position.set(x, 0, z);
 
+        this.primaryDirection = true;
+
         // Load object
         const loader = new GLTFLoader();
 
@@ -83,41 +85,62 @@ class Player extends Group {
         }
 
         // Get most recent direction of movement
-        let offset = new Vector3(0,0,0);
+        let offsets = [new Vector3(0,0,0), new Vector3(0,0,0)];
         let time = 0;
-        let direction = "";
+        let times = [];
         for (let [k,v] of Object.entries(this.keypress)){
-            if (v > time){
-                direction = k;
-                time = v;
+            times.push([v, k]);
+        }
+        times.sort(function(a,b){return b[0] - a[0];}); 
+
+        let dxdzs = [[0,0],[0,0]];
+        for (let i = 0 ;i <2; i++){
+            if (times[i][1] == "up"){
+                offsets[i] = new Vector3((MOVEMENT_SPEED / 10) / deltaT,0,0);
+                dxdzs[i] = [1, 0];
+            } else if (times[i][1] == "left"){
+                offsets[i] = new Vector3(0,0,-(MOVEMENT_SPEED / 10) / deltaT);
+                dxdzs[i] = [0, -1];
+            } else if (times[i][1] == "right"){
+                offsets[i] = new Vector3(0,0,(MOVEMENT_SPEED / 10) / deltaT);
+                dxdzs[i] = [0, 1];
+            } else if (times[i][1] == "down"){
+                offsets[i] = new Vector3(-(MOVEMENT_SPEED / 10) / deltaT,0,0);
+                dxdzs[i] = [-1, 0];
             }
         }
-        let dxdz = [0,0];
-        if (direction == "up"){
-            offset = new Vector3((MOVEMENT_SPEED / 10) / deltaT,0,0);
-            dxdz = [1, 0];
-        } else if (direction == "left"){
-            offset = new Vector3(0,0,-(MOVEMENT_SPEED / 10) / deltaT);
-            dxdz = [0, -1];
-        } else if (direction == "right"){
-            offset = new Vector3(0,0,(MOVEMENT_SPEED / 10) / deltaT);
-            dxdz = [0, 1];
-        } else if (direction == "down"){
-            offset = new Vector3(-(MOVEMENT_SPEED / 10) / deltaT,0,0);
-            dxdz = [-1, 0];
-        }
+        // conditions for turning:
+        // 1. Secondary direciton was previously executed
+        // 2. Player is actively moving and goes in a perp direction
 
         // check that player location is not within a wall
-        if (this.playerBox != null && this.mazeObj.getAllowedPosition(
+        if (this.playerBox != null && 
+            this.mazeObj.getAllowedPosition(
             this.position,
-            offset,
-            dxdz,
+            offsets[0],
+            dxdzs[0],
             this.playerBox
-        )){ 
-            this.position.add(offset);
-        //     // if (this.playerBox){
-                
-        //     // }
+        )){
+            if (!this.primaryDirection){
+                // previously unable to go in this dir, but now able to
+                // add code handling each of the 8 cases here 
+                // (L-U, R-U, L-D, R-D, U-L, U-R, D-L, D-R)
+                // additionally, distance check (?)
+            }
+            this.position.add(offsets[0]);
+            this.directionOfMovement = times[0][1];
+        } else {
+            this.primaryDirection = false;
+            // try the secondary direction (within 0.5 sec)
+            if (this.mazeObj.getAllowedPosition(
+                this.position,
+                offsets[1],
+                dxdzs[1],
+                this.playerBox
+            )){
+                this.position.add(offsets[1]);
+                this.directionOfMovement = times[1][1];
+            } 
         }
 
         // Advance tween animations, if any exist
