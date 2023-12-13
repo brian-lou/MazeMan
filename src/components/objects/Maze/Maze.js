@@ -16,6 +16,7 @@ import {
 import Generator from './Generator';
 import { FLOOR_COLOR, WALL_COLOR } from '../../../js/constants';
 import { updateScore } from '../../../js/handlers';
+import globalVars from '../../../js/globalVars';
 
 class Maze extends Group {
     constructor(parent) {
@@ -114,8 +115,8 @@ class Maze extends Group {
         if (this.dots[x][z] instanceof Mesh && this.dots[x][z].visible) {
             this.dots[x][z].visible = false;
             console.log(this.dots[x][z])
-            // figure out how to add 1 to score
-            // updateScore(document, )
+            // Add 1 to score for now
+            globalVars.score++;
         }
     }
 

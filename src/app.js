@@ -17,12 +17,10 @@ import {
 } from './js/handlers';
 import * as pages from './js/pages.js';
 import './styles.css';
+import globalVars from './js/globalVars.js';
 
 // ******** Global Vars ***********
 const keypress = {}; // dict that stores which keys are pressed
-let score = 0; // score
-let health = 3; // health
-let items; // items
 
 // ******** Initialize Core ThreeJS components ***********
 const scene = new MazeScene(keypress);
@@ -73,9 +71,9 @@ const onAnimationFrameHandler = (timeStamp) => {
     renderer.render(scene, camera);
     
     // update score
-    score += 0.01;
-    updateScore(document, score.toFixed(2));
-    updateAttributes(document, health, items);
+    globalVars.score += 0.01;
+    updateScore(document, globalVars.score.toFixed(2));
+    updateAttributes(document, globalVars.health, globalVars.items);
     window.requestAnimationFrame(onAnimationFrameHandler);
     prevTimestamp = timeStamp;
 };

@@ -113,11 +113,11 @@ class Player extends Group {
             offset,
             dxdz,
             this.playerBox
-        )){
-            // this.position.add(offset);
-            if (this.playerBox){
+        )){ 
+            this.position.add(offset);
+        //     // if (this.playerBox){
                 
-            }
+        //     // }
         }
 
         // Advance tween animations, if any exist
