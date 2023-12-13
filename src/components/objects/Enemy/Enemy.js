@@ -38,19 +38,34 @@ class Enemy extends Group {
         this.state.gui.add(this.state, 'bob');
         this.state.gui.add(this.state, 'spin');
 
-        this.currentDirection = this.getRandomDirection();
+        this.currentDirection = this.getRandomDirection()[0];
         this.movementSpeed = GLOBALVARS.movementSpeed / 1000;
     }
 
     update(deltaT) {
         if (!this.moveInDirection(this.currentDirection, deltaT)) {
-            this.currentDirection = this.getRandomDirection();
+            let dirs = this.getRandomDirection();
+            for (let i = 0; i < dirs.length; i++){
+                this.currentDirection = dirs[i];
+                if (!this.moveInDirection(this.currentDirection, deltaT)) {
+                    continue
+                } else {
+                    break;
+                }
+            }
+        }
+    }
+    shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
         }
     }
 
     getRandomDirection() {
         const directions = ['up', 'down', 'left', 'right'];
-        return directions[Math.floor(Math.random() * directions.length)];
+        this.shuffleArray(directions);
+        return directions;
     }
 
     moveInDirection(direction, deltaT) {
@@ -77,8 +92,7 @@ class Enemy extends Group {
                 break;
         }
 
-        const newPosition = this.position.clone().add(offset);
-        if (this.mazeObj.getAllowedPosition(newPosition, offset, dxdz, this.playerBox)) {
+        if (this.mazeObj.getAllowedPosition(this.position, offset, dxdz, this.playerBox)) {
             this.position.add(offset);
             return true;
         }

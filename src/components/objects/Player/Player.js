@@ -40,7 +40,6 @@ class Player extends Group {
             const model = gltf.scene;
             model.scale.set(0.4, 0.4, 0.4);
             model.rotation.y = - Math.PI / 2; // Rotates 180 degrees around the Y axis
-
             // Compute bounding box for the player
             model.traverse((child) => {
                 if (child.isMesh) {
@@ -49,6 +48,9 @@ class Player extends Group {
             });
             this.add(model);
         });
+        // initial direction
+        this.lookAt(this.position.x - 1, this.position.y, this.position.z);
+
         // Add self to parent's update list
         parent.addToUpdateList(this);
 
