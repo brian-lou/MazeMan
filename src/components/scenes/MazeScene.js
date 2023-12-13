@@ -5,10 +5,11 @@ import { BasicLights } from 'lights';
 // import { Enemy } from 'enemies';
 
 class MazeScene extends Scene {
-    constructor(keypress) {
+    constructor(keypress, camera) {
         // Call parent Scene() constructor
         super();
         this.keypress = keypress;
+        this.camera = camera;
         // Init state
         this.state = {
             gui: new Dat.GUI(), // Create GUI for scene
@@ -25,14 +26,15 @@ class MazeScene extends Scene {
         // const enemy = new Enemy(this, maze, keypress);
         // this.enemy = enemy;
         this.player = player;
-        const lights = new BasicLights();
-        const axesHelper = new AxesHelper(5);
+        const lights = new BasicLights(player, camera);
+        this.lights = lights;
+        // const axesHelper = new AxesHelper(5);
         this.enemies = [];
         for (let i = 0; i < 20; i++) { 
             const enemy = new Enemy(this, maze, keypress);
             this.enemies.push(enemy);
             this.add(enemy);}
-        this.add(player, maze, lights, axesHelper);
+        this.add(player, maze, lights);
        // Populate GUI
         this.state.gui.add(this.state, 'rotationSpeed', 0, 0 );
     }
@@ -55,6 +57,7 @@ class MazeScene extends Scene {
                 obj.update(deltaT);
             }
         }
+        this.lights.updateSpotlight();
     }
 }
 

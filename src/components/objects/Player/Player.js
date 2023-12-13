@@ -1,9 +1,9 @@
 import { Group, Vector3, Box3, Box3Helper} from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
-import MODEL from './player.glb';
+import MODEL from './pacman.glb';
 import GLOBALVARS from '../../../js/globalVars';
-import {MOVEMENT_EPS} from '../../../js/constants'
+import {MOVEMENT_EPS, MOVEMENT_FACTOR} from '../../../js/constants'
 
 class Player extends Group {
     constructor(parent, mazeObj, keypress) {
@@ -35,11 +35,11 @@ class Player extends Group {
 
         // Load object
         const loader = new GLTFLoader();
-
         this.name = 'player';
         loader.load(MODEL, (gltf) => {
             const model = gltf.scene;
-            model.scale.set(0.1, 0.1, 0.1);
+            model.scale.set(0.4, 0.4, 0.4);
+            model.rotation.y = - Math.PI / 2; // Rotates 180 degrees around the Y axis
 
             // Compute bounding box for the player
             model.traverse((child) => {
@@ -95,18 +95,19 @@ class Player extends Group {
                 dir = k;
             }
         }
+        if (dir == " ") return;
         let dxdz = null;
         if (dir == "up"){
-            offset = new Vector3((GLOBALVARS.movementSpeed / 10) / deltaT,0,0);
+            offset = new Vector3((GLOBALVARS.movementSpeed / MOVEMENT_FACTOR) * deltaT,0,0);
             dxdz = [1, 0];
         } else if (dir == "left"){
-            offset = new Vector3(0,0,-(GLOBALVARS.movementSpeed / 10) / deltaT);
+            offset = new Vector3(0,0,-(GLOBALVARS.movementSpeed / MOVEMENT_FACTOR) * deltaT);
             dxdz = [0, -1];
         } else if (dir == "right"){
-            offset = new Vector3(0,0,(GLOBALVARS.movementSpeed / 10) / deltaT);
+            offset = new Vector3(0,0,(GLOBALVARS.movementSpeed / MOVEMENT_FACTOR) * deltaT);
             dxdz = [0, 1];
         } else if (dir == "down"){
-            offset = new Vector3(-(GLOBALVARS.movementSpeed / 10) / deltaT,0,0);
+            offset = new Vector3(-(GLOBALVARS.movementSpeed / MOVEMENT_FACTOR) * deltaT,0,0);
             dxdz = [-1, 0];
         }
         let checkSecondary = true;
@@ -120,8 +121,10 @@ class Player extends Group {
         )){
             let startingPos = this.position.clone();
             checkSecondary = false;
+            this.lookAt(this.position.x + dxdz[0], this.position.y, this.position.z + dxdz[1]);
             this.position.add(offset);
-            // add code handling each of the 8 cases here 
+            
+            // smooth turning: add code handling each of the 8 cases here 
             // (L->U, R->U, L->D, R->D, U->L, U->R, D->L, D->R)
             // that gracefully moves the player to an integer coordinate
             if (this.previousOffset != null && this.previousDxDz != null){
