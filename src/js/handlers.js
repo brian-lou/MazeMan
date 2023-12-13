@@ -12,7 +12,7 @@ export function handleKeyDown(event, keypress) {
         for (let p in keypress) {
             keypress[p] = 0;
         }
-        keypress[" "] = Date.now();
+        keypress[' '] = Date.now();
     }
 }
 
@@ -35,9 +35,14 @@ export function updateScore(document, score) {
 }
 
 // update attributes to UI
-export function updateAttributes(document, health, items) {
+export function updateAttributes(document, health, attack, defense, items) {
     let healthBar = document.getElementById('healthNum');
+    let atkBar = document.getElementById('atkNum');
+    let defBar = document.getElementById('defNum');
     let itemBar = document.getElementById('items');
+
     healthBar.innerHTML = ' '.concat(health);
+    atkBar.innerHTML = ' '.concat(attack);
+    defBar.innerHTML = ' '.concat(defense);
     itemBar.innerHTML = 'Items: TBD';
 }

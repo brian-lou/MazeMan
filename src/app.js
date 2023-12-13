@@ -21,11 +21,11 @@ import globalVars from './js/globalVars.js';
 
 // ******** Global Vars ***********
 const keypress = {
-    " ": 0,
-    "up" : 0,
-    "down": 0,
-    "left" : 0,
-    "right" : 0
+    ' ': 0,
+    up: 0,
+    down: 0,
+    left: 0,
+    right: 0,
 }; // dict that stores which keys are pressed
 let score = 0; // score
 let health = 3; // health
@@ -68,21 +68,28 @@ const onAnimationFrameHandler = (timeStamp) => {
     let playerPosition = new Vector3();
     let player = scene.getPlayer();
     player.getWorldPosition(playerPosition);
-    scene.update && scene.update(
-        Math.round(playerPosition.x),
-        Math.round(playerPosition.z),
-        timeStamp - prevTimestamp,
-        renderer
-    );
+    scene.update &&
+        scene.update(
+            Math.round(playerPosition.x),
+            Math.round(playerPosition.z),
+            timeStamp - prevTimestamp,
+            renderer
+        );
 
     camera.position.copy(playerPosition).add(cameraOffset);
     camera.lookAt(playerPosition);
     renderer.render(scene, camera);
-    
-    // update score
+
+    // update scorew
     // globalVars.score += 0.01;
     updateScore(document, globalVars.score.toFixed(2));
-    updateAttributes(document, globalVars.health, globalVars.items);
+    updateAttributes(
+        document,
+        globalVars.health,
+        globalVars.attack,
+        globalVars.defense,
+        globalVars.items
+    );
     window.requestAnimationFrame(onAnimationFrameHandler);
     prevTimestamp = timeStamp;
 };

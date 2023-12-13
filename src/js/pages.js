@@ -17,11 +17,10 @@ export function game(document, canvas) {
     let atkBar = document.createElement('span');
     atkBar.id = 'attack';
     atkBar.innerHTML =
-        '<i id="healthNum" class="fa-solid fa-2xl fa-hand-fist"></i>';
+        '<i id="atkNum" class="fa-solid fa-2xl fa-hand-fist"></i>';
     let defBar = document.createElement('span');
     defBar.id = 'defense';
-    defBar.innerHTML =
-        '<i id="healthNum" class="fa-solid fa-2xl fa-shield"></i>';
+    defBar.innerHTML = '<i id="defNum" class="fa-solid fa-2xl fa-shield"></i>';
 
     let items = document.createElement('span');
     items.id = 'items';
