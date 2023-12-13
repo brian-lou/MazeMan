@@ -24,12 +24,20 @@ i + i {
     display: inline-block;
     position: absolute;
     top: 80%;
-    left: 20%;
+    left: 30%;
     width: 100%;
     color: black;
 }
 
 #health {
-    margin: 15%;
+    margin: 5%;
     color: red;
+}
+#attack {
+    margin: 5%;
+    color: black;
+}
+#defense {
+    margin: 5%;
+    color: blue;
 }

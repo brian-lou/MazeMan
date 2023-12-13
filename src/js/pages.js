@@ -14,12 +14,23 @@ export function game(document, canvas) {
     healthBar.innerHTML =
         '<i id="healthNum" class="fa-solid fa-2xl fa-heart"></i>';
 
+    let atkBar = document.createElement('span');
+    atkBar.id = 'attack';
+    atkBar.innerHTML =
+        '<i id="healthNum" class="fa-solid fa-2xl fa-hand-fist"></i>';
+    let defBar = document.createElement('span');
+    defBar.id = 'defense';
+    defBar.innerHTML =
+        '<i id="healthNum" class="fa-solid fa-2xl fa-shield"></i>';
+
     let items = document.createElement('span');
     items.id = 'items';
 
     let attributes = document.createElement('div');
     attributes.id = 'attributes';
     attributes.append(healthBar);
+    attributes.append(atkBar);
+    attributes.append(defBar);
     attributes.append(items);
     document.body.appendChild(attributes);
 }
