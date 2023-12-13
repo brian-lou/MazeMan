@@ -5,6 +5,7 @@ import {
     BufferAttribute,
     BufferGeometry,
     BoxGeometry,
+    SphereGeometry,
     MeshBasicMaterial,
     Group,
     Euler,
@@ -14,11 +15,15 @@ import {
 } from 'three';
 import Generator from './Generator';
 import { FLOOR_COLOR, WALL_COLOR } from '../../../js/constants';
+import { updateScore } from '../../../js/handlers';
 
 class Maze extends Group {
-    constructor() {
+    constructor(parent) {
         // Call parent Group() constructor
         super();
+        // Add self to parent's update list
+        parent.addToUpdateList(this);
+
         this.name = 'maze';
         const EPS = 1e-2;
         const WALL_LEN = 1;
@@ -34,10 +39,12 @@ class Maze extends Group {
         this.mazeWidth = mazeArray[0].length;
         this.allowedLocations = Array(this.mazeHeight).fill().map(() => Array(this.mazeWidth).fill(true));
         this.wallBoxes = Array(this.mazeHeight).fill().map(() => Array(this.mazeWidth).fill(null));
-
-        // add walls (and side walls)
+        this.dots = Array(this.mazeHeight).fill().map(() => Array(this.mazeWidth).fill(null));
+    
+        // add walls
         for (let i = 0; i < mazeArray.length; i++) {
             for (let j = 0; j < mazeArray[i].length; j++) {
+                // side walls
                 if (
                     i == 0 ||
                     i == mazeArray.length - 1 ||
@@ -53,7 +60,8 @@ class Maze extends Group {
                     let helper = new Box3Helper(box, 0x000000);
                     this.add(helper);
                 }
-                if (mazeArray[i][j] === 1) {
+                // intra-maze walls
+                else if (mazeArray[i][j] === 1) {
                     const wall = new Mesh(wallGeo, wallMat);
                     wall.position.set(i * WALL_LEN, 0, j * WALL_LEN);
                     this.add(wall);
@@ -82,7 +90,36 @@ class Maze extends Group {
         floor.position.set(0.5*floorHeight, -0.5 * WALL_LEN - EPS, 0.5*floorWidth);
         this.add(floor);
 
+        // add dots to every tile that isn't a wall
+        const dotGeometry = new SphereGeometry(0.25);
+        const dotMaterial = new MeshBasicMaterial({
+            color: 0xfff800
+        });
+        for (let i = 0; i < mazeArray.length; i++) {
+            for (let j = 0; j < mazeArray[i].length; j++) {
+                if (i > 0 && i < mazeArray.length - 1 && j > 0 &&
+                j < mazeArray[i].length - 1 && mazeArray[i][j] == 0) {
+                    const dot = new Mesh(dotGeometry, dotMaterial);
+                    dot.position.set(i, 0, j)
+                    this.add(dot);
+                    this.dots[i][j] = dot;
+                }
+            }
+        }
     }
+
+    // update scene when player moves to (x, 0, z)
+    update(x, z) {
+        // update dot visibility
+        if (this.dots[x][z] instanceof Mesh && this.dots[x][z].visible) {
+            this.dots[x][z].visible = false;
+            console.log(this.dots[x][z])
+            // figure out how to add 1 to score
+            // updateScore(document, )
+        }
+    }
+
+
     // Coordinate system:
     // +
     // |
@@ -109,7 +146,7 @@ class Maze extends Group {
         if (newX >= 0 && newX < this.mazeHeight && newZ >= 0 && newZ < this.mazeWidth){
             if (this.allowedLocations[newX][newZ]){
                 pos.add(offset);
-                console.log(true)
+                // console.log(true)
                 return true;
             }
             // console.log(i, j)
@@ -180,7 +217,7 @@ class Maze extends Group {
             }
         }
         return null;
-    }
+    }    
 }
 
 export default Maze;

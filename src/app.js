@@ -56,16 +56,22 @@ controls.update();
 let prevTimestamp = 0;
 const onAnimationFrameHandler = (timeStamp) => {
     controls.update();
-    scene.update && scene.update(timeStamp - prevTimestamp, renderer);
 
-    // Update camera location to follow the player
+    // Update scene based on player movement
     let playerPosition = new Vector3();
     let player = scene.getPlayer();
     player.getWorldPosition(playerPosition);
+    scene.update && scene.update(
+        Math.round(playerPosition.x),
+        Math.round(playerPosition.z),
+        timeStamp - prevTimestamp,
+        renderer
+    );
+
     camera.position.copy(playerPosition).add(cameraOffset);
     camera.lookAt(playerPosition);
-
     renderer.render(scene, camera);
+    
     // update score
     score += 0.01;
     updateScore(document, score.toFixed(2));

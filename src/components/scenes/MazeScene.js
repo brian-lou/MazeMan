@@ -13,20 +13,19 @@ class MazeScene extends Scene {
         this.state = {
             gui: new Dat.GUI(), // Create GUI for scene
             rotationSpeed: 0,
-            updateList: [],
+            updateList: Array(),
         };
 
         // Set background to a nice color
         this.background = new Color(0x92bdd9);
 
         // Add meshes to scene
-        const maze = new Maze();
+        const maze = new Maze(this);
         const player = new Player(this, maze, keypress);
         this.player = player;
         const lights = new BasicLights();
-        this.add(player, maze, lights);
-        const axesHelper = new AxesHelper( 5 );
-        this.add(axesHelper)
+        const axesHelper = new AxesHelper(5);
+        this.add(player, maze, lights, axesHelper);
 
         // Populate GUI
         this.state.gui.add(this.state, 'rotationSpeed', 0, 0 );
@@ -39,13 +38,14 @@ class MazeScene extends Scene {
         this.state.updateList.push(object);
     }
 
-    update(deltaT) {
-        const { rotationSpeed, updateList } = this.state;
-        this.rotation.y = (rotationSpeed * deltaT) / 10000;
-
+    update(playerX, playerZ, deltaT) {
         // Call update for each object in the updateList
-        for (const obj of updateList) {
-            obj.update(deltaT);
+        for (const obj of this.state.updateList) {
+            if (obj instanceof Maze) {
+                obj.update(playerX, playerZ);
+            } else if (obj instanceof Player) {
+                obj.update(deltaT);
+            }
         }
     }
 }

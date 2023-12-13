@@ -974,7 +974,7 @@ var getTiles = function() {
 
     // var midcols = subcols-2;
     var fullcols = subcols;
-    console.log([subrows, subcols, fullcols])
+    // console.log([subrows, subcols, fullcols])
     // getter and setter for tiles (ensures vertical symmetry axis)
     var setTile = function(x,y,v) {
         if (x<0 || x>subcols-1 || y<0 || y>subrows-1) {
