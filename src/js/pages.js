@@ -12,7 +12,7 @@ export function game(document, canvas) {
     let healthBar = document.createElement('span');
     healthBar.id = 'health';
     healthBar.innerHTML =
-        '<i class="fa-solid fa-2xl fa-heart"></i><i class="fa-solid fa-2xl fa-heart"></i><i class="fa-solid fa-2xl fa-heart"></i>';
+        '<i id="healthNum" class="fa-solid fa-2xl fa-heart"></i>';
 
     let items = document.createElement('span');
     items.id = 'items';

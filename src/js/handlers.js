@@ -1,15 +1,15 @@
 // when key is pressed down
 export function handleKeyDown(event, keypress) {
-    if (event.key == "ArrowUp") keypress['up'] = Date.now();
-    if (event.key == "ArrowDown") keypress['down'] = Date.now();
-    if (event.key == "ArrowLeft") keypress['left'] = Date.now();
-    if (event.key == "ArrowRight") keypress['right'] = Date.now();
-    if (event.key == "w") keypress['up'] = Date.now();
-    if (event.key == "s") keypress['down'] = Date.now();
-    if (event.key == "a") keypress['left'] = Date.now();
-    if (event.key == "d") keypress['right'] = Date.now();
-    if (event.key == " "){
-        for (let p in keypress){
+    if (event.key == 'ArrowUp') keypress['up'] = Date.now();
+    if (event.key == 'ArrowDown') keypress['down'] = Date.now();
+    if (event.key == 'ArrowLeft') keypress['left'] = Date.now();
+    if (event.key == 'ArrowRight') keypress['right'] = Date.now();
+    if (event.key == 'w') keypress['up'] = Date.now();
+    if (event.key == 's') keypress['down'] = Date.now();
+    if (event.key == 'a') keypress['left'] = Date.now();
+    if (event.key == 'd') keypress['right'] = Date.now();
+    if (event.key == ' ') {
+        for (let p in keypress) {
             keypress[p] = 0;
         }
         keypress[" "] = Date.now();
@@ -36,8 +36,8 @@ export function updateScore(document, score) {
 
 // update attributes to UI
 export function updateAttributes(document, health, items) {
-    let healthBar = document.getElementById('health');
+    let healthBar = document.getElementById('healthNum');
     let itemBar = document.getElementById('items');
-    //healthBar.innerHTML = 'Health: '.concat(health);
+    healthBar.innerHTML = ' '.concat(health);
     itemBar.innerHTML = 'Items: TBD';
 }
