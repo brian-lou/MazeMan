@@ -2,6 +2,7 @@ import * as Dat from 'dat.gui';
 import { Scene, Color, AxesHelper } from 'three';
 import { Player, Maze } from 'objects';
 import { BasicLights } from 'lights';
+// import { Enemy } from 'enemies';
 
 class MazeScene extends Scene {
     constructor(keypress) {
