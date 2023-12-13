@@ -80,9 +80,8 @@ const onAnimationFrameHandler = (timeStamp) => {
     camera.lookAt(playerPosition);
     renderer.render(scene, camera);
 
-    // update scorew
-    // globalVars.score += 0.01;
-    updateScore(document, globalVars.score.toFixed(2));
+    // update score
+    updateScore(document, globalVars.score);
     updateAttributes(
         document,
         globalVars.health,

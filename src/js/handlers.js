@@ -30,8 +30,8 @@ export function handleKeyUp(event, keypress) {
 
 // update score to UI
 export function updateScore(document, score) {
-    let scoreCounter = document.getElementById('score');
-    scoreCounter.innerHTML = 'Score: '.concat(score);
+    let expBar = document.getElementById('exp');
+    expBar.value = score % expBar.max;
 }
 
 // update attributes to UI

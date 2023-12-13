@@ -1,12 +1,15 @@
 export function game(document, canvas) {
     document.body.appendChild(canvas);
 
+    let expBar = document.createElement('progress');
+    expBar.id = 'exp';
+    expBar.max = 50; // exp needed to level up
     let scoreCounter = document.createElement('div');
     scoreCounter.id = 'score';
 
     let instructions = document.createElement('div');
     instructions.id = 'instructions';
-    instructions.prepend(scoreCounter);
+    instructions.prepend(expBar);
     document.body.appendChild(instructions);
 
     let healthBar = document.createElement('span');
