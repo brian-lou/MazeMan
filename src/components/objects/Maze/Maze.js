@@ -10,6 +10,7 @@ import {
     Euler,
     Box3,
     Box3Helper,
+    Vector3,
 } from 'three';
 import Generator from './Generator';
 import { FLOOR_COLOR, WALL_COLOR } from '../../../js/constants';
@@ -81,53 +82,91 @@ class Maze extends Group {
         floor.position.set(0.5*floorHeight, -0.5 * WALL_LEN - EPS, 0.5*floorWidth);
         this.add(floor);
 
-        // const geometry = new BufferGeometry();
-
-        // create a simple square shape. We duplicate the top left and bottom right
-        // vertices because each vertex needs to appear once per triangle.
-        // const vertices = new Float32Array( [
-        //     -1.0, -1.0,  1.0, // v0
-        //     1.0, -1.0,  1.0, // v1
-        //     1.0,  1.0,  1.0, // v2
-
-        //     1.0,  1.0,  1.0, // v3
-        //     -1.0,  1.0,  1.0, // v4
-        //     -1.0, -1.0,  1.0  // v5
-        // ] );
-
-        // itemSize = 3 because there are 3 values (components) per vertex
-        // geometry.setAttribute( 'position', new BufferAttribute( vertices, 3 ) );
-        // const material = new MeshBasicMaterial( { color: 0xffffff } );
-        // const mesh = new Mesh( geometry, material );
-        // this.add(mesh);
-        // parent.addToUpdateList(this);
     }
-    getAllowedPosition(pos, offset, box){
+    // Coordinate system:
+    // +
+    // |
+    // |
+    // X
+    // |
+    // |----Z----- +
+    getAllowedPosition(pos, offset, dxdz, box){
+        // world coordinate system
         let x = pos.x + offset.x; 
         let z = pos.z + offset.z;
-        let i = Math.floor(x/this.WALL_LEN);
-        let j = Math.floor(z/this.WALL_LEN);
+        // integer coordinate system
+        let i = Math.round(x/this.WALL_LEN);
+        let j = Math.round(z/this.WALL_LEN);
         let newBox = new Box3();
         newBox.copy(box);
         newBox.translate(pos);
         newBox.translate(offset);
         // console.log([box, newBox, offset])
-        for (let dx of [-1,0,1]){
-            for (let dy of [-1,0,1]){
-                if (dx == 0 && dy == 0) continue;
-                let newX = i + dx;
-                let newZ = j + dy;
-                if (newX >= 0 && newX < this.mazeHeight && newZ >= 0 && newZ < this.mazeWidth){
-                    
-                    if (this.wallBoxes[newX][newZ] != null && 
-                        this.wallBoxes[newX][newZ].intersectsBox(newBox)){
-                            console.log([this.wallBoxes[newX][newZ], newBox])
-                        return false;
-                    }
-                }
+
+        // integer coordinate system with offset
+        let newX = dxdz[0] + i;
+        let newZ = dxdz[1] + j;
+        if (newX >= 0 && newX < this.mazeHeight && newZ >= 0 && newZ < this.mazeWidth){
+            if (this.allowedLocations[newX][newZ]){
+                pos.add(offset);
+                console.log(true)
+                return true;
+            }
+            // console.log(i, j)
+            // console.log([this.allowedLocations[i+1][j-1], this.allowedLocations[i+1][j], this.allowedLocations[i+1][j+1]])
+            // console.log([this.allowedLocations[i][j-1], this.allowedLocations[i][j], this.allowedLocations[i][j+1]])
+            // console.log([this.allowedLocations[i-1][j-1], this.allowedLocations[i-1][j], this.allowedLocations[i-1][j+1]])
+            
+        }
+        // Restrict coordinates
+        let goToX = x/this.WALL_LEN;
+        let goToZ = z/this.WALL_LEN;
+        // check if the new position is still valid
+        if (dxdz[0] == 1 && dxdz[1] == 0){ // up
+            if (Math.ceil(goToX) == Math.ceil(pos.x/this.WALL_LEN)){
+                pos.add(offset);
+                return true;
+            } else {
+                pos.set(Math.ceil(pos.x), pos.y, pos.z);
+            }
+        } else if (dxdz[0] == -1 && dxdz[1] == 0){// down
+            if (Math.floor(goToX) == Math.floor(pos.x/this.WALL_LEN)){
+                pos.add(offset);
+                return true;
+            } else {
+                pos.set(Math.floor(pos.x), pos.y, pos.z);
+            }
+        } else if (dxdz[0] == 0 && dxdz[1] == -1){// left
+            if (Math.floor(goToZ) == Math.floor(pos.z/this.WALL_LEN)){
+                pos.add(offset);
+                return true;// ok
+            } else {
+                pos.set(pos.x, pos.y, Math.ceil(z));
+            }
+        } else if (dxdz[0] == 0 && dxdz[1] == 1){// right
+            if (Math.ceil(goToZ) == Math.ceil(pos.z/this.WALL_LEN)){
+                pos.add(offset);
+                return true;
+            } else {
+                pos.set(pos.x, pos.y, Math.floor(z));
             }
         }
-        return true;
+        // for (let dx of [-1,0,1]){
+        //     for (let dy of [-1,0,1]){
+        //         if (dx == 0 && dy == 0) continue;
+        //         let newX = i + dx;
+        //         let newZ = j + dy;
+        //         if (newX >= 0 && newX < this.mazeHeight && newZ >= 0 && newZ < this.mazeWidth){
+                    
+        //             if (this.wallBoxes[newX][newZ] != null && 
+        //                 this.wallBoxes[newX][newZ].intersectsBox(newBox)){
+        //                     // console.log([this.wallBoxes[newX][newZ], newBox])
+        //                 return false;
+        //             }
+        //         }
+        //     }
+        // }
+        return false;
     
     }
     // return a random valid x,y,z spawn point

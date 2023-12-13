@@ -1,5 +1,5 @@
 import * as Dat from 'dat.gui';
-import { Scene, Color } from 'three';
+import { Scene, Color, AxesHelper } from 'three';
 import { Player, Maze } from 'objects';
 import { BasicLights } from 'lights';
 
@@ -24,6 +24,8 @@ class MazeScene extends Scene {
         this.player = player;
         const lights = new BasicLights();
         this.add(player, maze, lights);
+        const axesHelper = new AxesHelper( 5 );
+        this.add(axesHelper)
 
         // Populate GUI
         this.state.gui.add(this.state, 'rotationSpeed', 0, 0 );

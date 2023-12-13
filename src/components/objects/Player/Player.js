@@ -92,24 +92,29 @@ class Player extends Group {
                 time = v;
             }
         }
+        let dxdz = [0,0];
         if (direction == "up"){
-            offset = new Vector3(MOVEMENT_SPEED / deltaT,0,0);
+            offset = new Vector3((MOVEMENT_SPEED / 10) / deltaT,0,0);
+            dxdz = [1, 0];
         } else if (direction == "left"){
-            offset = new Vector3(0,0,-MOVEMENT_SPEED / deltaT);
+            offset = new Vector3(0,0,-(MOVEMENT_SPEED / 10) / deltaT);
+            dxdz = [0, -1];
         } else if (direction == "right"){
-            offset = new Vector3(0,0,MOVEMENT_SPEED / deltaT);
+            offset = new Vector3(0,0,(MOVEMENT_SPEED / 10) / deltaT);
+            dxdz = [0, 1];
         } else if (direction == "down"){
-            offset = new Vector3(-MOVEMENT_SPEED / deltaT,0,0);
+            offset = new Vector3(-(MOVEMENT_SPEED / 10) / deltaT,0,0);
+            dxdz = [-1, 0];
         }
-        // console.log(this.position)
 
         // check that player location is not within a wall
         if (this.playerBox != null && this.mazeObj.getAllowedPosition(
             this.position,
             offset,
+            dxdz,
             this.playerBox
         )){
-            this.position.add(offset);
+            // this.position.add(offset);
             if (this.playerBox){
                 
             }
