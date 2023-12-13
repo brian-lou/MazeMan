@@ -12,7 +12,7 @@ export function handleKeyDown(event, keypress) {
         for (let p in keypress){
             keypress[p] = 0;
         }
-        keypress[" "] = 1;
+        keypress[" "] = Date.now();
     }
 }
 

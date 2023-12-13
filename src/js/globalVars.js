@@ -1,5 +1,6 @@
 export default {
-  score : 0, // score
+  score : -1, // score
   health : 3, // health
-  items : null// items
+  items : null, // items
+  movementSpeed: 2 // movement speed, default to 2
 }

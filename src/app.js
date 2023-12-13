@@ -80,7 +80,7 @@ const onAnimationFrameHandler = (timeStamp) => {
     renderer.render(scene, camera);
     
     // update score
-    globalVars.score += 0.01;
+    // globalVars.score += 0.01;
     updateScore(document, globalVars.score.toFixed(2));
     updateAttributes(document, globalVars.health, globalVars.items);
     window.requestAnimationFrame(onAnimationFrameHandler);

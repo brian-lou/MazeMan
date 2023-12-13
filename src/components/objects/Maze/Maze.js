@@ -114,7 +114,7 @@ class Maze extends Group {
         // update dot visibility
         if (this.dots[x][z] instanceof Mesh && this.dots[x][z].visible) {
             this.dots[x][z].visible = false;
-            console.log(this.dots[x][z])
+            // console.log(this.dots[x][z])
             // Add 1 to score for now
             globalVars.score++;
         }
@@ -150,7 +150,6 @@ class Maze extends Group {
         newBox.translate(pos);
         newBox.translate(offset);
         // console.log([box, newBox, offset])
-
         // integer coordinate system with offset
         let newX = dxdz[0] + i;
         let newZ = dxdz[1] + j;
