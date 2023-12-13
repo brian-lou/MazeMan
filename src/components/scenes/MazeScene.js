@@ -22,14 +22,14 @@ class MazeScene extends Scene {
         // Add meshes to scene
         const maze = new Maze(this);
         const player = new Player(this, maze, keypress);
-        // const enemy = new Enemy(this, maze);
+        // const enemy = new Enemy(this, maze, keypress);
         // this.enemy = enemy;
         this.player = player;
         const lights = new BasicLights();
         const axesHelper = new AxesHelper(5);
         this.enemies = [];
         for (let i = 0; i < 20; i++) { 
-            const enemy = new Enemy(this, maze);
+            const enemy = new Enemy(this, maze, keypress);
             this.enemies.push(enemy);
             this.add(enemy);}
         this.add(player, maze, lights, axesHelper);
@@ -50,6 +50,8 @@ class MazeScene extends Scene {
             if (obj instanceof Maze) {
                 obj.update(playerX, playerZ);
             } else if (obj instanceof Player) {
+                obj.update(deltaT);
+            } else if(obj instanceof Enemy){
                 obj.update(deltaT);
             }
         }
