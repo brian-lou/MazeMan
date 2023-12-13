@@ -3,6 +3,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
 import MODEL from './player.glb';
 import GLOBALVARS from '../../../js/globalVars';
+import {MOVEMENT_EPS} from '../../../js/constants'
 
 class Player extends Group {
     constructor(parent, mazeObj, keypress) {
@@ -108,7 +109,7 @@ class Player extends Group {
             offset = new Vector3(-(GLOBALVARS.movementSpeed / 10) / deltaT,0,0);
             dxdz = [-1, 0];
         }
-
+        let checkSecondary = true;
         if (dxdz != null &&
             this.playerBox != null && 
             this.mazeObj.getAllowedPosition(
@@ -117,6 +118,8 @@ class Player extends Group {
             dxdz,
             this.playerBox
         )){
+            let startingPos = this.position.clone();
+            checkSecondary = false;
             this.position.add(offset);
             // add code handling each of the 8 cases here 
             // (L->U, R->U, L->D, R->D, U->L, U->R, D->L, D->R)
@@ -124,6 +127,7 @@ class Player extends Group {
             if (this.previousOffset != null && this.previousDxDz != null){
                 let prevDxDz = this.previousDxDz;
                 let p = this.position;
+                let prevPos = this.position.clone();
                 if (prevDxDz[1] == -1 && dxdz[0] == 1){
                     this.position.set(p.x, p.y, Math.round(p.z));
                 } else if (prevDxDz[1] == 1 && dxdz[0] == 1){
@@ -141,27 +145,32 @@ class Player extends Group {
                 } else if (prevDxDz[0] == -1 && dxdz[1] == 1){
                     this.position.set(Math.round(p.x), p.y, p.z);
                 }
-            }
-            this.previousDxDz = dxdz;
-            this.previousOffset = offset;
-        } else {
-            if (this.previousOffset != null && this.previousDxDz != null){
-                let prevOffset = this.previousOffset.clone();
-                let prevDxDz = this.previousDxDz;
-                if (this.mazeObj.getAllowedPosition(
-                    this.position,
-                    prevOffset,
-                    prevDxDz,
-                    this.playerBox
-                )){
-                    this.position.add(prevOffset);
+                let dist = Math.abs(prevPos.distanceTo(this.position));
+                if (dist > MOVEMENT_EPS * GLOBALVARS.movementSpeed){
+                    this.position.set(startingPos.x, startingPos.y, startingPos.z);
+                    checkSecondary = true;
+                } else {
+                    this.previousDxDz = dxdz;
+                    this.previousOffset = offset;
                 }
+            } else {
+                this.previousDxDz = dxdz;
+                this.previousOffset = offset;
+            }
+        } 
+        if (checkSecondary && this.previousOffset != null && this.previousDxDz != null){
+            let prevOffset = this.previousOffset.clone();
+            let prevDxDz = this.previousDxDz;
+            if (this.mazeObj.getAllowedPosition(
+                this.position,
+                prevOffset,
+                prevDxDz,
+                this.playerBox
+            )){
+                this.position.add(prevOffset);
             }
         }
         
-
-        // Advance tween animations, if any exist
-        TWEEN.update();
     }
 }
 

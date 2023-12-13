@@ -5,5 +5,5 @@ export default {
     defense: 1, // defense
     agility: 1, // agility
     items: null, // itemsnotez
-    movementSpeed: 2 // movement speed, default to 2
+    movementSpeed: 10 // movement speed, default to 2
 };
