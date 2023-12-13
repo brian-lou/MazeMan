@@ -1,6 +1,6 @@
 import * as Dat from 'dat.gui';
 import { Scene, Color, AxesHelper } from 'three';
-import { Player, Maze } from 'objects';
+import { Player, Maze, Enemy } from 'objects';
 import { BasicLights } from 'lights';
 // import { Enemy } from 'enemies';
 
@@ -22,6 +22,8 @@ class MazeScene extends Scene {
         // Add meshes to scene
         const maze = new Maze(this);
         const player = new Player(this, maze, keypress);
+        // const enemy = new Enemy(this);
+        // this.enemy = enemy;
         this.player = player;
         const lights = new BasicLights();
         const axesHelper = new AxesHelper(5);
