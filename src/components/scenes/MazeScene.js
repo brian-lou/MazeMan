@@ -22,14 +22,18 @@ class MazeScene extends Scene {
         // Add meshes to scene
         const maze = new Maze(this);
         const player = new Player(this, maze, keypress);
-        const enemy = new Enemy(this, maze);
-        this.enemy = enemy;
+        // const enemy = new Enemy(this, maze);
+        // this.enemy = enemy;
         this.player = player;
         const lights = new BasicLights();
         const axesHelper = new AxesHelper(5);
-        this.add(player, maze, lights, axesHelper, enemy);
-
-        // Populate GUI
+        this.enemies = [];
+        for (let i = 0; i < 20; i++) { 
+            const enemy = new Enemy(this, maze);
+            this.enemies.push(enemy);
+            this.add(enemy);}
+        this.add(player, maze, lights, axesHelper);
+       // Populate GUI
         this.state.gui.add(this.state, 'rotationSpeed', 0, 0 );
     }
     getPlayer(){
