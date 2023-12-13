@@ -76,5 +76,7 @@ Both models were downloaded from the Google Poly project:
 
 This skeleton project was adapted from edwinwebb's ThreeJS [seed project](https://github.com/edwinwebb/three-seed) by Reilly Bova (Princeton ’20), and published [here on github](https://github.com/ReillyBova/three-seed). It was later slightly updated and setup as a github template by Adam Finkelstein and Joseph Lou, and is hosted [here on github](https://github.com/adamfinkelstein/cos426finalproject).
 
+Maze generation algorithm was adapted from the open source project [here](https://github.com/shaunlebron/pacman-mazegen)
+
 ## License
 [MIT](./LICENSE)

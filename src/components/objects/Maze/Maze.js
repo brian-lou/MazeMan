@@ -12,6 +12,8 @@ import {
     Box3,
     Box3Helper,
     Vector3,
+    TextureLoader,
+    MeshLambertMaterial,
 } from 'three';
 import Generator from './Generator';
 import { FLOOR_COLOR, WALL_COLOR } from '../../../js/constants';
@@ -35,7 +37,14 @@ class Maze extends Group {
         this.maze.generate();
         const mazeArray = this.maze.maze;
         const wallGeo = new BoxGeometry(WALL_LEN, WALL_LEN, WALL_LEN);
-        const wallMat = new MeshBasicMaterial({ color: WALL_COLOR });
+        // const wallMat = new MeshBasicMaterial({ color: WALL_COLOR });
+        const mcGrassTexture = "https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/minecraft/atlas.png";
+        const crateTexture = "https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/crate.gif";
+        const texture = new TextureLoader().load( crateTexture );
+
+        // const wallMat = new MeshLambertMaterial( { map: texture, side: DoubleSide } );
+
+        const wallMat = new MeshBasicMaterial( { map: texture } );
         this.mazeHeight = mazeArray.length;
         this.mazeWidth = mazeArray[0].length;
         this.allowedLocations = Array(this.mazeHeight).fill().map(() => Array(this.mazeWidth).fill(true));
