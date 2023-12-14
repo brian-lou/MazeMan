@@ -1,3 +1,7 @@
+import PAUSE from '../pauseScreen.html';
+
+// concept from https://github.com/harveyw24/Glider/blob/main/src/js/pages.js
+
 export function game(document, canvas) {
     document.body.appendChild(canvas);
 
@@ -43,6 +47,12 @@ export function game(document, canvas) {
     statBox.append(defBar);
     statBox.append(items);
     document.body.appendChild(statBox);
+
+    let pause = document.createElement('div');
+    pause.id = 'pause';
+    pause.innerHTML = PAUSE;
+    //pause.classList.add('notVisible');
+    document.body.appendChild(pause);
 }
 
 export function initIcons(document) {
