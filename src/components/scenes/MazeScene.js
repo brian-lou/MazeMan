@@ -1,6 +1,6 @@
 import * as Dat from 'dat.gui';
 import { Scene, Color, AxesHelper, Box3, Vector2 } from 'three';
-import { Player, Maze, Enemy } from 'objects';
+import { Player, Maze, Enemy, Item } from 'objects';
 import { BasicLights } from 'lights';
 import globalVars from '../../js/globalVars';
 // import { Enemy } from 'enemies';
@@ -63,6 +63,8 @@ class MazeScene extends Scene {
             } else if (obj instanceof Player) {
                 obj.update(deltaT);
             } else if(obj instanceof Enemy){
+                obj.update(deltaT);
+            } else if (obj instanceof Item) {
                 obj.update(deltaT);
             }
         }
@@ -134,7 +136,6 @@ class MazeScene extends Scene {
                     } else {
                         globalVars.health -= Math.max(0, (enemy.atk - globalVars.defense));
                     }
-                    // console.log(angle)
                 }
         }
         this.lights.updateSpotlight();

@@ -17,8 +17,8 @@ import {
 } from 'three';
 import Generator from './Generator';
 import { FLOOR_COLOR, WALL_COLOR } from '../../../js/constants';
-import { updateScore } from '../../../js/handlers';
 import globalVars from '../../../js/globalVars';
+import { Item } from '../Item';
 
 class Maze extends Group {
     constructor(parent) {
@@ -49,7 +49,7 @@ class Maze extends Group {
         this.mazeWidth = mazeArray[0].length;
         this.allowedLocations = Array(this.mazeHeight).fill().map(() => Array(this.mazeWidth).fill(true));
         this.wallBoxes = Array(this.mazeHeight).fill().map(() => Array(this.mazeWidth).fill(null));
-        this.dots = Array(this.mazeHeight).fill().map(() => Array(this.mazeWidth).fill(null));
+        this.items = Array(this.mazeHeight).fill().map(() => Array(this.mazeWidth).fill(null));
     
         // add walls
         for (let i = 0; i < mazeArray.length; i++) {
@@ -104,6 +104,15 @@ class Maze extends Group {
 
         // Add items to the maze
         // speed orb
+        const SPEED_ORB_COUNT = 50
+        for (let i = 0; i < SPEED_ORB_COUNT; i++) {
+            const randomPos = this.getRandomEmptyPoint();
+            if (randomPos) {
+                const [x, z] = randomPos;
+                this.items[x][z] = new Item(this, "speed_boost", x, z)
+                parent.addToUpdateList(this.items[x][z])
+            }
+        }
 
         const dotGeometry = new SphereGeometry(0.25);
         const dotMaterial = new MeshBasicMaterial({
@@ -112,27 +121,30 @@ class Maze extends Group {
         
         for (let i = 0; i < mazeArray.length; i++) {
             for (let j = 0; j < mazeArray[i].length; j++) {
-                if (i > 0 && i < mazeArray.length - 1 && j > 0 &&
-                j < mazeArray[i].length - 1 && mazeArray[i][j] == 0) {
-                    const dot = new Mesh(dotGeometry, dotMaterial);
-                    dot.position.set(i, 0, j)
-                    this.add(dot);
-                    this.dots[i][j] = dot;
-                }
+
+                // j < mazeArray[i].length - 1 && mazeArray[i][j] == 0) {
+                //     const dot = new Mesh(dotGeometry, dotMaterial);
+                //     dot.position.set(i, 0, j)
+                //     this.add(dot);
+                //     this.dots[i][j] = dot;
+                // }
             }
         }
     }
 
     // update scene when player moves to (x, 0, z)
     update(x, z) {
-        // update dot visibility
-        if (this.dots[x][z] instanceof Mesh && this.dots[x][z].visible) {
-            this.dots[x][z].visible = false;
-            // Add 1 to score for now
-            globalVars.score++;
+        // update items
+        if (this.items[x][z] && this.items[x][z].model) {
+            this.items[x][z].collectItem();
+            // // exp orbs
+            // this.dots[x][z].visible = false;
+            // // Add 1 to score for now
+            // globalVars.score++;
         }
     }
 
+    // returns true if the position is in-bounds and has no wall
     checkValidPosition(x,z){
         let i = Math.floor(x/this.WALL_LEN);
         let j = Math.floor(z/this.WALL_LEN);
@@ -143,9 +155,22 @@ class Maze extends Group {
         }
         return false;
     }
+
+    // returns true if the position is in-bounds and has no wall or item
+    checkEmptyPosition(x,z){
+        let i = Math.floor(x/this.WALL_LEN);
+        let j = Math.floor(z/this.WALL_LEN);
+        if (i >= 0 && i < this.mazeHeight && j >= 0 && j < this.mazeWidth){
+            if (this.allowedLocations[i][j] && this.items[i][j] == null){
+                return true;
+            }
+        }
+        return false;
+    }
+
     // Coordinate system:
     // +
-    // |
+    // |998
     // |
     // X
     // |
