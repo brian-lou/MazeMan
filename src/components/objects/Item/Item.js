@@ -1,12 +1,16 @@
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import SPEED_BOOST_MODEL from './speed_boost.glb'
-import GHOST_MODEL from './ghost.glb'
-import EXP_BOOST_MODEL from './exp_boost.glb'
-import TELEPORTER_MODEL from './teleporter.glb'
-// import EXP_BOOST_MODEL from './exp_boost.glb'
+import { SphereGeometry, MeshBasicMaterial, Mesh } from "three";
+import SPEED_BOOST_MODEL from './speed_boost.glb';
+import GHOST_MODEL from './ghost.glb';
+import EXP_BOOST_MODEL from './exp_boost.glb';
+import TELEPORTER_MODEL from './teleporter.glb';
+import HP_RESTORE_MODEL from './hp_restore.glb';
+import BUFF_MODEL from './buff.glb'
+import COIN_MODEL from './coin.glb'
+import FREEZE_MODEL from './freeze.glb'
 import * as constants from '../../../js/constants';
 import {
-  BonusStatsMisc, StatsMultipliers, Stats, ActiveItemCount
+  StatsMultipliers, Stats, ActiveItemCount
 } from "../../../js/stats";
 class Item {
   constructor(parentScene, type="exp_orb", x, z, teleportDir=null) {
@@ -22,9 +26,7 @@ class Item {
     switch(type) {
       case "speed_boost":
         loader.load(SPEED_BOOST_MODEL, (gltf) => {
-          this.scene = gltf.scene;
-          // Object3D at this.scene.children[0]
-          this.object = this.scene.children[0];
+          this.object = gltf.scene.children[0];
           this.object.scale.set(0.004, 0.0015, 0.004);
           this.object.position.set(x, 0, z);
           this.parentScene.add(this.object)
@@ -32,9 +34,7 @@ class Item {
         break;
       case "ghost":
         loader.load(GHOST_MODEL, (gltf) => {
-          this.scene = gltf.scene;
-          // Object3D at this.scene
-          this.object = this.scene;
+          this.object = gltf.scene;
           this.object.scale.set(0.15, 0.15, 0.15);
           this.object.position.set(x, 0, z);
           this.parentScene.add(this.object)
@@ -42,9 +42,7 @@ class Item {
         break;
       case "exp_boost":
         loader.load(EXP_BOOST_MODEL, (gltf) => {
-          this.scene = gltf.scene;
-          // Object3D at this.scene.children[0]
-          this.object = this.scene.children[0]
+          this.object = gltf.scene.children[0]
           this.object.scale.set(0.04, 0.04, 0.04);
           this.object.position.set(x, 0, z - 0.2);
           this.parentScene.add(this.object)
@@ -52,17 +50,61 @@ class Item {
         break;
       case "teleporter":
         loader.load(TELEPORTER_MODEL, (gltf) => {
-          this.scene = gltf.scene;
-          // Object3D at this.scene
-          this.object = this.scene
+          this.object = gltf.scene
           this.object.scale.set(0.08, 0.08, 0.08);
           this.object.position.set(x, 0, z);
           this.parentScene.add(this.object)
         })
         break;
-      // // case "dot":
-
-      //   break;
+      case "hp_restore":
+        loader.load(HP_RESTORE_MODEL, (gltf) => {
+          this.object = gltf.scene.children[0];
+          this.object.scale.set(0.65, 1, 0.65);
+          this.object.position.set(x, 0, z);
+          this.parentScene.add(this.object);
+        })
+        break;
+      case "buff":
+        loader.load(BUFF_MODEL, (gltf) => {
+          this.object = gltf.scene;
+          this.object.scale.set(0.375, 0.375, 0.375);
+          this.object.position.set(x, 0, z);
+          this.object.rotation.set(0.6, 0, 0);
+          this.parentScene.add(this.object);
+        })
+        break;
+      case "coin":
+        loader.load(COIN_MODEL, (gltf) => {
+          this.scene = gltf.scene;
+          // Object3D at this.scene.children[0]
+          this.object = this.scene.children[0];
+          this.object.scale.set(0.9, 0.3, 0.9);
+          this.object.position.set(x, 0.2, z - 0.55);
+          this.object.rotation.set(0.6, 0, 0);
+          this.parentScene.add(this.object);
+        })
+        break;
+      case "freeze":
+        loader.load(FREEZE_MODEL, (gltf) => {
+          this.scene = gltf.scene;
+          // Object3D at this.scene.children[0]
+          this.object = this.scene.children[0];
+          this.object.scale.set(0.45, 0.45, 0.45);
+          this.object.position.set(x, 0, z);
+          this.object.rotation.set(0, 0.6, 0);
+          this.parentScene.add(this.object);
+        })
+        break;
+      case "exp_orb":
+        const orbGeometry = new SphereGeometry(0.2);
+        const orbMaterial = new MeshBasicMaterial({
+            color: 0xfff800
+        });
+        const orbMesh = new Mesh(orbGeometry, orbMaterial);
+        orbMesh.position.set(x, 0, z);
+        this.object = orbMesh;
+        this.parentScene.add(this.object);
+        break;
       default:
         throw new Error("invalid item")
     }
@@ -86,6 +128,18 @@ class Item {
         case "teleporter":
           this.object.rotation.y += 0.001 * deltaT;
           break;
+        case "hp_restore":
+          this.object.rotation.z += 0.001 * deltaT;
+          break;
+        case "buff":
+          this.object.rotation.y += 0.001 * deltaT;
+          break;
+        case "coin":
+          this.object.rotation.z += 0.001 * deltaT;
+          break;
+        case "freeze":
+          this.object.rotation.x += 0.001 * deltaT;
+          break;
       }
     }
   }
@@ -93,7 +147,6 @@ class Item {
   // does nothing if the item has already been collected,
   // otherwise applies the item's effect.
   collectItem() {
-    console.log(this.x, this.z);
     if (!this.collected) {
       switch(this.type) {
         case "speed_boost":
@@ -114,7 +167,7 @@ class Item {
           setTimeout(() => {
             ActiveItemCount.ghost--;
             // set immune off if no ghost OR teleporters active
-            if (ActiveItemCount.ghost == 0 && ActiveItemCount.teleporter == 0) {
+            if (ActiveItemCount.ghost == 0 && ActiveItemCount.teleporter <= 1) {
               Stats.immune = false;
             }
           }, constants.GHOST_DURATION)
@@ -132,7 +185,7 @@ class Item {
           }, constants.EXP_BOOST_DURATION);
           break;
         case "teleporter":
-          // delay for teleporters
+          // count = 2 if immune, = 1 if cooldown, = 0 if not active
           if (ActiveItemCount.teleporter) {
             break;
           }
@@ -148,19 +201,64 @@ class Item {
           const player = this.parentScene.parent.getPlayer()
           player.position.set(x, 0, z);
 
-          ActiveItemCount.teleporter++;
+          ActiveItemCount.teleporter += 2;
           Stats.immune = true;
           setTimeout(() => {
+            // set immune off if no ghost OR teleporter active
             ActiveItemCount.teleporter--;
-            // set immune off if no ghost OR teleporters active
-            if (ActiveItemCount.ghost == 0 && ActiveItemCount.teleporter == 0) {
+            if (ActiveItemCount.ghost == 0 && ActiveItemCount.teleporter <= 1) {
               Stats.immune = false;
             }
           }, constants.TELEPORT_IMMUNE_DURATION)
+          setTimeout(() => {
+            ActiveItemCount.teleporter--;
+          }, constants.TELEPORT_COOLDOWN)
+          break;
+        case "hp_restore":
+          Stats.health = Math.min(
+            Stats.maxHealth,
+            Stats.health + Stats.maxHealth * constants.HP_RESTORE_FACTOR
+          )
+          break;
+        case "buff":
+          if (ActiveItemCount.buff == 0) {
+            StatsMultipliers.attack *= constants.BUFF_MULTIPLIER
+            StatsMultipliers.defense *= constants.BUFF_MULTIPLIER
+            StatsMultipliers.maxHealth *= constants.BUFF_MULTIPLIER
+          }
+          ActiveItemCount.buff++;
+          setTimeout(() => {
+            ActiveItemCount.buff--;
+            if (ActiveItemCount.buff == 0) {
+              StatsMultipliers.attack /= constants.BUFF_MULTIPLIER
+              StatsMultipliers.defense /= constants.BUFF_MULTIPLIER
+              StatsMultipliers.maxHealth /= constants.BUFF_MULTIPLIER
+            }
+          }, constants.BUFF_DURATION);
+          break;
+        case "coin":
+          ActiveItemCount.coin++;
+          break;
+        case "freeze":
+          if (ActiveItemCount.freeze == 0) {
+            ActiveItemCount.freezeOffset = StatsMultipliers.enemyMovementSpeed;
+            StatsMultipliers.enemyMovementSpeed = 0;
+          }
+          ActiveItemCount.freeze++;
+          setTimeout(() => {
+            ActiveItemCount.freeze--;
+            if (ActiveItemCount.freeze == 0) {
+              StatsMultipliers.enemyMovementSpeed = ActiveItemCount.freezeOffset;
+              ActiveItemCount.freezeOffset = 0;
+            }
+          }, constants.FREEZE_DURATION);
+          break;
+        case "exp_orb":
+          Stats.score++;
           break;
       }
     }
-    // teleporters are permanent
+    // only teleporters are permanent
     if (this.type != "teleporter") {
       this.object.visible = false;
       this.collected = true;

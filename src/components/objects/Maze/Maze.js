@@ -154,22 +154,48 @@ class Maze extends Group {
                 parent.addToUpdateList(this.items[x][z])
             }
         }
-       
-
-        const dotGeometry = new SphereGeometry(0.25);
-        const dotMaterial = new MeshBasicMaterial({
-            color: 0xfff800
-        });
-        
+        // hp restore
+        for (let i = 0; i < constants.HP_RESTORE_COUNT; i++) {
+            const randomPos = this.getRandomEmptyPoint();
+            if (randomPos) {
+                const [x, z] = randomPos;
+                this.items[x][z] = new Item(this, "hp_restore", x, z)
+                parent.addToUpdateList(this.items[x][z])
+            }
+        }
+        // buff
+        for (let i = 0; i < constants.BUFF_COUNT; i++) {
+            const randomPos = this.getRandomEmptyPoint();
+            if (randomPos) {
+                const [x, z] = randomPos;
+                this.items[x][z] = new Item(this, "buff", x, z)
+                parent.addToUpdateList(this.items[x][z])
+            } 
+        }
+        // coins
+        for (let i = 0; i < constants.BUFF_COUNT; i++) {
+            const randomPos = this.getRandomEmptyPoint();
+            if (randomPos) {
+                const [x, z] = randomPos;
+                this.items[x][z] = new Item(this, "coin", x, z)
+                parent.addToUpdateList(this.items[x][z])
+            } 
+        }
+        // freeze
+        for (let i = 0; i < constants.BUFF_COUNT; i++) {
+            const randomPos = this.getRandomEmptyPoint();
+            if (randomPos) {
+                const [x, z] = randomPos;
+                this.items[x][z] = new Item(this, "freeze", x, z)
+                parent.addToUpdateList(this.items[x][z])
+            } 
+        }
+        // fill in the rest with exp orbs
         for (let i = 0; i < mazeArray.length; i++) {
             for (let j = 0; j < mazeArray[i].length; j++) {
-
-                // j < mazeArray[i].length - 1 && mazeArray[i][j] == 0) {
-                //     const dot = new Mesh(dotGeometry, dotMaterial);
-                //     dot.position.set(i, 0, j)
-                //     this.add(dot);
-                //     this.dots[i][j] = dot;
-                // }
+                if (this.checkEmptyPosition(i, j)) {
+                    this.items[i][j] = new Item(this, "exp_orb", i, j);
+                }
             }
         }
     }
