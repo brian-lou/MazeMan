@@ -2,7 +2,6 @@ import { Group, Vector3, Box3, Box3Helper } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import MODEL from './ghost.glb';
 import GLOBALVARS from '../../../js/globalVars';
-import { MOVEMENT_EPS } from '../../../js/constants';
 
 class Enemy extends Group {
     constructor(parent, mazeObj) {
@@ -25,12 +24,13 @@ class Enemy extends Group {
         let [x, z] = mazeObj.getSpawnPoint();
         this.position.set(x, 0, z);
 
+        
         const loader = new GLTFLoader();
         this.name = 'enemy';
         loader.load(MODEL, (gltf) => {
-            const model = gltf.scene;
-            model.scale.set(0.5, 0.5, 0.5);
-            this.add(model);
+            this.model = gltf.scene;
+            this.model.scale.set(0.5, 0.5, 0.5);
+            this.add(this.model);
         });
 
         parent.addToUpdateList(this);
@@ -45,16 +45,39 @@ class Enemy extends Group {
     update(deltaT) {
         if (!this.moveInDirection(this.currentDirection, deltaT)) {
             let dirs = this.getRandomDirection();
-            for (let i = 0; i < dirs.length; i++){
+            for (let i = 0; i < dirs.length; i++) {
                 this.currentDirection = dirs[i];
                 if (!this.moveInDirection(this.currentDirection, deltaT)) {
-                    continue
+                    continue;
                 } else {
+                    this.updateLookDirection();
                     break;
                 }
             }
         }
     }
+
+    updateLookDirection() {
+        if (this.model) {
+            let look = new Vector3();
+            switch (this.currentDirection) {
+                case 'up':
+                    look.set(this.position.x + 1, this.position.y, this.position.z);
+                    break;
+                case 'down':
+                    look.set(this.position.x - 1, this.position.y, this.position.z);
+                    break;
+                case 'left':
+                    look.set(this.position.x, this.position.y, this.position.z - 1);
+                    break;
+                case 'right':
+                    look.set(this.position.x, this.position.y, this.position.z + 1);
+                    break;
+            }
+            this.model.lookAt(look);
+        }
+    }
+
     shuffleArray(array) {
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
@@ -98,6 +121,7 @@ class Enemy extends Group {
         }
         return false;
     }
+
     spin() {
     }
 }
