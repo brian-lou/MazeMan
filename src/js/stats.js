@@ -43,4 +43,5 @@ export const Stats = {
     items: null, // itemsnotez
     playerMovementSpeed: 0,
     enemyMovementSpeed: 0,
+    immune: false,
 };
