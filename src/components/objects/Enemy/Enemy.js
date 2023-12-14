@@ -1,7 +1,7 @@
 import { Group, Vector3, Box3, Box3Helper, BoxGeometry, Mesh, MeshBasicMaterial, DoubleSide} from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import MODEL from './ghost.glb';
-import { Stats } from '../../../js/stats';
+import { EnemyAtkByLvl, EnemyDefByLvl, EnemyHpByLvl, EnemySpdByLvl, Stats } from '../../../js/stats';
 
 class Enemy extends Group {
     constructor(parent, mazeObj) {
@@ -38,15 +38,24 @@ class Enemy extends Group {
         this.currentDirection = this.getRandomDirection()[0];
 
         // set stats
-        this.maxHp = Math.round(20 * Math.random());
+        // Hp between upperBoundHp/2 and upperBoundHp
+        const upperBoundHp = EnemyHpByLvl[Stats.level];
+        this.maxHp = Math.floor(upperBoundHp/2) + Math.round(upperBoundHp * Math.random() / 2);
         this.hp = this.maxHp;
-        this.def = Math.round(5 * Math.random());
-        this.atk = Math.round(5 * Math.random());
+        // def between upperBoundDef/2 and upperBoundDef
+        const upperBoundDef = EnemyDefByLvl[Stats.level];
+        this.def = Math.floor(upperBoundDef/2) + Math.round(upperBoundDef * Math.random() / 2);
+        // atk between upperBoundAtk/2 and upperBoundAtk
+        const upperBoundAtk = EnemyAtkByLvl[Stats.level];
+        this.atk = Math.floor(upperBoundAtk/2) + Math.round(upperBoundAtk * Math.random() / 2);
+        // speed is randomized between 0.75x and 1.25x
+        this.speedMult = (Math.random() / 2) + 0.75;
         this.movementSpeed = 0;
 
         this.lastHit = 0;
 
-        const hpBarGeometry = new BoxGeometry(0.2, 0.2,1.5); // Width and height of the HP bar
+        let hpRatio = this.maxHp / upperBoundHp;
+        const hpBarGeometry = new BoxGeometry(0.1, 0.2, 2 * hpRatio); // Width and height of the HP bar
         const hpBarMaterial = new MeshBasicMaterial({ color: 0x00ff00}); // Green color for full health
         const hpBar = new Mesh(hpBarGeometry, hpBarMaterial);
         this.hpBarOffset = new Vector3(0,1,0);
@@ -116,7 +125,7 @@ class Enemy extends Group {
     moveInDirection(direction, deltaT) {
         let offset = new Vector3(0, 0, 0);
         let dxdz = null;
-        const movementSpeed = Stats.enemyMovementSpeed * deltaT / 1000;
+        const movementSpeed = this.speedMult * Stats.enemyMovementSpeed * deltaT / 1000;
         this.movementSpeed = movementSpeed;
         switch (direction) {
             case 'up':

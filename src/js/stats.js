@@ -1,15 +1,15 @@
 // Invariant: StatsMultipliers, BaseStats, BonusStats, BonusStatsFromLevels, and BonusStatsMisc must have the same items
 export const BaseStats = {
-    maxHealth: 100, // maxHealth
-    attack: 10, // attack
-    defense: 10, // defense
+    maxHealth: 20, // maxHealth
+    attack: 5, // attack
+    defense: 5, // defense
     playerMovementSpeed: 2, // movement speed, default to 2
     enemyMovementSpeed: 2,
 };
 
 // Do not touch these values
 export const BonusStatsFromLevels = {
-    maxHealth: 10,
+    maxHealth: 5,
     attack: 1,
     defense: 1,
     playerMovementSpeed: 0.1,
@@ -35,7 +35,7 @@ export const StatsMultipliers = {
 // Stats are calculated from bonus and base stats
 export const Stats = {
     score: 0, // score
-    level: 0, // level
+    level: 0, // map level, 0-indexed (start from level 0)
     health: 0, // health
     maxHealth: 0, // maxHealth
     attack: 0, // attack
@@ -43,5 +43,10 @@ export const Stats = {
     items: null, // itemsnotez
     playerMovementSpeed: 0,
     enemyMovementSpeed: 0,
-    immune: false,
+    immune: false, // immune?
 };
+// Enemy Stat scalings by level
+export const EnemyHpByLvl = [10, 20, 40];
+export const EnemyAtkByLvl = [10, 15, 30];
+export const EnemyDefByLvl = [0, 5, 15];
+export const EnemySpdByLvl = [2, 3, 4];
