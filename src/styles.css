@@ -71,6 +71,22 @@ progress::-webkit-progress-value {
     height: 100px;
     text-align: center;
 }
+
+#pause {
+    position: absolute;
+    top: 30%;
+    left: 35%;
+    margin-top: -50px;
+    margin-left: -50px;
+    width: 400px;
+    height: 300px;
+    background-color: black;
+}
+
+#pause p {
+    margin-top: 10%;
+}
+
 #pause-menu {
     display: flex;
     flex-direction: column;
@@ -82,6 +98,18 @@ progress::-webkit-progress-value {
     margin: 10px;
     padding: 10px;
     font-size: 16px;
+    border-radius: 10px;
+    width: 50%;
+}
+
+/* https://www.w3schools.com/howto/howto_css_animate_buttons.asp */
+#pause-menu button:hover {
+    background-color: #ebff53;
+}
+
+#pause-menu button:active {
+    background-color: #ebff53;
+    transform: translateY(2px);
 }
 
 .notVisible {
