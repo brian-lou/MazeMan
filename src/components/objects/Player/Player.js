@@ -28,7 +28,7 @@ class Player extends Group {
         this.add(this.helper);
         this.add(this.bbox)
         // Set random spawn point (for now)
-        let [x,z] = mazeObj.getSpawnPoint();
+        let [x,z] = mazeObj.getRandomAllowedPoint();
         this.position.set(x, 0, z);
 
         this.primaryDirection = true;

@@ -21,7 +21,7 @@ class Enemy extends Group {
         this.add(this.helper);
         this.add(this.bbox);
 
-        let [x, z] = mazeObj.getSpawnPoint();
+        let [x, z] = mazeObj.getRandomAllowedPoint();
         this.position.set(x, 0, z);
 
         

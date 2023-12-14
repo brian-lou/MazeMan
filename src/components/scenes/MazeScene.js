@@ -24,8 +24,6 @@ class MazeScene extends Scene {
         // Add meshes to scene
         const maze = new Maze(this);
         const player = new Player(this, maze, keypress);
-        // const enemy = new Enemy(this, maze, keypress);
-        // this.enemy = enemy;
         this.player = player;
         const lights = new BasicLights(player, camera);
         this.lights = lights;
