@@ -115,3 +115,14 @@ progress::-webkit-progress-value {
 .notVisible {
     visibility: hidden;
 }
+
+#main {
+    position: absolute;
+    top: 30%;
+    left: 35%;
+    margin-top: -50px;
+    margin-left: -50px;
+    width: 400px;
+    height: 300px;
+    color: black;
+}

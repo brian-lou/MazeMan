@@ -1,4 +1,5 @@
 import globalVars from './globalVars';
+import * as pages from './pages.js';
 
 // when key is pressed down
 export function handleKeyDown(event, keypress) {
@@ -32,6 +33,11 @@ export function handleKeyUp(event, keypress) {
 
 // switches between main, pause, and ending menus.
 export function handleMenus(document, event, menus, canvas) {
+    // start game from main menu
+    if (event.key == 'Enter' && menus['main']) {
+        menus['main'] = false;
+        pages.game(document, canvas);
+    }
     // handle pause menu
     if (event.key == 'p' || event.key == 'Escape') {
         let pause = document.getElementById('pause');
