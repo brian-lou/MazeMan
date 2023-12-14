@@ -86,5 +86,15 @@ This skeleton project was adapted from edwinwebb's ThreeJS [seed project](https:
 
 * [EXP Boost Item](https://sketchfab.com/3d-models/green-orb-d1fc9db574294d1f9fb7f57f32fee426)
 
+* [Teleport Item](https://sketchfab.com/3d-models/portal-from-poly-by-google-285a6276d2ed48b4b028c150d45c4b9e#download)
+
+* [HP Restore Item](https://sketchfab.com/3d-models/beating-heart-5948873c2c1e4c6285e3f3d18a9b991c#download)
+
+* [Buff Item](https://sketchfab.com/3d-models/power-up-mushroom-1bd1720613e44292a5a70119d4c1a254)
+
+* [Coin Item](https://sketchfab.com/3d-models/stylized-coin-8cd6f95c44994ed5944a42892d0ffc10)
+
+* [Freeze Item](https://sketchfab.com/3d-models/crystal-bd3bea3e89fd465390792c4108762113)
+
 ## License
 [MIT](./LICENSE)

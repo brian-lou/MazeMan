@@ -17,3 +17,16 @@ export const EXP_BOOST_MULTIPLIER = 2;
 export const EXP_BOOST_DURATION = 5000;
 
 export const TELEPORT_IMMUNE_DURATION = 2000;
+export const TELEPORT_COOLDOWN = 4000; // cooldown strictly greater
+
+export const HP_RESTORE_COUNT = 8;
+export const HP_RESTORE_FACTOR = 0.25;
+
+export const BUFF_COUNT = 6;
+export const BUFF_MULTIPLIER = 1.5;
+export const BUFF_DURATION = 5000;
+
+export const COIN_COUNT = 4;
+
+export const FREEZE_COUNT = 6;
+export const FREEZE_DURATION = 5000;

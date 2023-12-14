@@ -38,7 +38,10 @@ export const ActiveItemCount = {
     ghost: 0,
     expBoost: 0,
     teleporter: 0,
-    freeze: 0
+    buff: 0, 
+    coin: 0,
+    freeze: 0,
+    freezeMultiplier: 0 // temp to keep track of enemy movement speed
 }
 
 // Stats are calculated from bonus and base stats
