@@ -2,8 +2,8 @@ import { Group, Vector3, Box3, Box3Helper} from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { TWEEN } from 'three/examples/jsm/libs/tween.module.min.js';
 import MODEL from './pacman.glb';
-import GLOBALVARS from '../../../js/globalVars';
 import {MOVEMENT_EPS, MOVEMENT_FACTOR} from '../../../js/constants'
+import { Stats } from '../../../js/stats';
 
 class Player extends Group {
     constructor(parent, mazeObj, keypress) {
@@ -28,12 +28,13 @@ class Player extends Group {
         this.add(this.helper);
 
         // Set random spawn point (for now)
-        let [x,z] = mazeObj.getSpawnPoint();
+        let [x,z] = mazeObj.getRandomAllowedPoint();
         this.position.set(x, 0, z);
 
         this.primaryDirection = true;
         this.dir = [-1, 0];
         this.isMoving = false;
+        this.lastHit = 0;
 
         // Load object
         const loader = new GLTFLoader();
@@ -103,16 +104,16 @@ class Player extends Group {
         if (dir == " ") return;
         let dxdz = null;
         if (dir == "up"){
-            offset = new Vector3((GLOBALVARS.playerMovementSpeed / MOVEMENT_FACTOR) * deltaT,0,0);
+            offset = new Vector3((Stats.playerMovementSpeed / MOVEMENT_FACTOR) * deltaT,0,0);
             dxdz = [1, 0];
         } else if (dir == "left"){
-            offset = new Vector3(0,0,-(GLOBALVARS.playerMovementSpeed / MOVEMENT_FACTOR) * deltaT);
+            offset = new Vector3(0,0,-(Stats.playerMovementSpeed / MOVEMENT_FACTOR) * deltaT);
             dxdz = [0, -1];
         } else if (dir == "right"){
-            offset = new Vector3(0,0,(GLOBALVARS.playerMovementSpeed / MOVEMENT_FACTOR) * deltaT);
+            offset = new Vector3(0,0,(Stats.playerMovementSpeed / MOVEMENT_FACTOR) * deltaT);
             dxdz = [0, 1];
         } else if (dir == "down"){
-            offset = new Vector3(-(GLOBALVARS.playerMovementSpeed / MOVEMENT_FACTOR) * deltaT,0,0);
+            offset = new Vector3(-(Stats.playerMovementSpeed / MOVEMENT_FACTOR) * deltaT,0,0);
             dxdz = [-1, 0];
         }
         let checkSecondary = true;
@@ -154,7 +155,7 @@ class Player extends Group {
                     this.position.set(Math.round(p.x), p.y, p.z);
                 }
                 let dist = Math.abs(prevPos.distanceTo(this.position));
-                if (dist > MOVEMENT_EPS * GLOBALVARS.enemyMovementSpeed){
+                if (dist > MOVEMENT_EPS * Stats.enemyMovementSpeed){
                     this.position.set(startingPos.x, startingPos.y, startingPos.z);
                     checkSecondary = true;
                 } else {

@@ -1,7 +1,7 @@
 import { Group, Vector3, Box3, Box3Helper, BoxGeometry, Mesh, MeshBasicMaterial, DoubleSide} from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import MODEL from './ghost.glb';
-import GLOBALVARS from '../../../js/globalVars';
+import { Stats } from '../../../js/stats';
 
 class Enemy extends Group {
     constructor(parent, mazeObj) {
@@ -20,7 +20,7 @@ class Enemy extends Group {
         this.renderOrder = 10;
         this.add(this.helper);
 
-        let [x, z] = mazeObj.getSpawnPoint();
+        let [x, z] = mazeObj.getRandomAllowedPoint();
         this.position.set(x, 0, z);
 
         
@@ -36,13 +36,13 @@ class Enemy extends Group {
         parent.addToUpdateList(this);
 
         this.currentDirection = this.getRandomDirection()[0];
-        this.movementSpeed = GLOBALVARS.enemyMovementSpeed / 1000;
 
         // set stats
         this.maxHp = Math.round(20 * Math.random());
         this.hp = this.maxHp;
         this.def = Math.round(5 * Math.random());
         this.atk = Math.round(5 * Math.random());
+        this.movementSpeed = 0;
 
         this.lastHit = 0;
 
@@ -131,8 +131,8 @@ class Enemy extends Group {
     moveInDirection(direction, deltaT) {
         let offset = new Vector3(0, 0, 0);
         let dxdz = null;
-        const movementSpeed = this.movementSpeed * deltaT;
-
+        const movementSpeed = Stats.enemyMovementSpeed * deltaT / 1000;
+        this.movementSpeed = movementSpeed;
         switch (direction) {
             case 'up':
                 offset = new Vector3(movementSpeed, 0, 0);
