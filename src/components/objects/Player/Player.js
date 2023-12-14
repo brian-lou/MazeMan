@@ -26,12 +26,14 @@ class Player extends Group {
         this.helper = new Box3Helper(this.bbox, 0x000000);
         this.renderOrder = 10;
         this.add(this.helper);
-        this.add(this.bbox)
+
         // Set random spawn point (for now)
         let [x,z] = mazeObj.getSpawnPoint();
         this.position.set(x, 0, z);
 
         this.primaryDirection = true;
+        this.dir = [-1, 0];
+        this.isMoving = false;
 
         // Load object
         const loader = new GLTFLoader();
@@ -97,6 +99,7 @@ class Player extends Group {
                 dir = k;
             }
         }
+        this.isMoving = false;
         if (dir == " ") return;
         let dxdz = null;
         if (dir == "up"){
@@ -123,6 +126,8 @@ class Player extends Group {
             checkSecondary = false;
             this.lookAt(this.position.x + dxdz[0], this.position.y, this.position.z + dxdz[1]);
             this.position.add(offset);
+            this.isMoving = true;
+            this.dir = dxdz;
             
             // smooth turning: add code handling each of the 8 cases here 
             // (L->U, R->U, L->D, R->D, U->L, U->R, D->L, D->R)
@@ -171,6 +176,8 @@ class Player extends Group {
             )){
                 this.position.add(prevOffset);
                 this.lookAt(this.position.x + prevDxDz[0], this.position.y, this.position.z + prevDxDz[1]);
+                this.dir = prevDxDz;
+                this.isMoving = true;
             }
         }
         

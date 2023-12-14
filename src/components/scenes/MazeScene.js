@@ -1,5 +1,5 @@
 import * as Dat from 'dat.gui';
-import { Scene, Color, AxesHelper, Box3 } from 'three';
+import { Scene, Color, AxesHelper, Box3, Vector2 } from 'three';
 import { Player, Maze, Enemy } from 'objects';
 import { BasicLights } from 'lights';
 import globalVars from '../../js/globalVars';
@@ -69,11 +69,11 @@ class MazeScene extends Scene {
             }
         }
         const currTime = Date.now();
+        const playerDir = new Vector2(this.player.dir[0], this.player.dir[1]);
         for (let enemy of this.enemies){
             if (currTime - enemy.lastHit < 1000){
                 continue;
             }
-            console.log(enemy.hpBar.position)
             if (this.checkCollision(
                 this.player.bbox, this.player.position,
                 enemy.bbox, enemy.position)){
@@ -87,10 +87,56 @@ class MazeScene extends Scene {
                     // once hp hits 0, game over
                     // Similarly for the enemy, decrease their hp by our atk - their def
                     // 
-                    enemy.lastHit = Date.now();
-                    enemy.updateHealth(enemy.hp / 2);
                     let playerHpLeft = globalVars.health;
-                    // this.remove(enemy);
+                    const enemyDir = new Vector2(enemy.dir[0], enemy.dir[1]);
+                    let angle = playerDir.dot(enemyDir);
+                    let playerAtking = true;
+                    // angle is 0 if perp, 1 if attacking or being attacked, -1 if both are attacking
+                    // 3 possibilities: 1. Attacking, 2. Being attacked, 3. Both attacking
+                    if (!this.player.isMoving){
+                        // player can never attack
+                        playerAtking = false;
+                    } else if (angle == 0){
+                        // 8 cases (Player - Enemy):
+                        // R->U, L->U, R->D, L->D, U->R, U->L, D->R, D->L
+                        // Invariant: If the player is "above" the enemy, they are being attacked
+                        // If below, they are attacking
+                        const pl = this.player.position;
+                        const e = enemy.position;
+                        if (playerDir.y = 1 && enemyDir.x == 1){
+                            if (pl.x > e.x){ // enemy attacking
+                                playerAtking = false;
+                            }
+                        } else if (playerDir.y = -1 && enemyDir.x == 1){
+                            if (pl.x > e.x){ // enemy attacking
+                                playerAtking = false;
+                            }
+                        }
+                        
+                    } else if (angle == 1){
+                        // same direction, so higher speed is attacker
+                        if (globalVars.playerMovementSpeed >= enemy.movementSpeed){
+                            playerAtking = true;
+                        } else {
+                            playerAtking = false;
+                        }
+                    } else if (angle == -1){
+                        // both attacking
+                        globalVars.health -= Math.max(0, (enemy.atk - globalVars.defense));
+                        playerAtking = true;
+                    }
+                    if (playerAtking){
+                        enemy.hp -= Math.max(0, (globalVars.attack - enemy.def));
+                        enemy.lastHit = Date.now();
+                        if (enemy.hp <= 0){
+                            this.remove(enemy);
+                        } else {
+                            enemy.updateHealth(enemy.hp);
+                        }
+                    } else {
+                        globalVars.health -= Math.max(0, (enemy.atk - globalVars.defense));
+                    }
+                    // console.log(angle)
                 }
         }
         this.lights.updateSpotlight();
