@@ -20,7 +20,7 @@ class Enemy extends Group {
         this.renderOrder = 10;
         this.add(this.helper);
 
-        let [x, z] = mazeObj.getSpawnPoint();
+        let [x, z] = mazeObj.getRandomAllowedPoint();
         this.position.set(x, 0, z);
 
         

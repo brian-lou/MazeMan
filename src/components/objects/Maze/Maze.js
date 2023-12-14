@@ -100,7 +100,11 @@ class Maze extends Group {
         floor.position.set(0.5*floorHeight, -0.5 * WALL_LEN - EPS, 0.5*floorWidth);
         this.add(floor);
 
-        // add dots to every tile that isn't a wall
+
+
+        // Add items to the maze
+        // speed orb
+
         const dotGeometry = new SphereGeometry(0.25);
         const dotMaterial = new MeshBasicMaterial({
             color: 0xfff800
@@ -124,12 +128,10 @@ class Maze extends Group {
         // update dot visibility
         if (this.dots[x][z] instanceof Mesh && this.dots[x][z].visible) {
             this.dots[x][z].visible = false;
-            // console.log(this.dots[x][z])
             // Add 1 to score for now
             globalVars.score++;
         }
     }
-
 
     checkValidPosition(x,z){
         let i = Math.floor(x/this.WALL_LEN);
@@ -214,20 +216,33 @@ class Maze extends Group {
         //     }
         // }
         return false;
-    
     }
-    // return a random valid x,y,z spawn point
-    getSpawnPoint(){
-        for(let i = 0;i<10000;i++){
+
+    // returns a random allowed point in the maze
+    getRandomAllowedPoint() {
+        for(let i = 0; i < 10000; i++){
             // width and height are swapped cuz coordinate system
-            let x = Math.floor(Math.random() * this.mazeHeight);
-            let z = Math.floor(Math.random() * this.mazeWidth);
+            let x = Math.floor(Math.random() * (this.mazeHeight - 2)) + 1;
+            let z = Math.floor(Math.random() * (this.mazeWidth - 2)) + 1;
             if (this.allowedLocations[x][z]){
                 return [x,z];
             }
         }
         return null;
-    }    
+    }
+
+    // returns a random point in the maze that has no items
+    getRandomEmptyPoint() {
+        for(let i = 0; i < 10000; i++){
+            // width and height are swapped cuz coordinate system
+            let x = Math.floor(Math.random() * (this.mazeHeight - 2)) + 1;
+            let z = Math.floor(Math.random() * (this.mazeWidth - 2)) + 1;
+            if (this.allowedLocations[x][z] && this.items[x][z] == null) {
+                return [x, z]
+            }
+        }
+        return null;
+    }
 }
 
 export default Maze;
