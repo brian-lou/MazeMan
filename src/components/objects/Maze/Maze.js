@@ -193,6 +193,28 @@ class Maze extends Group {
         }
         return false;
     }
+    getExits(x, z, direction){
+        let i = Math.round(x/this.WALL_LEN);
+        let j = Math.round(z/this.WALL_LEN);
+        let exits = [];
+        const dirs = [[-1,0],[1,0],[0,1],[0,-1]];
+        for (let item of dirs){
+            let dx = item[0];
+            let dz = item[1];
+            let newX = dx + i;
+            let newZ = dz + j;
+            if (dx == direction[0] * -1 && dz == direction[1] * -1){
+                // don't include the entering direction
+                continue;
+            }
+            if (newX >= 0 && newX < this.mazeHeight && newZ >= 0 && newZ < this.mazeWidth){
+                if (this.allowedLocations[newX][newZ]){
+                    exits.push(item);
+                }
+            }
+        }
+        return exits;
+    }
 
     // returns true if the position is in-bounds and has no wall or item
     checkEmptyPosition(x,z){

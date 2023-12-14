@@ -2,6 +2,7 @@ import { Group, Vector3, Box3, Box3Helper, BoxGeometry, Mesh, MeshBasicMaterial,
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import MODEL from './ghost.glb';
 import { EnemyAtkByLvl, EnemyDefByLvl, EnemyHpByLvl, EnemySpdByLvl, Stats } from '../../../js/stats';
+import { MOVEMENT_EPS } from '../../../js/constants';
 
 class Enemy extends Group {
     constructor(parent, mazeObj) {
@@ -53,6 +54,7 @@ class Enemy extends Group {
         this.movementSpeed = 0;
 
         this.lastHit = 0;
+        this.timeSinceLastTurn = 0;
 
         let hpRatio = this.maxHp / upperBoundHp;
         const hpBarGeometry = new BoxGeometry(0.1, 0.2, 2 * hpRatio); // Width and height of the HP bar
@@ -62,8 +64,6 @@ class Enemy extends Group {
         hpBar.position.add(this.hpBarOffset);
         this.hpBar = hpBar;
         this.add(hpBar);
-        this.turnCooldown = 0;
-        this.turnCooldownReset = 120;
         
     }
     updateHealth(newHp) {
@@ -76,53 +76,76 @@ class Enemy extends Group {
         this.hpBar.scale.z = 1 - lostHpRatio;
     }
     update(deltaT) {
-       
-        if (this.turnCooldown > 0) {
-            this.turnCooldown -= 1;
+        // t and T intersections
+        if (this.futureTurn == null && Date.now() - this.timeSinceLastTurn >= 1000){
+            // not yet randomized for this intersection
+            let exits = this.mazeObj.getExits(this.position.x, this.position.z, this.currentDirection);
+            if (exits.length > 1){
+                this.futureTurn = exits[Math.floor(Math.random() * exits.length)];
+                this.timeSinceLastTurn = Date.now();
+            }
         }
 
-        if (!this.moveInDirection(this.currentDirection, deltaT)) {
-            this.tryNewDirection(deltaT);
-        }
-
-       
-        if (this.turnCooldown <= 0 && Math.random() < 0.01) { 
-            this.tryNewDirection(deltaT);
-            this.turnCooldown = this.turnCooldownReset; 
-        }
-    }
-
-    tryNewDirection(deltaT) {
-        let dirs = this.getRandomDirection();
-        for (let i = 0; i < dirs.length; i++) {
-            this.currentDirection = dirs[i];
-            if (this.moveInDirection(this.currentDirection, deltaT)) {
-                this.updateLookDirection();
-                break;
+        // Randomly selected to go in the same dir
+        if (this.futureTurn == null || 
+            (this.futureTurn[0] == this.currentDirection[0] && this.futureTurn[1] == this.currentDirection[1]) ||
+            (this.futureTurn[0] == -this.currentDirection[0] && this.futureTurn[1] == -this.currentDirection[1])){
+            // First try to go straigh, if hit wall, randomly turn
+            if (!this.moveInDirection(this.currentDirection, deltaT)) {
+                let dirs = this.getRandomDirection();
+                for (let i = 0; i < dirs.length; i++) {
+                    this.currentDirection = dirs[i];
+                    if (!this.moveInDirection(this.currentDirection, deltaT)) {
+                        continue;
+                    } else {
+                        break;
+                    }
+                }
+            }
+            this.futureTurn = null;
+        } else {
+            // smooth turn
+            let prevDir = this.currentDirection;
+            let dirToTurn = this.futureTurn;
+            let newX = this.position.x;
+            let newZ = this.position.z;
+            if (prevDir[1] == -1 && dirToTurn[0] == 1){
+                newZ = Math.round(newZ);
+            } else if (prevDir[1] == 1 && dirToTurn[0] == 1){
+                newZ = Math.round(newZ);
+            } else if (prevDir[1] == -1 && dirToTurn[0] == -1){
+                newZ = Math.round(newZ);
+            } else if (prevDir[1] == 1 && dirToTurn[0] == -1){
+                newZ = Math.round(newZ);
+            } else if (prevDir[0] == 1 && dirToTurn[1] == -1){
+                newX = Math.round(newX);
+            } else if (prevDir[0] == 1 && dirToTurn[1] == 1){
+                newX = Math.round(newX);
+            } else if (prevDir[0] == -1 && dirToTurn[1] == -1){
+                newX = Math.round(newX);
+            } else if (prevDir[0] == -1 && dirToTurn[1] == 1){
+                newX = Math.round(newX);
+            }
+            let dist = Math.sqrt(Math.pow(newX - this.position.x, 2) + Math.pow(newZ - this.position.z, 2));
+            if (dist > MOVEMENT_EPS * this.speedMult * Stats.enemyMovementSpeed){
+                // keep going straight
+                this.moveInDirection(this.currentDirection, deltaT)
+            } else {
+                // console.log('TURNING', this.currentDirection, this.futureTurn);
+                this.position.set(newX, this.position.y, newZ);
+                this.currentDirection = this.futureTurn;
+                this.futureTurn = null;
+                this.lookAt(this.position.x + this.currentDirection[0], this.position.y, this.position.z + this.currentDirection[1]);
+                if (this.currentDirection[0] != 0){
+                    this.hpBar.rotation.y = Math.PI/2;
+                } else if (this.currentDirection[1] != 0){
+                    this.hpBar.rotation.y = 0;
+                }
+                return;
             }
         }
     }
 
-    updateLookDirection() {
-        if (this.model) {
-            let look = new Vector3();
-            switch (this.currentDirection) {
-                case 'up':
-                    look.set(this.position.x + 1, this.position.y, this.position.z);
-                    break;
-                case 'down':
-                    look.set(this.position.x - 1, this.position.y, this.position.z);
-                    break;
-                case 'left':
-                    look.set(this.position.x, this.position.y, this.position.z - 1);
-                    break;
-                case 'right':
-                    look.set(this.position.x, this.position.y, this.position.z + 1);
-                    break;
-            }
-            this.model.lookAt(look);
-        }
-    }
 
     shuffleArray(array) {
         for (let i = array.length - 1; i > 0; i--) {
@@ -132,34 +155,16 @@ class Enemy extends Group {
     }
 
     getRandomDirection() {
-        const directions = ['up', 'down', 'left', 'right'];
+        const directions = [[-1,0],[1,0],[0,1],[0,-1]];
         this.shuffleArray(directions);
         return directions;
     }
 
     moveInDirection(direction, deltaT) {
-        let offset = new Vector3(0, 0, 0);
-        let dxdz = null;
+        let dxdz = direction;
         const movementSpeed = this.speedMult * Stats.enemyMovementSpeed * deltaT / 1000;
         this.movementSpeed = movementSpeed;
-        switch (direction) {
-            case 'up':
-                offset = new Vector3(movementSpeed, 0, 0);
-                dxdz = [1, 0];
-                break;
-            case 'down':
-                offset = new Vector3(-movementSpeed, 0, 0);
-                dxdz = [-1, 0];
-                break;
-            case 'left':
-                offset = new Vector3(0, 0, -movementSpeed);
-                dxdz = [0, -1];
-                break;
-            case 'right':
-                offset = new Vector3(0, 0, movementSpeed);
-                dxdz = [0, 1];
-                break;
-        }
+        let offset = new Vector3(movementSpeed * dxdz[0], 0, movementSpeed * dxdz[1]);
 
         if (this.mazeObj.getAllowedPosition(this.position, offset, dxdz)) {
             this.dir = dxdz;

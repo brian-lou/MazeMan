@@ -29,7 +29,7 @@ class MazeScene extends Scene {
         this.lights = lights;
         // const axesHelper = new AxesHelper(5);
         this.enemies = new Set();
-        for (let i = 0; i < 20; i++) { 
+        for (let i = 0; i < 1; i++) { 
             const enemy = new Enemy(this, maze);
             this.enemies.add(enemy);
             this.add(enemy);
@@ -71,6 +71,7 @@ class MazeScene extends Scene {
         this.lights.updateSpotlight();
 
         // Combat
+        const currTime = Date.now();
         const playerDir = new Vector2(this.player.dir[0], this.player.dir[1]);
         for (let enemy of this.enemies){
             if (this.checkCollision(
@@ -85,7 +86,7 @@ class MazeScene extends Scene {
                     // If enemy atk > def, decrease hp by the excess
                     // once hp hits 0, game over
                     // Similarly for the enemy, decrease their hp by our atk - their def
-                    const enemyDir = new Vector2(enemy.dir[0], enemy.dir[1]);
+                    const enemyDir = new Vector2(enemy.currentDirection[0], enemy.currentDirection[1]);
                     let angle = playerDir.dot(enemyDir);
                     let playerAtking = true;
                     let alsoAttackPlayer = false;
@@ -147,7 +148,6 @@ class MazeScene extends Scene {
                         alsoAttackPlayer = true;
                     }
 
-                    const currTime = Date.now();
                     if (playerAtking){// player is attacking
                         if (currTime - enemy.lastHit < 1000){
                             continue;
