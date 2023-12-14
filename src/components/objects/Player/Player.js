@@ -155,7 +155,7 @@ class Player extends Group {
                     this.position.set(Math.round(p.x), p.y, p.z);
                 }
                 let dist = Math.abs(prevPos.distanceTo(this.position));
-                if (dist > MOVEMENT_EPS * Stats.enemyMovementSpeed){
+                if (dist > MOVEMENT_EPS * Stats.playerMovementSpeed){
                     this.position.set(startingPos.x, startingPos.y, startingPos.z);
                     checkSecondary = true;
                 } else {
