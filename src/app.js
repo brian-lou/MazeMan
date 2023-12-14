@@ -14,6 +14,7 @@ import {
     handleKeyUp,
     updateScore,
     updateAttributes,
+    handleMenus,
 } from './js/handlers';
 import * as pages from './js/pages.js';
 import './styles.css';
@@ -27,6 +28,13 @@ const keypress = {
     left: 0,
     right: 0,
 }; // dict that stores which keys are pressed
+//dict storing menus
+const menus = {
+    main: false,
+    lose: false,
+    win: false,
+    pause: false,
+};
 let score = 0; // score
 let health = 3; // health
 let items; // items
@@ -107,6 +115,11 @@ window.addEventListener(
 window.addEventListener(
     'keyup',
     (event) => handleKeyUp(event, keypress),
+    false
+);
+window.addEventListener(
+    'keydown',
+    (event) => handleMenus(document, event, menus, canvas),
     false
 );
 // ******** INIT ***********

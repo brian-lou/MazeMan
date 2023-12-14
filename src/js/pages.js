@@ -51,7 +51,7 @@ export function game(document, canvas) {
     let pause = document.createElement('div');
     pause.id = 'pause';
     pause.innerHTML = PAUSE;
-    //pause.classList.add('notVisible');
+    pause.classList.add('notVisible');
     document.body.appendChild(pause);
 }
 

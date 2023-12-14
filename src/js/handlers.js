@@ -30,6 +30,21 @@ export function handleKeyUp(event, keypress) {
     // if (event.key == 'd') keypress['right'] = false;
 }
 
+// switches between main, pause, and ending menus.
+export function handleMenus(document, event, menus, canvas) {
+    // handle pause menu
+    if (event.key == 'p' || event.key == 'Escape') {
+        let pause = document.getElementById('pause');
+        if (!menus['pause']) {
+            menus['pause'] = true;
+            pause.classList.remove('notVisible');
+        } else {
+            menus['pause'] = false;
+            pause.classList.add('notVisible');
+        }
+    }
+}
+
 // update score and level to UI
 export function updateScore(document) {
     let expBar = document.getElementById('exp');
