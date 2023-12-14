@@ -19,7 +19,6 @@ class Enemy extends Group {
         this.helper = new Box3Helper(this.bbox, 0x000000);
         this.renderOrder = 10;
         this.add(this.helper);
-        this.add(this.bbox);
 
         let [x, z] = mazeObj.getSpawnPoint();
         this.position.set(x, 0, z);
@@ -154,6 +153,7 @@ class Enemy extends Group {
         }
 
         if (this.mazeObj.getAllowedPosition(this.position, offset, dxdz)) {
+            this.dir = dxdz;
             this.position.add(offset);
             this.lookAt(this.position.x + dxdz[0], this.position.y, this.position.z + dxdz[1]);
             if (dxdz[0] != 0){
