@@ -20,25 +20,27 @@ i + i {
     color: black;
 }
 
-#attributes {
-    display: inline-block;
+#statBox {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
     position: absolute;
-    top: 80%;
-    left: 30%;
-    width: 100%;
-    color: black;
+    top: 5%;
+    left: 5%;
+    background-color: grey;
+    padding: 0 2% 0 2%;
 }
-
+.attribute {
+    margin: 15% 0 15% 0;
+    text-align: center;
+}
 #health {
-    margin: 5%;
     color: red;
 }
 #attack {
-    margin: 5%;
     color: black;
 }
 #defense {
-    margin: 5%;
     color: blue;
 }
 #level {

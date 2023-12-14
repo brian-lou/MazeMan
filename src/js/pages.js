@@ -18,27 +18,31 @@ export function game(document, canvas) {
 
     let healthBar = document.createElement('span');
     healthBar.id = 'health';
+    healthBar.classList.add('attribute');
     healthBar.innerHTML =
         '<i id="healthNum" class="fa-solid fa-2xl fa-heart"></i>';
 
     let atkBar = document.createElement('span');
     atkBar.id = 'attack';
+    atkBar.classList.add('attribute');
     atkBar.innerHTML =
         '<i id="atkNum" class="fa-solid fa-2xl fa-hand-fist"></i>';
     let defBar = document.createElement('span');
     defBar.id = 'defense';
+    defBar.classList.add('attribute');
     defBar.innerHTML = '<i id="defNum" class="fa-solid fa-2xl fa-shield"></i>';
 
     let items = document.createElement('span');
     items.id = 'items';
+    items.classList.add('attribute');
 
-    let attributes = document.createElement('div');
-    attributes.id = 'attributes';
-    attributes.append(healthBar);
-    attributes.append(atkBar);
-    attributes.append(defBar);
-    attributes.append(items);
-    document.body.appendChild(attributes);
+    let statBox = document.createElement('div');
+    statBox.id = 'statBox';
+    statBox.append(healthBar);
+    statBox.append(atkBar);
+    statBox.append(defBar);
+    statBox.append(items);
+    document.body.appendChild(statBox);
 }
 
 export function initIcons(document) {
