@@ -105,6 +105,7 @@ class Maze extends Group {
         const dotMaterial = new MeshBasicMaterial({
             color: 0xfff800
         });
+        
         for (let i = 0; i < mazeArray.length; i++) {
             for (let j = 0; j < mazeArray[i].length; j++) {
                 if (i > 0 && i < mazeArray.length - 1 && j > 0 &&
@@ -147,17 +148,13 @@ class Maze extends Group {
     // X
     // |
     // |----Z----- +
-    getAllowedPosition(pos, offset, dxdz, box){
+    getAllowedPosition(pos, offset, dxdz){
         // world coordinate system
         let x = pos.x + offset.x; 
         let z = pos.z + offset.z;
         // integer coordinate system
         let i = Math.round(x/this.WALL_LEN);
         let j = Math.round(z/this.WALL_LEN);
-        let newBox = new Box3();
-        newBox.copy(box);
-        newBox.translate(pos);
-        newBox.translate(offset);
         // console.log([box, newBox, offset])
         // integer coordinate system with offset
         let newX = dxdz[0] + i;

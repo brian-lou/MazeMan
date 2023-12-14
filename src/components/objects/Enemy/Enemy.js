@@ -1,4 +1,4 @@
-import { Group, Vector3, Box3, Box3Helper } from 'three';
+import { Group, Vector3, Box3, Box3Helper, BoxGeometry, Mesh, MeshBasicMaterial, DoubleSide} from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import MODEL from './ghost.glb';
 import GLOBALVARS from '../../../js/globalVars';
@@ -15,11 +15,11 @@ class Enemy extends Group {
             twirl: 0,
         };
         this.boxSize = new Vector3(0.7, 0.7, 0.7);
-        this.playerBox = new Box3().setFromCenterAndSize(this.position, this.boxSize);
-        this.helper = new Box3Helper(this.playerBox, 0x000000);
+        this.bbox = new Box3().setFromCenterAndSize(this.position, this.boxSize);
+        this.helper = new Box3Helper(this.bbox, 0x000000);
         this.renderOrder = 10;
         this.add(this.helper);
-        this.add(this.playerBox);
+        this.add(this.bbox);
 
         let [x, z] = mazeObj.getSpawnPoint();
         this.position.set(x, 0, z);
@@ -27,6 +27,7 @@ class Enemy extends Group {
         
         const loader = new GLTFLoader();
         this.name = 'enemy';
+
         loader.load(MODEL, (gltf) => {
             this.model = gltf.scene;
             this.model.scale.set(0.5, 0.5, 0.5);
@@ -35,13 +36,35 @@ class Enemy extends Group {
 
         parent.addToUpdateList(this);
 
-        this.state.gui.add(this.state, 'bob');
-        this.state.gui.add(this.state, 'spin');
-
         this.currentDirection = this.getRandomDirection()[0];
-        this.movementSpeed = GLOBALVARS.movementSpeed / 1000;
-    }
+        this.movementSpeed = GLOBALVARS.enemyMovementSpeed / 1000;
 
+        // set stats
+        this.maxHp = Math.round(20 * Math.random());
+        this.hp = this.maxHp;
+        this.def = Math.round(5 * Math.random());
+        this.atk = Math.round(5 * Math.random());
+
+        this.lastHit = 0;
+
+        const hpBarGeometry = new BoxGeometry(0.2, 0.2,1.5); // Width and height of the HP bar
+        const hpBarMaterial = new MeshBasicMaterial({ color: 0x00ff00}); // Green color for full health
+        const hpBar = new Mesh(hpBarGeometry, hpBarMaterial);
+        this.hpBarOffset = new Vector3(0,1,0);
+        hpBar.position.add(this.hpBarOffset);
+        this.hpBar = hpBar;
+        this.add(hpBar);
+        
+    }
+    updateHealth(newHp) {
+        this.hp = newHp;
+
+        // Calculate the proportion of lost health
+        const lostHpRatio = (this.maxHp - this.hp) / this.maxHp;
+
+        // Update green (current health) bar
+        this.hpBar.scale.z = 1 - lostHpRatio;
+    }
     update(deltaT) {
         if (!this.moveInDirection(this.currentDirection, deltaT)) {
             let dirs = this.getRandomDirection();
@@ -115,14 +138,19 @@ class Enemy extends Group {
                 break;
         }
 
-        if (this.mazeObj.getAllowedPosition(this.position, offset, dxdz, this.playerBox)) {
+        if (this.mazeObj.getAllowedPosition(this.position, offset, dxdz)) {
             this.position.add(offset);
+            this.lookAt(this.position.x + dxdz[0], this.position.y, this.position.z + dxdz[1]);
+            if (dxdz[0] != 0){
+                this.hpBar.rotation.y = Math.PI/2;
+            } else if (dxdz[1] != 0){
+                this.hpBar.rotation.y = 0;
+            }
+
+            // this.hpBar.lookAt(this.position.x - 1 , this.position.y + this.hpBar.position.y, this.position.z);
             return true;
         }
         return false;
-    }
-
-    spin() {
     }
 }
 

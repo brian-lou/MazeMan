@@ -19,14 +19,14 @@ class Player extends Group {
             twirl: 0,
         };
         this.boxSize = new Vector3(0.7, 0.7, 0.7);
-        this.playerBox = new Box3().setFromCenterAndSize(
+        this.bbox = new Box3().setFromCenterAndSize(
             this.position,
             this.boxSize
         );
-        this.helper = new Box3Helper(this.playerBox, 0x000000);
+        this.helper = new Box3Helper(this.bbox, 0x000000);
         this.renderOrder = 10;
         this.add(this.helper);
-        this.add(this.playerBox)
+        this.add(this.bbox)
         // Set random spawn point (for now)
         let [x,z] = mazeObj.getSpawnPoint();
         this.position.set(x, 0, z);
@@ -55,8 +55,8 @@ class Player extends Group {
         parent.addToUpdateList(this);
 
         // Populate GUI
-        this.state.gui.add(this.state, 'bob');
-        this.state.gui.add(this.state, 'spin');
+        // this.state.gui.add(this.state, 'bob');
+        // this.state.gui.add(this.state, 'spin');
     }
 
     spin() {
@@ -100,26 +100,24 @@ class Player extends Group {
         if (dir == " ") return;
         let dxdz = null;
         if (dir == "up"){
-            offset = new Vector3((GLOBALVARS.movementSpeed / MOVEMENT_FACTOR) * deltaT,0,0);
+            offset = new Vector3((GLOBALVARS.playerMovementSpeed / MOVEMENT_FACTOR) * deltaT,0,0);
             dxdz = [1, 0];
         } else if (dir == "left"){
-            offset = new Vector3(0,0,-(GLOBALVARS.movementSpeed / MOVEMENT_FACTOR) * deltaT);
+            offset = new Vector3(0,0,-(GLOBALVARS.playerMovementSpeed / MOVEMENT_FACTOR) * deltaT);
             dxdz = [0, -1];
         } else if (dir == "right"){
-            offset = new Vector3(0,0,(GLOBALVARS.movementSpeed / MOVEMENT_FACTOR) * deltaT);
+            offset = new Vector3(0,0,(GLOBALVARS.playerMovementSpeed / MOVEMENT_FACTOR) * deltaT);
             dxdz = [0, 1];
         } else if (dir == "down"){
-            offset = new Vector3(-(GLOBALVARS.movementSpeed / MOVEMENT_FACTOR) * deltaT,0,0);
+            offset = new Vector3(-(GLOBALVARS.playerMovementSpeed / MOVEMENT_FACTOR) * deltaT,0,0);
             dxdz = [-1, 0];
         }
         let checkSecondary = true;
         if (dxdz != null &&
-            this.playerBox != null && 
             this.mazeObj.getAllowedPosition(
             this.position,
             offset,
-            dxdz,
-            this.playerBox
+            dxdz
         )){
             let startingPos = this.position.clone();
             checkSecondary = false;
@@ -151,7 +149,7 @@ class Player extends Group {
                     this.position.set(Math.round(p.x), p.y, p.z);
                 }
                 let dist = Math.abs(prevPos.distanceTo(this.position));
-                if (dist > MOVEMENT_EPS * GLOBALVARS.movementSpeed){
+                if (dist > MOVEMENT_EPS * GLOBALVARS.enemyMovementSpeed){
                     this.position.set(startingPos.x, startingPos.y, startingPos.z);
                     checkSecondary = true;
                 } else {
@@ -169,10 +167,10 @@ class Player extends Group {
             if (this.mazeObj.getAllowedPosition(
                 this.position,
                 prevOffset,
-                prevDxDz,
-                this.playerBox
+                prevDxDz
             )){
                 this.position.add(prevOffset);
+                this.lookAt(this.position.x + prevDxDz[0], this.position.y, this.position.z + prevDxDz[1]);
             }
         }
         
