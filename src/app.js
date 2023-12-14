@@ -81,15 +81,9 @@ const onAnimationFrameHandler = (timeStamp) => {
     camera.lookAt(playerPosition);
     renderer.render(scene, camera);
 
-    // update score
-    updateScore(document, globalVars.score, globalVars.level);
-    updateAttributes(
-        document,
-        globalVars.health,
-        globalVars.attack,
-        globalVars.defense,
-        globalVars.items
-    );
+    // update score and attributes
+    updateScore(document);
+    updateAttributes(document);
     window.requestAnimationFrame(onAnimationFrameHandler);
     prevTimestamp = timeStamp;
 };

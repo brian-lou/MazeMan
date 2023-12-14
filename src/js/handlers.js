@@ -1,3 +1,5 @@
+import globalVars from './globalVars';
+
 // when key is pressed down
 export function handleKeyDown(event, keypress) {
     if (event.key == 'ArrowUp') keypress['up'] = Date.now();
@@ -29,23 +31,23 @@ export function handleKeyUp(event, keypress) {
 }
 
 // update score and level to UI
-export function updateScore(document, score, level) {
+export function updateScore(document) {
     let expBar = document.getElementById('exp');
-    let levelBar = document.getElementById('level');
-    expBar.value = score % expBar.max;
-
-    levelBar.innerHTML = 'LVL '.concat(level);
+    let level = document.getElementById('level');
+    const modScore = globalVars.score % expBar.max;
+    expBar.value = modScore;
+    level.innerHTML = 'LVL '.concat(globalVars.level);
 }
 
 // update attributes to UI
-export function updateAttributes(document, health, attack, defense, items) {
+export function updateAttributes(document) {
     let healthBar = document.getElementById('healthNum');
     let atkBar = document.getElementById('atkNum');
     let defBar = document.getElementById('defNum');
     let itemBar = document.getElementById('items');
 
-    healthBar.innerHTML = ' '.concat(health);
-    atkBar.innerHTML = ' '.concat(attack);
-    defBar.innerHTML = ' '.concat(defense);
+    healthBar.innerHTML = ' '.concat(globalVars.health);
+    atkBar.innerHTML = ' '.concat(globalVars.attack);
+    defBar.innerHTML = ' '.concat(globalVars.defense);
     itemBar.innerHTML = 'Items: TBD';
 }
