@@ -54,6 +54,8 @@ class Enemy extends Group {
         hpBar.position.add(this.hpBarOffset);
         this.hpBar = hpBar;
         this.add(hpBar);
+        this.turnCooldown = 0;
+        this.turnCooldownReset = 120;
         
     }
     updateHealth(newHp) {
@@ -66,16 +68,29 @@ class Enemy extends Group {
         this.hpBar.scale.z = 1 - lostHpRatio;
     }
     update(deltaT) {
+       
+        if (this.turnCooldown > 0) {
+            this.turnCooldown -= 1;
+        }
+
         if (!this.moveInDirection(this.currentDirection, deltaT)) {
-            let dirs = this.getRandomDirection();
-            for (let i = 0; i < dirs.length; i++) {
-                this.currentDirection = dirs[i];
-                if (!this.moveInDirection(this.currentDirection, deltaT)) {
-                    continue;
-                } else {
-                    this.updateLookDirection();
-                    break;
-                }
+            this.tryNewDirection(deltaT);
+        }
+
+       
+        if (this.turnCooldown <= 0 && Math.random() < 0.01) { 
+            this.tryNewDirection(deltaT);
+            this.turnCooldown = this.turnCooldownReset; 
+        }
+    }
+
+    tryNewDirection(deltaT) {
+        let dirs = this.getRandomDirection();
+        for (let i = 0; i < dirs.length; i++) {
+            this.currentDirection = dirs[i];
+            if (this.moveInDirection(this.currentDirection, deltaT)) {
+                this.updateLookDirection();
+                break;
             }
         }
     }
