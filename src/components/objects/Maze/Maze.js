@@ -17,7 +17,7 @@ import {
 } from 'three';
 import Generator from './Generator';
 import { FLOOR_COLOR, WALL_COLOR } from '../../../js/constants';
-import { Stats } from '../../../js/stats';
+import { Item } from '../Item';
 
 class Maze extends Group {
     constructor(parent) {
@@ -102,9 +102,9 @@ class Maze extends Group {
 
 
         // Add items to the maze
-        // speed orb
-        const SPEED_ORB_COUNT = 50
-        for (let i = 0; i < SPEED_ORB_COUNT; i++) {
+        // speed boost
+        const SPEED_BOOST_COUNT = 10
+        for (let i = 0; i < SPEED_BOOST_COUNT; i++) {
             const randomPos = this.getRandomEmptyPoint();
             if (randomPos) {
                 const [x, z] = randomPos;
@@ -134,7 +134,7 @@ class Maze extends Group {
     // update scene when player moves to (x, 0, z)
     update(x, z) {
         // update items
-        if (this.items[x][z] && this.items[x][z].model) {
+        if (this.items[x][z] && this.items[x][z].object) {
             this.items[x][z].collectItem();
             // // exp orbs
             // this.dots[x][z].visible = false;

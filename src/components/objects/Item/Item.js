@@ -1,5 +1,6 @@
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import SPEED_ITEM_MODEL from './speed_item.glb'
+import { BonusStatsMisc, StatsMultipliers } from "../../../js/stats";
 class Item {
   constructor(parentScene, type="exp_orb", x, z) {
     this.parentScene = parentScene;
@@ -44,8 +45,17 @@ class Item {
   // otherwise applies the item's effect.
   collectItem() {
     if (!this.collected) {
-      
+      switch(this.type) {
+        // Increase speed by 1.5x for 5 seconds
+        case "speed_boost":
+          StatsMultipliers.playerMovementSpeed *= 1.5;
+          setTimeout(() => {
+            StatsMultipliers.playerMovementSpeed /= 1.5;
+          }, 5000);
+      }
     }
+    this.object.visible = false;
+    this.collected = true;
     // change this.collected and object visibility
     const x = 1;
   }
