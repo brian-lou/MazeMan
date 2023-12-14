@@ -54,16 +54,17 @@ export function handleMenus(document, event, menus, canvas) {
 
 export function updateStats(document){
     const lvl = Math.floor(Stats.score / EXP_PER_LEVEL);
-    let missingHp = Stats.maxHealth - Stats.health;
+    let missingHp = Math.min(0, Stats.health - Stats.maxHealth);
     let prevMaxHp = Stats.maxHealth;
+    let prevHp = Stats.health;
     for (let [k,v] of Object.entries(BaseStats)){
         let mult = StatsMultipliers[k];
         Stats[k] = mult * (v + BonusStatsMisc[k] + (lvl * BonusStatsFromLevels[k]));
     }
-    if (prevMaxHp < Stats.maxHealth){ // maxhp went up, so we give free hp
+    if (prevMaxHp < Stats.maxHealth){ // maxhp went up
         Stats.health = Stats.maxHealth + missingHp;
     } else { // maxhp went down, we first take away the missing hp
-        Stats.health = Math.min(Stats.health, Stats.maxHealth);
+        Stats.health = Math.min(prevHp, Stats.maxHealth);
     }
     updateScore(document);
     updateAttributes(document);

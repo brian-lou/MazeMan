@@ -68,7 +68,9 @@ class MazeScene extends Scene {
                 obj.update(deltaT);
             }
         }
-        const currTime = Date.now();
+        this.lights.updateSpotlight();
+
+        // Combat
         const playerDir = new Vector2(this.player.dir[0], this.player.dir[1]);
         for (let enemy of this.enemies){
             if (this.checkCollision(
@@ -86,6 +88,7 @@ class MazeScene extends Scene {
                     const enemyDir = new Vector2(enemy.dir[0], enemy.dir[1]);
                     let angle = playerDir.dot(enemyDir);
                     let playerAtking = true;
+                    let alsoAttackPlayer = false;
                     // angle is 0 if perp, 1 if attacking or being attacked, -1 if both are attacking
                     // 3 possibilities: 1. Attacking, 2. Being attacked, 3. Both attacking
                     if (!this.player.isMoving){
@@ -140,10 +143,11 @@ class MazeScene extends Scene {
                         }
                     } else if (angle == -1){
                         // both attacking
-                        Stats.health -= Math.max(0, (enemy.atk - Stats.defense));
                         playerAtking = true;
+                        alsoAttackPlayer = true;
                     }
 
+                    const currTime = Date.now();
                     if (playerAtking){// player is attacking
                         if (currTime - enemy.lastHit < 1000){
                             continue;
@@ -158,8 +162,9 @@ class MazeScene extends Scene {
                         } else {
                             enemy.updateHealth(enemy.hp);
                         }
-                    } else {// enemy is attacking
-                        if (currTime - this.player.lastHit < 1000){
+                    }
+                    if (!playerAtking || alsoAttackPlayer) { // enemy is attacking
+                        if (Stats.immune || (currTime - this.player.lastHit) < 1000){
                             continue;
                         }
                         this.player.lastHit = Date.now();
@@ -167,7 +172,6 @@ class MazeScene extends Scene {
                     }
                 }
         }
-        this.lights.updateSpotlight();
     }
 }
 
