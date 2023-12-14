@@ -42,6 +42,7 @@ class Enemy extends Group {
         this.hp = this.maxHp;
         this.def = Math.round(5 * Math.random());
         this.atk = Math.round(5 * Math.random());
+        this.movementSpeed = 0;
 
         this.lastHit = 0;
 
@@ -116,7 +117,7 @@ class Enemy extends Group {
         let offset = new Vector3(0, 0, 0);
         let dxdz = null;
         const movementSpeed = Stats.enemyMovementSpeed * deltaT / 1000;
-
+        this.movementSpeed = movementSpeed;
         switch (direction) {
             case 'up':
                 offset = new Vector3(movementSpeed, 0, 0);
