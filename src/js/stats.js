@@ -30,6 +30,7 @@ export const StatsMultipliers = {
     defense: 1,
     playerMovementSpeed: 1,
     enemyMovementSpeed: 1,
+    exp: 1
 };
 
 // Stats are calculated from bonus and base stats

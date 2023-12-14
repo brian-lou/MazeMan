@@ -103,7 +103,7 @@ class Maze extends Group {
 
         // Add items to the maze
         // speed boost
-        const SPEED_BOOST_COUNT = 10
+        const SPEED_BOOST_COUNT = Math.ceil(MAZE_LEN * 0.6);
         for (let i = 0; i < SPEED_BOOST_COUNT; i++) {
             const randomPos = this.getRandomEmptyPoint();
             if (randomPos) {
@@ -112,6 +112,15 @@ class Maze extends Group {
                 parent.addToUpdateList(this.items[x][z])
             }
         }
+        // const EXP_BOOST_COUNT = 50 //Math.ceil(MAZE_LEN * 0.6);
+        // for (let i = 0; i < EXP_BOOST_COUNT; i++) {
+        //     const randomPos = this.getRandomEmptyPoint();
+        //     if (randomPos) {
+        //         const [x, z] = randomPos;
+        //         this.items[x][z] = new Item(this, "exp_boost", x, z)
+        //         parent.addToUpdateList(this.items[x][z])
+        //     }
+        // }
 
         const dotGeometry = new SphereGeometry(0.25);
         const dotMaterial = new MeshBasicMaterial({

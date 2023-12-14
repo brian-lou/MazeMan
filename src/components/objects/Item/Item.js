@@ -1,5 +1,6 @@
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import SPEED_ITEM_MODEL from './speed_item.glb'
+import SPEED_BOOST_MODEL from './speed_boost.glb'
+// import EXP_BOOST_MODEL from './exp_boost.glb'
 import { BonusStatsMisc, StatsMultipliers } from "../../../js/stats";
 class Item {
   constructor(parentScene, type="exp_orb", x, z) {
@@ -11,7 +12,7 @@ class Item {
     const loader = new GLTFLoader();
     switch(type) {
       case "speed_boost":
-        loader.load(SPEED_ITEM_MODEL, (gltf) => {
+        loader.load(SPEED_BOOST_MODEL, (gltf) => {
           this.scene = gltf.scene;
           // Object3D at this.scene.children[0]
           this.object = this.scene.children[0];
@@ -20,7 +21,18 @@ class Item {
           this.parentScene.add(this.object)
         })
         break;
-      // case "dot":
+      // case "exp_boost":
+      //   loader.load(EXP_BOOST_MODEL, (gltf) => {
+      //     this.scene = gltf.scene;
+      //     console.log(this.scene)
+      //     // Object3D at this.scene.children[0]
+      //     this.object = this.scene
+      //     this.object.scale.set(1, 1, 1);
+      //     this.object.position.set(x, 0, z);
+      //     this.parentScene.add(this.object)
+      //   })
+      //   break;
+      // // case "dot":
 
       //   break;
       default:
@@ -52,6 +64,8 @@ class Item {
           setTimeout(() => {
             StatsMultipliers.playerMovementSpeed /= 1.5;
           }, 5000);
+        // Increase exp multiplier by 2x for 5 seconds
+
       }
     }
     this.object.visible = false;

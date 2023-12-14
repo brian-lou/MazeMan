@@ -80,5 +80,7 @@ This skeleton project was adapted from edwinwebb's ThreeJS [seed project](https:
 
 * [Player Model](https://sketchfab.com/3d-models/pac-man-4c92662834b441b992e1a3af05c3e539)
 
+* [Speed Boost Item](https://sketchfab.com/3d-models/red-arrow-chevrons-wayfinding-aa360fe27a854420955a8920d4c45198)
+
 ## License
 [MIT](./LICENSE)
