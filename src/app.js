@@ -76,13 +76,13 @@ const onAnimationFrameHandler = (timeStamp) => {
             timeStamp - prevTimestamp,
             renderer
         );
-    
+
     camera.position.copy(playerPosition).add(cameraOffset);
     camera.lookAt(playerPosition);
     renderer.render(scene, camera);
 
     // update score
-    updateScore(document, globalVars.score);
+    updateScore(document, globalVars.score, globalVars.level);
     updateAttributes(
         document,
         globalVars.health,

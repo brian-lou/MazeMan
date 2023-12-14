@@ -41,12 +41,17 @@ i + i {
     margin: 5%;
     color: blue;
 }
+#level {
+    position: absolute;
+    top: 4%;
+    left: 12%;
+}
 /* https://css-tricks.com/html5-progress-element/ */
 progress {
     -webkit-appearance: none;
     appearance: none;
     width: 300px;
-    height: 20px;
+    height: 25px;
 }
 
 progress::-webkit-progress-bar {

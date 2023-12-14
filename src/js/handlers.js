@@ -28,10 +28,13 @@ export function handleKeyUp(event, keypress) {
     // if (event.key == 'd') keypress['right'] = false;
 }
 
-// update score to UI
-export function updateScore(document, score) {
+// update score and level to UI
+export function updateScore(document, score, level) {
     let expBar = document.getElementById('exp');
+    let levelBar = document.getElementById('level');
     expBar.value = score % expBar.max;
+
+    levelBar.innerHTML = 'LVL '.concat(level);
 }
 
 // update attributes to UI
