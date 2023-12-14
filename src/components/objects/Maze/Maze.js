@@ -67,8 +67,8 @@ class Maze extends Group {
                     this.allowedLocations[i][j] = false;
                     let box = new Box3().setFromObject(wall);
                     this.wallBoxes[i][j] = box;
-                    let helper = new Box3Helper(box, 0x000000);
-                    this.add(helper);
+                    // let helper = new Box3Helper(box, 0x000000);
+                    // this.add(helper);
                 }
                 // intra-maze walls
                 else if (mazeArray[i][j] === 1) {
@@ -78,8 +78,8 @@ class Maze extends Group {
                     this.allowedLocations[i][j] = false;
                     let box = new Box3().setFromObject(wall);
                     this.wallBoxes[i][j] = box;
-                    let helper = new Box3Helper(box, 0x000000);
-                    this.add(helper);
+                    // let helper = new Box3Helper(box, 0x000000);
+                    // this.add(helper);
                 }
             }
         }

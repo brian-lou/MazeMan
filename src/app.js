@@ -30,7 +30,7 @@ const keypress = {
 }; // dict that stores which keys are pressed
 //dict storing menus
 const menus = {
-    main: false,
+    main: true,
     lose: false,
     win: false,
     pause: false,
@@ -90,8 +90,10 @@ const onAnimationFrameHandler = (timeStamp) => {
     renderer.render(scene, camera);
 
     // update score and attributes
-    updateScore(document);
-    updateAttributes(document);
+    if (!(menus['main'] || menus['lose'] || menus['win'] || menus['pause'])) {
+        updateScore(document);
+        updateAttributes(document);
+    }
     window.requestAnimationFrame(onAnimationFrameHandler);
     prevTimestamp = timeStamp;
 };
@@ -124,4 +126,5 @@ window.addEventListener(
 );
 // ******** INIT ***********
 pages.initIcons(document);
-pages.game(document, canvas);
+//pages.game(document, canvas);
+pages.main(document);

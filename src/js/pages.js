@@ -1,9 +1,21 @@
 import PAUSE from '../pauseScreen.html';
 import GAME from '../gameScreen.html';
+import MAIN from '../mainScreen.html';
 
 // concept from https://github.com/harveyw24/Glider/blob/main/src/js/pages.js
 
+export function main(document) {
+    document.body.innerHTML = '';
+    let intro = document.createElement('div');
+    intro.id = 'intro';
+    intro.innerHTML = MAIN;
+    document.body.appendChild(intro);
+}
+
 export function game(document, canvas) {
+    document.getElementById('main').remove();
+    document.getElementById('intro').remove();
+
     document.body.appendChild(canvas);
     let game = document.createElement('div');
     game.innerHTML = GAME;
