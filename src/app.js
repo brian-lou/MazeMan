@@ -15,10 +15,10 @@ import {
     updateScore,
     updateAttributes,
     handleMenus,
+    updateStats,
 } from './js/handlers';
 import * as pages from './js/pages.js';
 import './styles.css';
-import globalVars from './js/globalVars.js';
 
 // ******** Global Vars ***********
 const keypress = {
@@ -35,9 +35,6 @@ const menus = {
     win: false,
     pause: false,
 };
-let score = 0; // score
-let health = 3; // health
-let items; // items
 
 // ******** Initialize Core ThreeJS components ***********
 
@@ -91,8 +88,7 @@ const onAnimationFrameHandler = (timeStamp) => {
 
     // update score and attributes
     if (!(menus['main'] || menus['lose'] || menus['win'] || menus['pause'])) {
-        updateScore(document);
-        updateAttributes(document);
+        updateStats(document);
     }
     window.requestAnimationFrame(onAnimationFrameHandler);
     prevTimestamp = timeStamp;
