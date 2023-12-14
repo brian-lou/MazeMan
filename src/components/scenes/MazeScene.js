@@ -2,7 +2,7 @@ import * as Dat from 'dat.gui';
 import { Scene, Color, AxesHelper, Box3, Vector2 } from 'three';
 import { Player, Maze, Enemy } from 'objects';
 import { BasicLights } from 'lights';
-import globalVars from '../../js/globalVars';
+import { Stats } from '../../js/stats';
 // import { Enemy } from 'enemies';
 
 class MazeScene extends Scene {
@@ -131,35 +131,37 @@ class MazeScene extends Scene {
                         } 
                     } else if (angle == 1){
                         // same direction, so higher speed is attacker
-                        if (globalVars.playerMovementSpeed >= enemy.movementSpeed){
+                        if (Stats.playerMovementSpeed >= enemy.movementSpeed){
                             playerAtking = true;
                         } else {
                             playerAtking = false;
                         }
                     } else if (angle == -1){
                         // both attacking
-                        globalVars.health -= Math.max(0, (enemy.atk - globalVars.defense));
+                        Stats.health -= Math.max(0, (enemy.atk - Stats.defense));
                         playerAtking = true;
                     }
 
-                    if (playerAtking){
+                    if (playerAtking){// player is attacking
                         if (currTime - enemy.lastHit < 1000){
                             continue;
                         }
-                        enemy.hp -= Math.max(0, (globalVars.attack - enemy.def));
+                        enemy.hp -= Math.max(0, (Stats.attack - enemy.def));
                         enemy.lastHit = Date.now();
                         if (enemy.hp <= 0){
                             this.remove(enemy);
                             this.enemies.delete(enemy);
+                            // add their hp to the score for now
+                            Stats.score += enemy.maxHp;
                         } else {
                             enemy.updateHealth(enemy.hp);
                         }
-                    } else {
+                    } else {// enemy is attacking
                         if (currTime - this.player.lastHit < 1000){
                             continue;
                         }
                         this.player.lastHit = Date.now();
-                        globalVars.health -= Math.max(0, (enemy.atk - globalVars.defense));
+                        Stats.health -= Math.max(0, (enemy.atk - Stats.defense));
                     }
                     // console.log(angle)
                 }

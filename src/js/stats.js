@@ -34,7 +34,7 @@ export const StatsMultipliers = {
 
 // Stats are calculated from bonus and base stats
 export const Stats = {
-    score: -1, // score (start at -1 because spawning in gives 1 orb)
+    score: 0, // score
     level: 0, // level
     health: 0, // health
     maxHealth: 0, // maxHealth

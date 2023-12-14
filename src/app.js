@@ -19,7 +19,6 @@ import {
 } from './js/handlers';
 import * as pages from './js/pages.js';
 import './styles.css';
-import globalVars from './js/globalVars.js';
 
 // ******** Global Vars ***********
 const keypress = {

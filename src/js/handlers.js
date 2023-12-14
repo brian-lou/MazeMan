@@ -1,7 +1,6 @@
 import { EXP_PER_LEVEL } from './constants.js';
-import globalVars from './globalVars';
 import * as pages from './pages.js';
-import { BaseStats, BonusStats, BonusStatsFromLevels, Stats, StatsMultipliers } from './stats.js';
+import { BaseStats, BonusStatsMisc, BonusStatsFromLevels, Stats, StatsMultipliers } from './stats.js';
 
 // when key is pressed down
 export function handleKeyDown(event, keypress) {
@@ -57,9 +56,9 @@ export function updateStats(document){
     const lvl = Math.floor(Stats.score / EXP_PER_LEVEL);
     let missingHp = Stats.maxHealth - Stats.health;
     let prevMaxHp = Stats.maxHealth;
-    for (let [k,v] of BaseStats){
+    for (let [k,v] of Object.entries(BaseStats)){
         let mult = StatsMultipliers[k];
-        Stats[k] = mult * (v + BonusStats[k] + lvl * BonusStatsFromLevels[k]);
+        Stats[k] = mult * (v + BonusStatsMisc[k] + (lvl * BonusStatsFromLevels[k]));
     }
     if (prevMaxHp < Stats.maxHealth){ // maxhp went up, so we give free hp
         Stats.health = Stats.maxHealth + missingHp;
@@ -74,9 +73,9 @@ export function updateStats(document){
 export function updateScore(document) {
     let expBar = document.getElementById('exp');
     let level = document.getElementById('level');
-    const modScore = globalVars.score % EXP_PER_LEVEL;
+    const modScore = Stats.score % EXP_PER_LEVEL;
     expBar.value = modScore;
-    let lvl = Math.floor(globalVars.score / EXP_PER_LEVEL);
+    let lvl = Math.floor(Stats.score / EXP_PER_LEVEL);
     level.innerHTML = 'LVL '.concat(lvl);
 }
 
@@ -87,8 +86,8 @@ export function updateAttributes(document) {
     let defBar = document.getElementById('defNum');
     let itemBar = document.getElementById('items');
 
-    healthBar.innerHTML = ` ${globalVars.health} / ${globalVars.maxHealth}`;
-    atkBar.innerHTML = ` ${globalVars.attack}`;
-    defBar.innerHTML = ` ${globalVars.defense}`;
+    healthBar.innerHTML = ` ${Stats.health} / ${Stats.maxHealth}`;
+    atkBar.innerHTML = ` ${Stats.attack}`;
+    defBar.innerHTML = ` ${Stats.defense}`;
     itemBar.innerHTML = 'Items: TBD';
 }
