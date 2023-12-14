@@ -34,6 +34,7 @@ class Player extends Group {
         this.primaryDirection = true;
         this.dir = [-1, 0];
         this.isMoving = false;
+        this.lastHit = 0;
 
         // Load object
         const loader = new GLTFLoader();

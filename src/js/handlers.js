@@ -34,7 +34,7 @@ export function handleKeyUp(event, keypress) {
 // switches between main, pause, and ending menus.
 export function handleMenus(document, event, menus, canvas) {
     // start game from main menu
-    if (event.key == 'Enter' && menus['main']) {
+    if (event.key == ' ' && menus['main']) {
         menus['main'] = false;
         pages.game(document, canvas);
     }
@@ -67,8 +67,8 @@ export function updateAttributes(document) {
     let defBar = document.getElementById('defNum');
     let itemBar = document.getElementById('items');
 
-    healthBar.innerHTML = ' '.concat(globalVars.health);
-    atkBar.innerHTML = ' '.concat(globalVars.attack);
-    defBar.innerHTML = ' '.concat(globalVars.defense);
+    healthBar.innerHTML = ` ${globalVars.health} / ${globalVars.maxHealth}`;
+    atkBar.innerHTML = ` ${globalVars.attack}`;
+    defBar.innerHTML = ` ${globalVars.defense}`;
     itemBar.innerHTML = 'Items: TBD';
 }

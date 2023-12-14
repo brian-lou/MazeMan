@@ -35,9 +35,6 @@ const menus = {
     win: false,
     pause: false,
 };
-let score = 0; // score
-let health = 3; // health
-let items; // items
 
 // ******** Initialize Core ThreeJS components ***********
 
