@@ -1,5 +1,7 @@
+import { EXP_PER_LEVEL } from './constants.js';
 import globalVars from './globalVars';
 import * as pages from './pages.js';
+import { BaseStats, BonusStats, BonusStatsFromLevels, Stats, StatsMultipliers } from './stats.js';
 
 // when key is pressed down
 export function handleKeyDown(event, keypress) {
@@ -51,13 +53,31 @@ export function handleMenus(document, event, menus, canvas) {
     }
 }
 
+export function updateStats(document){
+    const lvl = Math.floor(Stats.score / EXP_PER_LEVEL);
+    let missingHp = Stats.maxHealth - Stats.health;
+    let prevMaxHp = Stats.maxHealth;
+    for (let [k,v] of BaseStats){
+        let mult = StatsMultipliers[k];
+        Stats[k] = mult * (v + BonusStats[k] + lvl * BonusStatsFromLevels[k]);
+    }
+    if (prevMaxHp < Stats.maxHealth){ // maxhp went up, so we give free hp
+        Stats.health = Stats.maxHealth + missingHp;
+    } else { // maxhp went down, we first take away the missing hp
+        Stats.health = Math.min(Stats.health, Stats.maxHealth);
+    }
+    updateScore(document);
+    updateAttributes(document);
+}
+
 // update score and level to UI
 export function updateScore(document) {
     let expBar = document.getElementById('exp');
     let level = document.getElementById('level');
-    const modScore = globalVars.score % expBar.max;
+    const modScore = globalVars.score % EXP_PER_LEVEL;
     expBar.value = modScore;
-    level.innerHTML = 'LVL '.concat(globalVars.level);
+    let lvl = Math.floor(globalVars.score / EXP_PER_LEVEL);
+    level.innerHTML = 'LVL '.concat(lvl);
 }
 
 // update attributes to UI

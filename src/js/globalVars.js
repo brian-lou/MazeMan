@@ -1,5 +1,5 @@
 export default {
-    score: 0, // score
+    score: -1, // score (start at -1 because spawning in gives 1 orb)
     level: 0, // level
     health: 100, // health
     maxHealth: 100, // maxHealth

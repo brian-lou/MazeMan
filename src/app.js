@@ -15,6 +15,7 @@ import {
     updateScore,
     updateAttributes,
     handleMenus,
+    updateStats,
 } from './js/handlers';
 import * as pages from './js/pages.js';
 import './styles.css';
@@ -88,8 +89,7 @@ const onAnimationFrameHandler = (timeStamp) => {
 
     // update score and attributes
     if (!(menus['main'] || menus['lose'] || menus['win'] || menus['pause'])) {
-        updateScore(document);
-        updateAttributes(document);
+        updateStats(document);
     }
     window.requestAnimationFrame(onAnimationFrameHandler);
     prevTimestamp = timeStamp;

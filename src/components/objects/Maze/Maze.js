@@ -17,7 +17,6 @@ import {
 } from 'three';
 import Generator from './Generator';
 import { FLOOR_COLOR, WALL_COLOR } from '../../../js/constants';
-import { updateScore } from '../../../js/handlers';
 import globalVars from '../../../js/globalVars';
 
 class Maze extends Group {
