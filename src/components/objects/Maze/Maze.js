@@ -18,6 +18,7 @@ import {
 import Generator from './Generator';
 import { FLOOR_COLOR, WALL_COLOR } from '../../../js/constants';
 import { Item } from '../Item';
+import * as constants from '../../../js/constants';
 
 class Maze extends Group {
     constructor(parent) {
@@ -49,6 +50,8 @@ class Maze extends Group {
         this.allowedLocations = Array(this.mazeHeight).fill().map(() => Array(this.mazeWidth).fill(true));
         this.wallBoxes = Array(this.mazeHeight).fill().map(() => Array(this.mazeWidth).fill(null));
         this.items = Array(this.mazeHeight).fill().map(() => Array(this.mazeWidth).fill(null));
+        this.leftTeleporters = Array(); // array of [i, j] indexes where a teleporter is
+        this.rightTeleporters = Array(); // separate array for left and right side of map
     
         // add walls
         for (let i = 0; i < mazeArray.length; i++) {
@@ -102,9 +105,30 @@ class Maze extends Group {
 
 
         // Add items to the maze
+        // teleport (placed at all dead-ends in the maze)
+        for (let i = 0; i < mazeArray.length; i++) {
+            for (let j = 0; j < mazeArray[i].length; j++) {
+                if (this.allowedLocations[i][j]) {
+                    let wallCount = 0;
+                    wallCount += (this.allowedLocations[i - 1][j]) ? 0 : 1
+                    wallCount += (this.allowedLocations[i + 1][j]) ? 0 : 1
+                    wallCount += (this.allowedLocations[i][j - 1]) ? 0 : 1
+                    wallCount += (this.allowedLocations[i][j + 1]) ? 0 : 1
+                    if (wallCount == 3) {
+                        if (j <= 3) {
+                            this.leftTeleporters.push([i, j]);
+                            this.items[i][j] = new Item(this, "teleporter", i, j, "left");
+                        } else {
+                            this.rightTeleporters.push([i, j])
+                            this.items[i][j] = new Item(this, "teleporter", i, j, "right");
+                        }
+                        parent.addToUpdateList(this.items[i][j]);
+                    }
+                }
+            }
+        }
         // speed boost
-        const SPEED_BOOST_COUNT = Math.ceil(MAZE_LEN * 0.6);
-        for (let i = 0; i < SPEED_BOOST_COUNT; i++) {
+        for (let i = 0; i < constants.SPEED_BOOST_COUNT; i++) {
             const randomPos = this.getRandomEmptyPoint();
             if (randomPos) {
                 const [x, z] = randomPos;
@@ -112,15 +136,25 @@ class Maze extends Group {
                 parent.addToUpdateList(this.items[x][z])
             }
         }
-        // const EXP_BOOST_COUNT = 50 //Math.ceil(MAZE_LEN * 0.6);
-        // for (let i = 0; i < EXP_BOOST_COUNT; i++) {
-        //     const randomPos = this.getRandomEmptyPoint();
-        //     if (randomPos) {
-        //         const [x, z] = randomPos;
-        //         this.items[x][z] = new Item(this, "exp_boost", x, z)
-        //         parent.addToUpdateList(this.items[x][z])
-        //     }
-        // }
+        // ghost
+        for (let i = 0; i < constants.GHOST_COUNT; i++) {
+            const randomPos = this.getRandomEmptyPoint();
+            if (randomPos) {
+                const [x, z] = randomPos;
+                this.items[x][z] = new Item(this, "ghost", x, z)
+                parent.addToUpdateList(this.items[x][z])
+            }
+        }
+        // exp boost
+        for (let i = 0; i < constants.EXP_BOOST_COUNT; i++) {
+            const randomPos = this.getRandomEmptyPoint();
+            if (randomPos) {
+                const [x, z] = randomPos;
+                this.items[x][z] = new Item(this, "exp_boost", x, z)
+                parent.addToUpdateList(this.items[x][z])
+            }
+        }
+       
 
         const dotGeometry = new SphereGeometry(0.25);
         const dotMaterial = new MeshBasicMaterial({
@@ -143,12 +177,8 @@ class Maze extends Group {
     // update scene when player moves to (x, 0, z)
     update(x, z) {
         // update items
-        if (this.items[x][z] && this.items[x][z].object) {
+        if (this.items[x][z]) {
             this.items[x][z].collectItem();
-            // // exp orbs
-            // this.dots[x][z].visible = false;
-            // // Add 1 to score for now
-            // globalVars.score++;
         }
     }
 

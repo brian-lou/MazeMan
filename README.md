@@ -82,5 +82,9 @@ This skeleton project was adapted from edwinwebb's ThreeJS [seed project](https:
 
 * [Speed Boost Item](https://sketchfab.com/3d-models/red-arrow-chevrons-wayfinding-aa360fe27a854420955a8920d4c45198)
 
+* [Ghost Item](https://sketchfab.com/3d-models/cute-ghost-f1034266c2164d0eb0d0a6fe02ebf7d8)
+
+* [EXP Boost Item](https://sketchfab.com/3d-models/green-orb-d1fc9db574294d1f9fb7f57f32fee426)
+
 ## License
 [MIT](./LICENSE)

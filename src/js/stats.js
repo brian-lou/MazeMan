@@ -33,6 +33,14 @@ export const StatsMultipliers = {
     exp: 1
 };
 
+export const ActiveItemCount = {
+    speedBoost: 0,
+    ghost: 0,
+    expBoost: 0,
+    teleporter: 0,
+    freeze: 0
+}
+
 // Stats are calculated from bonus and base stats
 export const Stats = {
     score: 0, // score
