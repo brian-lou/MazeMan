@@ -29,7 +29,7 @@ class MazeScene extends Scene {
         this.lights = lights;
         // const axesHelper = new AxesHelper(5);
         this.enemies = new Set();
-        for (let i = 0; i < 1; i++) { 
+        for (let i = 0; i < 20; i++) { 
             const enemy = new Enemy(this, maze);
             this.enemies.add(enemy);
             this.add(enemy);

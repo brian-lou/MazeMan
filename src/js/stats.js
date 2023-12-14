@@ -3,7 +3,7 @@ export const BaseStats = {
     maxHealth: 20, // maxHealth
     attack: 5, // attack
     defense: 5, // defense
-    playerMovementSpeed: 5, // movement speed, default to 2
+    playerMovementSpeed: 2, // movement speed, default to 2
     enemyMovementSpeed: 2,
 };
 
