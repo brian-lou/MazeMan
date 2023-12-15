@@ -34,3 +34,9 @@ export const COIN_COUNT = 4;
 
 export const FREEZE_COUNT = 6;
 export const FREEZE_DURATION = 3000;
+
+export const WALL_TEXTURES = [
+    "https://raw.githubusercontent.com/brian-lou/GraphicsFinalProject/main/src/textures/brickBlue.png",
+    "https://raw.githubusercontent.com/brian-lou/GraphicsFinalProject/main/src/textures/goldBrick.png",
+    "https://raw.githubusercontent.com/brian-lou/GraphicsFinalProject/main/src/textures/brick.png"
+]

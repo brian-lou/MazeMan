@@ -10,7 +10,7 @@ class Level extends MazeScene {
 
         const mcGrassTexture = "https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/minecraft/atlas.png";
         const crateTexture = "https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/crate.gif";
-        const wallTexture = "https://raw.githubusercontent.com/brian-lou/GraphicsFinalProject/main/src/textures/bluebricks.jpg";
+        const wallTexture = "https://raw.githubusercontent.com/brian-lou/GraphicsFinalProject/main/src/textures/brickBlue.png";
 
         const generalInfo = {
             maxAtk: maxAtk,

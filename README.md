@@ -96,7 +96,7 @@ This skeleton project was adapted from edwinwebb's ThreeJS [seed project](https:
 
 * [Freeze Item](https://sketchfab.com/3d-models/crystal-bd3bea3e89fd465390792c4108762113)
 * [Crate Wall Texture](https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/crate.gif)
-* 
+* [Misc Wall Textures](https://stock.adobe.com/images/different-texture-tile-seamless-pattern-set-for-pixel-art-style-game-ground-or-stone-and-brick-wall-isolated-vector-illustration-8-bit-design-for-stickers-logo-mobile-app/289657265?continue-checkout=1&asset_id=289657265)
 
 ## License
 [MIT](./LICENSE)
