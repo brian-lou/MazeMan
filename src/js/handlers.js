@@ -222,6 +222,7 @@ export function updateStats(document, menus) {
             // also need to recreate the elements.scene = Level()
             menus['nextLevel'] = true;
             pages.nextLevel(document);
+            
         }
     } /* 
     if (Stats.health <= 0) {
