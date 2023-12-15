@@ -79,7 +79,7 @@ let prevTimestamp = 0;
 const onAnimationFrameHandler = (timeStamp) => {
     controls.update();
 
-    if (!menus["pause"] && !menus["countdown"]){
+    if (!menus["pause"] && !menus["countdown"] && document.hasFocus()){
         // Update scene based on player movement
         let playerPosition = new Vector3();
         let player = elements.scene.getPlayer();

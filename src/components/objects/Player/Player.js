@@ -84,13 +84,6 @@ class Player extends Group {
     }
 
     update(deltaT) {
-        console.log(this.position)
-        if (this.state.twirl > 0) {
-            // Lazy implementation of twirl
-            this.state.twirl -= Math.PI / 8;
-            this.rotation.y += Math.PI / 8;
-        }
-
         // Get most recent direction of movement
         let offset = new Vector3(0,0,0);
         let dir = "";

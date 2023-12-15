@@ -7,11 +7,17 @@ class Level extends MazeScene {
         let enemies = [];
         let maxAtk = 0;
         let minAtk = 100000;
+
+        const mcGrassTexture = "https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/minecraft/atlas.png";
+        const crateTexture = "https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/crate.gif";
+        const wallTexture = "https://raw.githubusercontent.com/brian-lou/GraphicsFinalProject/main/src/textures/Stone_Wall.png";
+
+        const generalInfo = {
+            maxAtk: maxAtk,
+            minAtk: minAtk,
+            wallTexture: crateTexture,
+        };
         if (true){ // DEVELOPER TEST MODE
-            let generalInfo = {
-                maxAtk: maxAtk,
-                minAtk: minAtk,
-            };
             enemies.push({
                 model: "ghost",
                 hp: 5,
@@ -75,10 +81,8 @@ class Level extends MazeScene {
                 scale: 1.5
             });
         }
-        let generalInfo = {
-            maxAtk: maxAtk,
-            minAtk: minAtk,
-        };
+        generalInfo.maxAtk = maxAtk;
+        generalInfo.minAtk = minAtk;
         // Call parent MazeScene() constructor
         super(keypress, camera, enemies, generalInfo);
     }
