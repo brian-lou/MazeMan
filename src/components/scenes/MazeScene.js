@@ -22,7 +22,7 @@ class MazeScene extends Scene {
         this.background = new Color(0x92bdd9);
 
         // Add meshes to scene
-        const maze = new Maze(this);
+        const maze = new Maze(this, generalInfo);
         this.maze = maze;
         const player = new Player(this, maze, keypress);
         this.player = player;

@@ -21,7 +21,7 @@ import { Item } from '../Item';
 import * as constants from '../../../js/constants';
 
 class Maze extends Group {
-    constructor(parent) {
+    constructor(parent, generalInfo) {
         // Call parent Group() constructor
         super();
         // Add self to parent's update list
@@ -39,9 +39,8 @@ class Maze extends Group {
         const mazeArray = this.maze.maze;
         const wallGeo = new BoxGeometry(WALL_LEN, WALL_LEN, WALL_LEN);
         // const wallMat = new MeshBasicMaterial({ color: WALL_COLOR });
-        const mcGrassTexture = "https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/minecraft/atlas.png";
-        const crateTexture = "https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/crate.gif";
-        const texture = new TextureLoader().load( crateTexture );
+        
+        const texture = new TextureLoader().load( generalInfo.wallTexture );
 
         // const wallMat = new MeshLambertMaterial( { map: texture, side: DoubleSide } );
 
@@ -342,6 +341,9 @@ class Maze extends Group {
         }
         return null;
     }
+    // getBounds(){
+    //     return [[0,this.allowedLocations.length],[0,this.allowedLocations[0].length]]
+    // }
 
     // returns a random point in the maze that has no items
     getRandomEmptyPoint() {

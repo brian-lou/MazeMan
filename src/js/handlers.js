@@ -1,7 +1,11 @@
 import { elements, renderer, keypress } from '../app.js';
 import { Vector3 } from 'three';
 import { Level } from 'scenes';
-import { EXP_PER_LEVEL, COUNTDOWN_DURATION, STARTING_IMMUNITY_DURATION } from './constants.js';
+import {
+    EXP_PER_LEVEL,
+    COUNTDOWN_DURATION,
+    STARTING_IMMUNITY_DURATION,
+} from './constants.js';
 import * as pages from './pages.js';
 import {
     BaseStats,
@@ -10,6 +14,7 @@ import {
     Stats,
     StatsMultipliers,
     ActiveItemCount,
+    EnemyHpByLvl,
 } from './stats.js';
 
 // when key is pressed down
@@ -59,7 +64,7 @@ export function handleMenus(document, event, menus, canvas) {
             Stats.immune = true;
             setTimeout(() => {
                 Stats.immune = false;
-            }, STARTING_IMMUNITY_DURATION)
+            }, STARTING_IMMUNITY_DURATION);
         }, COUNTDOWN_DURATION);
     }
     // losing screen back to main menu
@@ -83,7 +88,7 @@ export function handleMenus(document, event, menus, canvas) {
             Stats.immune = true;
             setTimeout(() => {
                 Stats.immune = false;
-            }, STARTING_IMMUNITY_DURATION)
+            }, STARTING_IMMUNITY_DURATION);
         }, COUNTDOWN_DURATION);
     }
     // test win screen
@@ -105,7 +110,7 @@ export function handleMenus(document, event, menus, canvas) {
             countdown.classList.remove('notVisible');
             setTimeout(() => {
                 menus['countdown'] = false;
-                countdown.classList.add('notVisible')
+                countdown.classList.add('notVisible');
             }, COUNTDOWN_DURATION);
         }
     }
@@ -125,7 +130,7 @@ export function handleRestart(document, canvas, menus) {
         menus['pause'] = false;
         pages.game(document, canvas);
         pages.initPauseButtons(document, canvas, menus);
-        
+
         // Do an initial render
         let playerPosition = new Vector3();
         let player = elements.scene.getPlayer();
@@ -141,25 +146,22 @@ export function handleRestart(document, canvas, menus) {
         elements.camera.position.copy(playerPosition).add(cameraOffset);
         elements.camera.lookAt(playerPosition);
         renderer.render(elements.scene, elements.camera);
-        
+
         // delay so stuff can load in
-        setTimeout(
-            () => {
-                // countdown
-                menus['countdown'] = true;
-                countdown.classList.remove('notVisible');
+        setTimeout(() => {
+            // countdown
+            menus['countdown'] = true;
+            countdown.classList.remove('notVisible');
+            setTimeout(() => {
+                menus['countdown'] = false;
+                countdown.classList.add('notVisible');
+                // starting immunity
+                Stats.immune = true;
                 setTimeout(() => {
-                    menus['countdown'] = false;
-                    countdown.classList.add('notVisible')
-                    // starting immunity
-                    Stats.immune = true;
-                    setTimeout(() => {
-                        Stats.immune = false;
-                    }, STARTING_IMMUNITY_DURATION)
-                }, COUNTDOWN_DURATION);
-            },
-            700
-        )
+                    Stats.immune = false;
+                }, STARTING_IMMUNITY_DURATION);
+            }, COUNTDOWN_DURATION);
+        }, 700);
     }
 }
 export function handleQuit(document, canvas, menus) {
@@ -186,11 +188,28 @@ export function updateStats(document, menus) {
     // }
     updateScore(document);
     updateAttributes(document);
+
+    if (elements.scene.getNumEnemies() <= 0) {
+        // menus['win'] = true;
+        // Add next level screen here
+        // also reset the level
+        Stats.level += 1;
+        if (!menus['win'] && Stats.level == EnemyHpByLvl.length) {
+            // Win Screen here
+            menus['win'] = true;
+            pages.win(document);
+        } else if (!menus['nextLevel']) {
+            // Next level screen here (similar to game start)
+            // also need to recreate the elements.scene = Level()
+            menus['nextLevel'] = true;
+            pages.nextLevel(document);
+        }
+    } /* 
     if (Stats.health <= 0) {
         menus['lose'] = true;
         pages.lose(document);
         Stats.health = 20;
-    }
+    } */
 }
 
 // update score and level to UI

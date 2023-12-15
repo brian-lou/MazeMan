@@ -4,6 +4,7 @@ import MAIN from '../mainScreen.html';
 import WIN from '../winScreen.html';
 import LOSE from '../loseScreen.html';
 import COUNTDOWN from '../countdownScreen.html';
+import NEXT from '../nextLevel.html';
 import {
     handleHpBuy,
     handleAtkBuy,
@@ -38,10 +39,10 @@ export function win(document) {
 }
 // next level screen
 export function nextLevel(document) {
-    let win = document.createElement('div');
-    win.id = 'win';
-    win.innerHTML = WIN;
-    document.body.appendChild(win);
+    let next = document.createElement('div');
+    next.id = 'next';
+    next.innerHTML = NEXT;
+    document.body.appendChild(next);
 
     document.getElementById('canvas').remove();
     document.getElementById('statBox').remove();
@@ -79,7 +80,7 @@ export function game(document, canvas) {
     countdown.id = 'countdown';
     countdown.innerHTML = COUNTDOWN;
     countdown.classList.add('notVisible');
-    document.body.appendChild(countdown)
+    document.body.appendChild(countdown);
 
     // redo buttons
     initCoinButtons(document);

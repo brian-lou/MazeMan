@@ -22,7 +22,6 @@ import {
 } from './js/handlers';
 import * as pages from './js/pages.js';
 import './styles.css';
-import { EnemyHpByLvl, Stats } from './js/stats.js';
 
 // ******** Global Vars ***********
 export const keypress = {
@@ -79,7 +78,7 @@ let prevTimestamp = 0;
 const onAnimationFrameHandler = (timeStamp) => {
     controls.update();
 
-    if (!menus["pause"] && !menus["countdown"]){
+    if (!menus['pause'] && !menus['countdown']) {
         // Update scene based on player movement
         let playerPosition = new Vector3();
         let player = elements.scene.getPlayer();
@@ -91,22 +90,6 @@ const onAnimationFrameHandler = (timeStamp) => {
                 timeStamp - prevTimestamp,
                 renderer
             );
-        if (elements.scene.getNumEnemies() <= 0) {
-            // menus['win'] = true;
-            // Add next level screen here
-            // also reset the level
-            Stats.level += 1;
-            if (Stats.level == EnemyHpByLvl.length) {
-                // Win Screen here
-                menus['win'] = true;
-                pages.win(document);
-            } else {
-                // Next level screen here (similar to game start)
-                // also need to recreate the elements.scene = Level()
-                menus['nextLevel'] = true;
-                pages.nextLevel(document);
-            }
-        }
 
         elements.camera.position.copy(playerPosition).add(cameraOffset);
         elements.camera.lookAt(playerPosition);
