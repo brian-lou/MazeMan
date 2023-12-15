@@ -6,7 +6,7 @@
  * handles window resizes.
  *
  */
-import { WebGLRenderer, PerspectiveCamera, Vector3 } from 'three';
+import { WebGLRenderer, PerspectiveCamera, Vector3, Clock } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { Level } from 'scenes';
 import {
@@ -74,7 +74,7 @@ controls.maxDistance = 16;
 controls.update();
 
 // ******** Render Loop ***********
-let prevTimestamp = 0;
+const clock = new Clock();
 const onAnimationFrameHandler = (timeStamp) => {
     controls.update();
 
@@ -83,11 +83,12 @@ const onAnimationFrameHandler = (timeStamp) => {
         let playerPosition = new Vector3();
         let player = elements.scene.getPlayer();
         player.getWorldPosition(playerPosition);
+        const deltaT = clock.getDelta() * 1000;
         elements.scene.update &&
             elements.scene.update(
                 Math.round(playerPosition.x),
                 Math.round(playerPosition.z),
-                timeStamp - prevTimestamp,
+                deltaT,
                 renderer
             );
 
@@ -110,7 +111,6 @@ const onAnimationFrameHandler = (timeStamp) => {
     }
 
     window.requestAnimationFrame(onAnimationFrameHandler);
-    prevTimestamp = timeStamp;
 };
 window.requestAnimationFrame(onAnimationFrameHandler);
 
