@@ -254,7 +254,7 @@ class Item {
           }, constants.FREEZE_DURATION);
           break;
         case "exp_orb":
-          Stats.score++;
+          Stats.score += StatsMultipliers.exp;
           break;
       }
     }

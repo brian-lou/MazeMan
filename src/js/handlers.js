@@ -90,5 +90,5 @@ export function updateAttributes(document) {
     healthBar.innerHTML = ` ${Stats.health} / ${Stats.maxHealth}`;
     atkBar.innerHTML = ` ${Stats.attack}`;
     defBar.innerHTML = ` ${Stats.defense}`;
-    itemBar.innerHTML = 'Items: TBD';
+    itemBar.innerHTML = 'Active Items: TBD';
 }
