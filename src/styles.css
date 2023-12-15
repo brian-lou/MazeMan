@@ -1,7 +1,17 @@
-body,
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
 html {
+    height: 100vh;
+}
+body {
     font-family: 'DotGothic16', sans-serif;
-    height: 100%;
+    min-height: 100%;
+    position: fixed;
+    min-width: fit-content;
     background-color: white;
 }
 
@@ -76,21 +86,22 @@ html {
 }
 
 #instructions {
-    margin: auto;
-    margin-top: -940px;
-    width: 300px;
+    position: absolute;
+    top: 3%;
+    width: 100%;
+    margin: 0;
     color: black;
-    line-height: 20px;
-    text-align: center;
     font-weight: bold;
+    text-align: center;
 }
 
 #level {
     position: absolute;
-    margin: auto;
-    margin-left: 128px;
-    margin-top: 1px;
-    text-align: center;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100px; /* Need a specific value to work */
 }
 
 #statBox {
@@ -99,8 +110,8 @@ html {
     flex-direction: column;
     align-items: left;
     position: absolute;
-    top: 1%;
-    left: 1%;
+    top: 3%;
+    left: 2%;
     background-color: grey;
     padding: 1% 2% 0 2%;
     border-style: solid;
@@ -129,6 +140,7 @@ progress {
     appearance: none;
     width: 300px;
     height: 25px;
+    margin: auto;
 }
 
 progress::-webkit-progress-bar {
@@ -142,10 +154,6 @@ progress::-webkit-progress-value {
 }
 
 #pause {
-    position: fixed;
-    top: 30%;
-    margin-top: -50px;
-    margin-left: -50px;
     width: 100%;
     height: 100px;
     text-align: center;
@@ -153,12 +161,12 @@ progress::-webkit-progress-value {
 
 #pause {
     position: absolute;
-    top: 30%;
-    left: 35%;
-    margin-top: -50px;
-    margin-left: -50px;
+    left: 50%;
+    top: 50%;
     width: 400px;
     height: 300px;
+    margin-left: -200px;
+    margin-top: -200px;
     background-color: black;
 }
 
