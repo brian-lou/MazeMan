@@ -92,7 +92,7 @@ const onAnimationFrameHandler = (timeStamp) => {
 
     // update score and attributes
     if (!(menus['main'] || menus['lose'] || menus['win'] || menus['pause'])) {
-        updateStats(document);
+        updateStats(document, menus);
     }
 
     window.requestAnimationFrame(onAnimationFrameHandler);

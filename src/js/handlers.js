@@ -101,7 +101,7 @@ export function handleQuit(document, canvas, menus) {
     pages.main(document);
 }
 
-export function updateStats(document) {
+export function updateStats(document, menus) {
     const lvl = Math.floor(Stats.score / EXP_PER_LEVEL);
     let missingHp = Math.min(0, Stats.health - Stats.maxHealth);
     let prevMaxHp = Stats.maxHealth;
