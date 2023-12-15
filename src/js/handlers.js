@@ -1,4 +1,5 @@
-import { STRING } from 'mysql/lib/protocol/constants/types.js';
+import { elements, keypress } from '../app.js';
+import { Level } from 'scenes';
 import { EXP_PER_LEVEL } from './constants.js';
 import * as pages from './pages.js';
 import {
@@ -90,6 +91,8 @@ export function handleRestart(document, canvas, menus) {
         // TODO: restart level
         menus['pause'] = false;
         pages.game(document, canvas);
+        // pages.main(document);
+        elements.scene = new Level(keypress, elements.camera);
 
         pages.initPauseButtons(document, canvas, menus);
     }
@@ -110,13 +113,12 @@ export function updateStats(document, menus) {
         Stats[k] =
             mult * (v + BonusStatsMisc[k] + lvl * BonusStatsFromLevels[k]);
     }
-    if (prevMaxHp < Stats.maxHealth) {
-        // maxhp went up
-        Stats.health = Stats.maxHealth + missingHp;
-    } else {
-        // maxhp went down, we first take away the missing hp
-        Stats.health = Math.min(prevHp, Stats.maxHealth);
-    }
+    Stats.health = Stats.maxHealth + missingHp;
+    // if (prevMaxHp < Stats.maxHealth){ // maxhp went up
+    //     Stats.health = Stats.maxHealth + missingHp;
+    // } else { // maxhp went down, we first take away the missing hp
+    //     Stats.health = Math.min(prevHp, Stats.maxHealth);
+    // }
     updateScore(document);
     updateAttributes(document);
     if (Stats.health <= 0) {

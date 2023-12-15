@@ -1,11 +1,12 @@
 import { Group, Vector3, Box3, Box3Helper, BoxGeometry, Mesh, MeshBasicMaterial, DoubleSide} from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import MODEL from './ghost.glb';
 import { EnemyAtkByLvl, EnemyDefByLvl, EnemyHpByLvl, EnemySpdByLvl, Stats } from '../../../js/stats';
 import { MOVEMENT_EPS } from '../../../js/constants';
+import MODEL from './ghost.glb';
+import chroma from 'chroma-js';
 
 class Enemy extends Group {
-    constructor(parent, mazeObj) {
+    constructor(parent, mazeObj, enemyInfo) {
         super();
 
         this.mazeObj = mazeObj;
@@ -28,37 +29,38 @@ class Enemy extends Group {
         const loader = new GLTFLoader();
         this.name = 'enemy';
 
-        loader.load(MODEL, (gltf) => {
-            this.model = gltf.scene;
-            this.model.scale.set(0.5, 0.5, 0.5);
-            this.add(this.model);
-        });
+        if (enemyInfo.model == "ghost"){
+            loader.load(MODEL, (gltf) => {
+                this.model = gltf.scene;
+                this.model.scale.set(0.5, 0.5, 0.5);
+                this.add(this.model);
+            });
+        }
 
         parent.addToUpdateList(this);
 
         this.currentDirection = this.getRandomDirection()[0];
 
         // set stats
-        // Hp between upperBoundHp/2 and upperBoundHp
-        const upperBoundHp = EnemyHpByLvl[Stats.level];
-        this.maxHp = Math.floor(upperBoundHp/2) + Math.round(upperBoundHp * Math.random() / 2);
+        this.maxHp = enemyInfo.hp
         this.hp = this.maxHp;
-        // def between upperBoundDef/2 and upperBoundDef
-        const upperBoundDef = EnemyDefByLvl[Stats.level];
-        this.def = Math.floor(upperBoundDef/2) + Math.round(upperBoundDef * Math.random() / 2);
-        // atk between upperBoundAtk/2 and upperBoundAtk
-        const upperBoundAtk = EnemyAtkByLvl[Stats.level];
-        this.atk = Math.floor(upperBoundAtk/2) + Math.round(upperBoundAtk * Math.random() / 2);
-        // speed is randomized between 0.75x and 1.25x
-        this.speedMult = (Math.random() / 2) + 0.75;
+        this.def = enemyInfo.def;
+        this.atk = enemyInfo.atk;
+        this.speedMult = enemyInfo.speedMult;        
+
         this.movementSpeed = 0;
 
         this.lastHit = 0;
         this.timeSinceLastTurn = 0;
 
-        let hpRatio = this.maxHp / upperBoundHp;
+        let hpRatio = this.maxHp / enemyInfo.upperBoundHp;
+        let atkRatio = (this.atk) / EnemyAtkByLvl[EnemyAtkByLvl.length-1];
+
+        const chr = chroma.scale([0x00ff00, 0xFFFF00, 0x8B0000]);
+        atkRatio = Math.max(0, Math.min(atkRatio, 1));
+        let color = chr(atkRatio).hex();
         const hpBarGeometry = new BoxGeometry(0.1, 0.2, 2 * hpRatio); // Width and height of the HP bar
-        const hpBarMaterial = new MeshBasicMaterial({ color: 0x00ff00}); // Green color for full health
+        const hpBarMaterial = new MeshBasicMaterial({ color: color}); // Green color for full health
         const hpBar = new Mesh(hpBarGeometry, hpBarMaterial);
         this.hpBarOffset = new Vector3(0,1,0);
         hpBar.position.add(this.hpBarOffset);

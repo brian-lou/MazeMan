@@ -1,1 +1,1 @@
-export { default as MazeScene } from './MazeScene.js';
+export { default as Level } from './Level.js';
