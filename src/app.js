@@ -77,13 +77,12 @@ controls.update();
 const clock = new Clock();
 const onAnimationFrameHandler = (timeStamp) => {
     controls.update();
-
+    const deltaT = clock.getDelta() * 1000;
     if (!menus['pause'] && !menus['countdown'] && document.hasFocus()) {
         // Update scene based on player movement
         let playerPosition = new Vector3();
         let player = elements.scene.getPlayer();
         player.getWorldPosition(playerPosition);
-        const deltaT = clock.getDelta() * 1000;
         elements.scene.update &&
             elements.scene.update(
                 Math.round(playerPosition.x),

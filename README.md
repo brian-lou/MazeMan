@@ -95,6 +95,8 @@ This skeleton project was adapted from edwinwebb's ThreeJS [seed project](https:
 * [Coin Item](https://sketchfab.com/3d-models/stylized-coin-8cd6f95c44994ed5944a42892d0ffc10)
 
 * [Freeze Item](https://sketchfab.com/3d-models/crystal-bd3bea3e89fd465390792c4108762113)
+* [Crate Wall Texture](https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/crate.gif)
+* 
 
 ## License
 [MIT](./LICENSE)
