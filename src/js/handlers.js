@@ -75,25 +75,11 @@ export function handleMenus(document, event, menus, canvas) {
         menus['lose'] = false;
         pages.main(document);
     }
-    // win screen back to game (next level)
+    // win screen back to main menu
     else if (event.key == ' ' && menus['win']) {
         menus['win'] = false;
-        pages.game(document, canvas);
-        pages.initPauseButtons(document, canvas, menus);
-        // countdown before start
-        menus['countdown'] = true;
-        countdown.classList.remove('notVisible');
-        background.classList.remove('notVisible');
-        setTimeout(() => {
-            menus['countdown'] = false;
-            countdown.classList.add('notVisible');
-            background.classList.add('notVisible');
-            // starting immunity
-            Stats.immune = true;
-            setTimeout(() => {
-                Stats.immune = false;
-            }, STARTING_IMMUNITY_DURATION);
-        }, COUNTDOWN_DURATION);
+        menus['main'] = true;
+        pages.main(document);
     }
     // next level screen back to game (next level)
     else if (event.key == ' ' && menus['nextLevel']) {
