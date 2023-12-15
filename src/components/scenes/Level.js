@@ -7,8 +7,26 @@ class Level extends MazeScene {
         let enemies = [];
         let maxAtk = 0;
         let minAtk = 100000;
+        if (true){ // DEVELOPER TEST MODE
+            let generalInfo = {
+                maxAtk: maxAtk,
+                minAtk: minAtk,
+            };
+            enemies.push({
+                model: "ghost",
+                hp: 5,
+                upperBoundHp: 10,
+                def: 0,
+                atk: 0,
+                speedMult: 1,
+                scale: 2
+            });
+            // Call parent MazeScene() constructor
+            super(keypress, camera, enemies, generalInfo);
+            return
+        }
         // Normal enemies
-        for (let i = 0; i<1; i++){
+        for (let i = 0; i<20; i++){
             // Hp between upperBoundHp/2 and upperBoundHp
             const upperBoundHp = EnemyHpByLvl[Stats.level];
             let hp = Math.floor(upperBoundHp/2) + Math.round(upperBoundHp * Math.random() / 2);
@@ -33,30 +51,30 @@ class Level extends MazeScene {
             });
         }
         // elite / boss enemies
-        // for (let i = 0; i<2; i++){
-        //     // Hp between 2*upperBoundHp and 3*upperBoundHp
-        //     const upperBoundHp = EnemyHpByLvl[Stats.level];
-        //     let hp = upperBoundHp * 2 + (Math.round(upperBoundHp * Math.random()));
-        //     // def between upperBoundDef/2 and upperBoundDef
-        //     const upperBoundDef = EnemyDefByLvl[Stats.level];
-        //     let def = Math.floor(upperBoundDef/2) + Math.round(upperBoundDef * Math.random() / 2);
-        //     // atk between upperBoundAtk and 2*upperBoundAtk
-        //     const upperBoundAtk = EnemyAtkByLvl[Stats.level];
-        //     let atk = upperBoundAtk + Math.round(upperBoundAtk * Math.random());
-        //     // speed is randomized between 1.25x and 1.75x
-        //     let speedMult = (Math.random() / 2) + 1.25;
-        //     maxAtk = Math.max(maxAtk, atk);
-        //     minAtk = Math.min(minAtk, atk);
-        //     enemies.push({
-        //         model: "ghost",
-        //         hp: hp,
-        //         upperBoundHp: upperBoundHp,
-        //         def: def,
-        //         atk: atk,
-        //         speedMult: speedMult,
-        //         scale: 1.5
-        //     });
-        // }
+        for (let i = 0; i<2; i++){
+            // Hp between 2*upperBoundHp and 3*upperBoundHp
+            const upperBoundHp = EnemyHpByLvl[Stats.level];
+            let hp = upperBoundHp * 2 + (Math.round(upperBoundHp * Math.random()));
+            // def between upperBoundDef/2 and upperBoundDef
+            const upperBoundDef = EnemyDefByLvl[Stats.level];
+            let def = Math.floor(upperBoundDef/2) + Math.round(upperBoundDef * Math.random() / 2);
+            // atk between upperBoundAtk and 2*upperBoundAtk
+            const upperBoundAtk = EnemyAtkByLvl[Stats.level];
+            let atk = upperBoundAtk + Math.round(upperBoundAtk * Math.random());
+            // speed is randomized between 1.25x and 1.75x
+            let speedMult = (Math.random() / 2) + 1.25;
+            maxAtk = Math.max(maxAtk, atk);
+            minAtk = Math.min(minAtk, atk);
+            enemies.push({
+                model: "ghost",
+                hp: hp,
+                upperBoundHp: upperBoundHp,
+                def: def,
+                atk: atk,
+                speedMult: speedMult,
+                scale: 1.5
+            });
+        }
         let generalInfo = {
             maxAtk: maxAtk,
             minAtk: minAtk,
