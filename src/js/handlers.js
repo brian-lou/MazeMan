@@ -197,6 +197,7 @@ export function updateStats(document, menus) {
 export function updateScore(document) {
     let expBar = document.getElementById('exp');
     let level = document.getElementById('level');
+    
     const modScore = Stats.score % EXP_PER_LEVEL;
     expBar.value = modScore;
     let lvl = Math.floor(Stats.score / EXP_PER_LEVEL);
