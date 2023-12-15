@@ -32,6 +32,7 @@ class Maze extends Group {
         const WALL_LEN = 1;
         this.WALL_LEN = WALL_LEN;
         const MAZE_LEN = 15; // Have to change pacmangen as well, hardcoded
+        this.MAZE_LEN = MAZE_LEN;
         this.maze = new Generator(MAZE_LEN, MAZE_LEN);
         // console.log(maze.maze)
         this.maze.generate();

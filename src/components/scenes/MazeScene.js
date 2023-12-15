@@ -23,6 +23,7 @@ class MazeScene extends Scene {
 
         // Add meshes to scene
         const maze = new Maze(this);
+        this.maze = maze;
         const player = new Player(this, maze, keypress);
         this.player = player;
         const lights = new BasicLights(player, camera);
@@ -57,6 +58,15 @@ class MazeScene extends Scene {
     }
 
     update(playerX, playerZ, deltaT) {
+        // if player is out of bounds, reset their position
+        if (
+            playerX < 0 || playerX > this.maze.MAZE_LEN * 3 + 3 ||
+            playerZ < 0 || playerZ > this.maze.MAZE_LEN * 3 - 2
+        ) {
+            const [x, z] = this.maze.getRandomAllowedPoint();
+            this.player.position.set(x, 0, z);
+            return;
+        }
         // Call update for each object in the updateList
         for (const obj of this.state.updateList) {
             if (obj instanceof Maze) {

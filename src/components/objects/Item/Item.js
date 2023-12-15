@@ -147,7 +147,7 @@ class Item {
   // does nothing if the item has already been collected,
   // otherwise applies the item's effect.
   collectItem() {
-    if (!this.collected && this.object) {
+    if (!this.collected && this.object && this.object.visible) {
       switch(this.type) {
         case "speed_boost":
           if (ActiveItemCount.speedBoost == 0) {
@@ -257,11 +257,11 @@ class Item {
           Stats.score += StatsMultipliers.exp;
           break;
       }
-    }
-    // only teleporters are permanent
-    if (this.type != "teleporter") {
-      this.object.visible = false;
-      this.collected = true;
+      // only teleporters are permanent
+      if (this.type != "teleporter") {
+        this.object.visible = false;
+        this.collected = true;
+      }
     }
   }
 }
