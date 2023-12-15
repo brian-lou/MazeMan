@@ -34,4 +34,10 @@ export function initIcons(document) {
     icons.src = 'https://kit.fontawesome.com/d73ba46279.js';
     icons.crossorigin = 'anonymous';
     document.head.appendChild(icons);
+
+    let bitFont = document.createElement('link');
+    bitFont.id = 'titleFont';
+    bitFont.rel = 'stylesheet';
+    bitFont.href = 'https://fonts.googleapis.com/css?family=DotGothic16';
+    document.head.appendChild(bitFont);
 }

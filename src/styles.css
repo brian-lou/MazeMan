@@ -1,8 +1,12 @@
 body,
 html {
-    font-family: 'Radio Canada', sans-serif;
+    font-family: 'DotGothic16', sans-serif;
     height: 100%;
-    color: white;
+    background-color: white;
+}
+
+.bitFont {
+    font-family: 'DotGothic16', sans-serif;
 }
 
 #items {
@@ -100,6 +104,7 @@ progress::-webkit-progress-value {
 }
 
 #pause-menu button {
+    font-family: 'DotGothic16', sans-serif;
     margin: 10px;
     padding: 10px;
     font-size: 16px;
@@ -122,12 +127,28 @@ progress::-webkit-progress-value {
 }
 
 #main {
-    position: absolute;
-    top: 30%;
-    left: 35%;
-    margin-top: -50px;
-    margin-left: -50px;
+    margin: auto;
     width: 500px;
-    height: 300px;
     color: black;
+    padding: 150px;
+    line-height: 20px;
+    text-align: center;
+    font-weight: bold;
+}
+
+#title {
+    font-size: 4rem;
+    margin-bottom: 20%;
+}
+
+.left-align {
+    text-align: left;
+}
+
+ul {
+    list-style-type: square;
+}
+
+li {
+    padding: 5px;
 }
