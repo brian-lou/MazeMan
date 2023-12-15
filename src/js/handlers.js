@@ -1,6 +1,6 @@
 import { EXP_PER_LEVEL } from './constants.js';
 import * as pages from './pages.js';
-import { BaseStats, BonusStatsMisc, BonusStatsFromLevels, Stats, StatsMultipliers } from './stats.js';
+import { BaseStats, BonusStatsMisc, BonusStatsFromLevels, Stats, StatsMultipliers, ActiveItemCount } from './stats.js';
 
 // when key is pressed down
 export function handleKeyDown(event, keypress) {
@@ -38,6 +38,7 @@ export function handleMenus(document, event, menus, canvas) {
     if (event.key == ' ' && menus['main']) {
         menus['main'] = false;
         pages.game(document, canvas);
+        pages.initCoinButtons(document);
     }
     // handle pause menu
     if (event.key == 'p' || event.key == 'Escape') {
@@ -85,10 +86,73 @@ export function updateAttributes(document) {
     let healthBar = document.getElementById('healthNum');
     let atkBar = document.getElementById('atkNum');
     let defBar = document.getElementById('defNum');
-    let itemBar = document.getElementById('items');
+    let coinBar = document.getElementById('coinNum');
 
     healthBar.innerHTML = ` ${Stats.health} / ${Stats.maxHealth}`;
     atkBar.innerHTML = ` ${Stats.attack}`;
     defBar.innerHTML = ` ${Stats.defense}`;
-    itemBar.innerHTML = 'Active Items: TBD';
+    coinNum.innerHTML = ` ${ActiveItemCount.coin}`
+    
+    const speedBoostImage = document.getElementById('speed-boost-item');
+    const ghostImage = document.getElementById('ghost-item');
+    const expBoostImage = document.getElementById('exp-boost-item');
+    const teleportImage = document.getElementById('teleport-item');
+    const buffImage = document.getElementById('buff-item');
+    const freezeImage = document.getElementById('freeze-item');
+
+    if (ActiveItemCount.speedBoost) {
+        speedBoostImage.style.display = "block";
+    } else {
+        speedBoostImage.style.display = "none";
+    }
+    if (ActiveItemCount.ghost) {
+        ghostImage.style.display = "block";
+    } else {
+        ghostImage.style.display = "none";
+    }
+    if (ActiveItemCount.expBoost) {
+        expBoostImage.style.display = "block";
+    } else {
+        expBoostImage.style.display = "none";
+    }
+    if (ActiveItemCount.teleporter) {
+        teleportImage.style.display = "block";
+    } else {
+        teleportImage.style.display = "none";
+    }
+    if (ActiveItemCount.buff) {
+        buffImage.style.display = "block";
+    } else {
+        buffImage.style.display = "none";
+    }
+    if (ActiveItemCount.freeze) {
+        freezeImage.style.display = "block";
+    } else {
+        freezeImage.style.display = "none";
+    }
+}
+
+export function handleHpBuy() {
+    // 4 points of max health costs 1 coin
+    if (ActiveItemCount.coin > 0) {
+        ActiveItemCount.coin--;
+        BonusStatsMisc.maxHealth += 4;
+    }
+}
+
+export function handleAtkBuy() {
+    // each point of atk costs 1 point for now
+    // 1 point is also hardcoded into the html if you want to 
+    // change that
+    if (ActiveItemCount.coin > 0) {
+        ActiveItemCount.coin--;
+        BonusStatsMisc.attack++;
+    }
+}
+
+export function handleDefBuy() {
+    if (ActiveItemCount.coin > 0) {
+        ActiveItemCount.coin--;
+        BonusStatsMisc.defense++;
+    }
 }

@@ -5,6 +5,7 @@ export const MOVEMENT_FACTOR = 500;
 export const EXP_PER_LEVEL = 50;
 
 // Item variables
+// If you change this, update the item menu at mainScreen.html
 export const SPEED_BOOST_COUNT = 8;
 export const SPEED_BOOST_MULTIPLIER = 1.5;
 export const SPEED_BOOST_DURATION = 5000; // in ms
@@ -29,4 +30,4 @@ export const BUFF_DURATION = 5000;
 export const COIN_COUNT = 4;
 
 export const FREEZE_COUNT = 6;
-export const FREEZE_DURATION = 5000;
+export const FREEZE_DURATION = 3000;
