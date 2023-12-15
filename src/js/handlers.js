@@ -45,7 +45,6 @@ export function handleMenus(document, event, menus, canvas) {
     // start game from main menu
     if (event.key == ' ' && menus['main']) {
         menus['main'] = false;
-        menus['pause'] = false;
         pages.game(document, canvas);
         pages.initPauseButtons(document, canvas, menus);
     }
@@ -123,6 +122,7 @@ export function updateStats(document, menus) {
     if (Stats.health <= 0) {
         menus['lose'] = true;
         pages.lose(document);
+        Stats.health = 20;
     }
 }
 
