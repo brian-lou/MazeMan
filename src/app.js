@@ -45,7 +45,7 @@ const menus = {
 export const elements = {
     camera: new PerspectiveCamera(65),
     scene: null,
-}
+};
 elements.scene = new Level(keypress, elements.camera);
 const renderer = new WebGLRenderer({ antialias: true });
 
@@ -78,7 +78,7 @@ let prevTimestamp = 0;
 const onAnimationFrameHandler = (timeStamp) => {
     controls.update();
 
-    if (!menus["pause"]){
+    if (!menus['pause']) {
         // Update scene based on player movement
         let playerPosition = new Vector3();
         let player = elements.scene.getPlayer();
@@ -90,12 +90,12 @@ const onAnimationFrameHandler = (timeStamp) => {
                 timeStamp - prevTimestamp,
                 renderer
             );
-        if (elements.scene.getNumEnemies() <= 0){
+        if (elements.scene.getNumEnemies() <= 0) {
             // menus['win'] = true;
             // Add next level screen here
             // also reset the level
-            Stats.level += 1;            
-            if (Stats.level == EnemyHpByLvl.length){
+            Stats.level += 1;
+            if (Stats.level == EnemyHpByLvl.length) {
                 // Win Screen here
                 menus['win'] = true;
                 pages.win(document);
@@ -113,7 +113,15 @@ const onAnimationFrameHandler = (timeStamp) => {
     }
 
     // update score and attributes
-    if (!(menus['main'] || menus['lose'] || menus['win'] || menus['pause'])) {
+    if (
+        !(
+            menus['main'] ||
+            menus['lose'] ||
+            menus['win'] ||
+            menus['pause'] ||
+            menus['nextLevel']
+        )
+    ) {
         updateStats(document, menus);
     }
 
