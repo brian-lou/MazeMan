@@ -1,6 +1,6 @@
 // Invariant: StatsMultipliers, BaseStats, BonusStats, BonusStatsFromLevels, and BonusStatsMisc must have the same items
 export const BaseStats = {
-    maxHealth: 20, // maxHealth
+    maxHealth: 10, // maxHealth
     attack: 5, // attack
     defense: 5, // defense
     playerMovementSpeed: 2, // movement speed, default to 2
@@ -9,7 +9,7 @@ export const BaseStats = {
 
 // Do not touch these values
 export const BonusStatsFromLevels = {
-    maxHealth: 5,
+    maxHealth: 2,
     attack: 1,
     defense: 1,
     playerMovementSpeed: 0.1,

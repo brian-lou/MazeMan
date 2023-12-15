@@ -13,9 +13,9 @@ class Level extends MazeScene {
             // def between upperBoundDef/2 and upperBoundDef
             const upperBoundDef = EnemyDefByLvl[Stats.level];
             let def = Math.floor(upperBoundDef/2) + Math.round(upperBoundDef * Math.random() / 2);
-            // atk between upperBoundAtk/2 and upperBoundAtk
+            // atk between 0.75*upperBoundAtk and upperBoundAtk
             const upperBoundAtk = EnemyAtkByLvl[Stats.level];
-            let atk = Math.floor(upperBoundAtk/2) + Math.round(upperBoundAtk * Math.random() / 2);
+            let atk = Math.floor(3*upperBoundAtk/4) + Math.round(upperBoundAtk * Math.random() / 4);
             // speed is randomized between 0.75x and 1.25x
             let speedMult = (Math.random() / 2) + 0.75;
 
