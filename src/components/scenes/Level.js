@@ -5,8 +5,10 @@ import { EnemyAtkByLvl, EnemyDefByLvl, EnemyHpByLvl, EnemySpdByLvl, Stats } from
 class Level extends MazeScene {
     constructor(keypress, camera) {
         let enemies = [];
-        for (let i = 0; i<20; i++){
-            
+        let maxAtk = 0;
+        let minAtk = 100000;
+        // Normal enemies
+        for (let i = 0; i<1; i++){
             // Hp between upperBoundHp/2 and upperBoundHp
             const upperBoundHp = EnemyHpByLvl[Stats.level];
             let hp = Math.floor(upperBoundHp/2) + Math.round(upperBoundHp * Math.random() / 2);
@@ -18,19 +20,55 @@ class Level extends MazeScene {
             let atk = Math.floor(3*upperBoundAtk/4) + Math.round(upperBoundAtk * Math.random() / 4);
             // speed is randomized between 0.75x and 1.25x
             let speedMult = (Math.random() / 2) + 0.75;
-
+            maxAtk = Math.max(maxAtk, atk);
+            minAtk = Math.min(minAtk, atk);
             enemies.push({
                 model: "ghost",
                 hp: hp,
                 upperBoundHp: upperBoundHp,
                 def: def,
                 atk: atk,
-                speedMult: speedMult
+                speedMult: speedMult,
+                scale: 1
             });
         }
+        // elite / boss enemies
+        // for (let i = 0; i<2; i++){
+        //     // Hp between 2*upperBoundHp and 3*upperBoundHp
+        //     const upperBoundHp = EnemyHpByLvl[Stats.level];
+        //     let hp = upperBoundHp * 2 + (Math.round(upperBoundHp * Math.random()));
+        //     // def between upperBoundDef/2 and upperBoundDef
+        //     const upperBoundDef = EnemyDefByLvl[Stats.level];
+        //     let def = Math.floor(upperBoundDef/2) + Math.round(upperBoundDef * Math.random() / 2);
+        //     // atk between upperBoundAtk and 2*upperBoundAtk
+        //     const upperBoundAtk = EnemyAtkByLvl[Stats.level];
+        //     let atk = upperBoundAtk + Math.round(upperBoundAtk * Math.random());
+        //     // speed is randomized between 1.25x and 1.75x
+        //     let speedMult = (Math.random() / 2) + 1.25;
+        //     maxAtk = Math.max(maxAtk, atk);
+        //     minAtk = Math.min(minAtk, atk);
+        //     enemies.push({
+        //         model: "ghost",
+        //         hp: hp,
+        //         upperBoundHp: upperBoundHp,
+        //         def: def,
+        //         atk: atk,
+        //         speedMult: speedMult,
+        //         scale: 1.5
+        //     });
+        // }
+        let generalInfo = {
+            maxAtk: maxAtk,
+            minAtk: minAtk,
+        };
         // Call parent MazeScene() constructor
-        super(keypress, camera, enemies);
+        super(keypress, camera, enemies, generalInfo);
     }
+    
+    update(playerX, playerZ, deltaT) {
+        super.update(playerX, playerZ, deltaT);
+    }
+
 }
 
 export default Level;
