@@ -71,6 +71,11 @@ export function game(document, canvas) {
     document.body.innerHTML = GAME;
     document.body.insertBefore(canvas, document.getElementById('instructions'));
 
+    let background = document.createElement('div');
+    background.id = 'background';
+    background.style.pointerEvents = 'none';
+    document.body.appendChild(background);
+
     // pause menu
     let pause = document.createElement('div');
     pause.id = 'pause';

@@ -57,9 +57,11 @@ export function handleMenus(document, event, menus, canvas) {
         // countdown before start
         menus['countdown'] = true;
         countdown.classList.remove('notVisible');
+        background.classList.remove('notVisible');
         setTimeout(() => {
             menus['countdown'] = false;
             countdown.classList.add('notVisible');
+            background.classList.add('notVisible');
             // starting immunity
             Stats.immune = true;
             setTimeout(() => {
@@ -81,9 +83,11 @@ export function handleMenus(document, event, menus, canvas) {
         // countdown before start
         menus['countdown'] = true;
         countdown.classList.remove('notVisible');
+        background.classList.remove('notVisible');
         setTimeout(() => {
             menus['countdown'] = false;
             countdown.classList.add('notVisible');
+            background.classList.add('notVisible');
             // starting immunity
             Stats.immune = true;
             setTimeout(() => {
@@ -100,9 +104,11 @@ export function handleMenus(document, event, menus, canvas) {
         // countdown before start
         menus['countdown'] = true;
         countdown.classList.remove('notVisible');
+        background.classList.remove('notVisible');
         setTimeout(() => {
             menus['countdown'] = false;
             countdown.classList.add('notVisible');
+            background.classList.add('notVisible');
             // starting immunity
             Stats.immune = true;
             setTimeout(() => {
@@ -117,19 +123,21 @@ export function handleMenus(document, event, menus, canvas) {
     }
     // handle pause menu
     else if (!menus['main'] && (event.key == 'p' || event.key == 'Escape')) {
-        let pause = document.getElementById('pause');
         if (!menus['pause']) {
             menus['pause'] = true;
             pause.classList.remove('notVisible');
+            background.classList.remove('notVisible');
         } else {
             menus['pause'] = false;
             pause.classList.add('notVisible');
             // countdown before start on unpause
             menus['countdown'] = true;
             countdown.classList.remove('notVisible');
+            background.classList.remove('notVisible');
             setTimeout(() => {
                 menus['countdown'] = false;
                 countdown.classList.add('notVisible');
+                background.classList.add('notVisible');
             }, COUNTDOWN_DURATION);
         }
     }
@@ -171,9 +179,11 @@ export function handleRestart(document, canvas, menus) {
             // countdown
             menus['countdown'] = true;
             countdown.classList.remove('notVisible');
+            background.classList.remove('notVisible');
             setTimeout(() => {
                 menus['countdown'] = false;
                 countdown.classList.add('notVisible');
+                background.classList.add('notVisible');
                 // starting immunity
                 Stats.immune = true;
                 setTimeout(() => {
@@ -222,7 +232,6 @@ export function updateStats(document, menus) {
             // also need to recreate the elements.scene = Level()
             menus['nextLevel'] = true;
             pages.nextLevel(document);
-            
         }
     } /* 
     if (Stats.health <= 0) {
