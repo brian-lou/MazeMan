@@ -6,6 +6,7 @@ export const EXP_PER_LEVEL = 100;
 
 export const COUNTDOWN_DURATION = 2000;
 export const STARTING_IMMUNITY_DURATION = 2000;
+export const STARTING_LOAD_DURATION = 100;
 
 // Item variables
 // If you change this, update the item menu at mainScreen.html

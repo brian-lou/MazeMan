@@ -5,6 +5,7 @@ import {
     EXP_PER_LEVEL,
     COUNTDOWN_DURATION,
     STARTING_IMMUNITY_DURATION,
+    STARTING_LOAD_DURATION
 } from './constants.js';
 import * as pages from './pages.js';
 import {
@@ -47,6 +48,23 @@ export function handleKeyUp(event, keypress) {
     // if (event.key == 'd') keypress['right'] = false;
 }
 
+function initRender() {
+    let playerPosition = new Vector3();
+    let player = elements.scene.getPlayer();
+    player.getWorldPosition(playerPosition);
+    elements.scene.update &&
+        elements.scene.update(
+            Math.round(playerPosition.x),
+            Math.round(playerPosition.z),
+            0,
+            renderer
+        );
+    const cameraOffset = new Vector3(-5, 10, 0);
+    elements.camera.position.copy(playerPosition).add(cameraOffset);
+    elements.camera.lookAt(playerPosition);
+    renderer.render(elements.scene, elements.camera);
+}
+
 // switches between main, pause, and win/lose ending menus.
 export function handleMenus(document, event, menus, canvas) {
     // start game from main menu
@@ -54,7 +72,10 @@ export function handleMenus(document, event, menus, canvas) {
         menus['main'] = false;
         pages.game(document, canvas);
         pages.initPauseButtons(document, canvas, menus);
+        initRender();
+
         // countdown before start
+        const countdown = document.getElementById('countdown');
         menus['countdown'] = true;
         countdown.classList.remove('notVisible');
         background.classList.remove('notVisible');
@@ -77,17 +98,19 @@ export function handleMenus(document, event, menus, canvas) {
     }
     // win screen back to main menu
     else if (event.key == ' ' && menus['win']) {
-        menus['win'] = false;
         menus['main'] = true;
+        menus['win'] = false;
         pages.main(document);
     }
     // next level screen back to game (next level)
     else if (event.key == ' ' && menus['nextLevel']) {
         menus['nextLevel'] = false;
         pages.game(document, canvas);
-
         pages.initPauseButtons(document, canvas, menus);
+        initRender();
+
         // countdown before start
+        const countdown = document.getElementById('countdown');
         menus['countdown'] = true;
         countdown.classList.remove('notVisible');
         background.classList.remove('notVisible');
@@ -117,6 +140,7 @@ export function handleMenus(document, event, menus, canvas) {
             menus['pause'] = false;
             pause.classList.add('notVisible');
             // countdown before start on unpause
+            const countdown = document.getElementById('countdown');
             menus['countdown'] = true;
             countdown.classList.remove('notVisible');
             background.classList.remove('notVisible');
@@ -143,24 +167,8 @@ export function handleRestart(document, canvas, menus) {
         menus['pause'] = false;
         pages.game(document, canvas);
         pages.initPauseButtons(document, canvas, menus);
-
-        // Do an initial render
-        let playerPosition = new Vector3();
-        let player = elements.scene.getPlayer();
-        player.getWorldPosition(playerPosition);
-        elements.scene.update &&
-            elements.scene.update(
-                Math.round(playerPosition.x),
-                Math.round(playerPosition.z),
-                0,
-                renderer
-            );
-        const cameraOffset = new Vector3(-5, 10, 0);
-        elements.camera.position.copy(playerPosition).add(cameraOffset);
-        elements.camera.lookAt(playerPosition);
-        renderer.render(elements.scene, elements.camera);
-
-        // delay so stuff can load in
+        initRender();
+        
         setTimeout(() => {
             // countdown
             menus['countdown'] = true;
@@ -176,7 +184,7 @@ export function handleRestart(document, canvas, menus) {
                     Stats.immune = false;
                 }, STARTING_IMMUNITY_DURATION);
             }, COUNTDOWN_DURATION);
-        }, 700);
+        }, STARTING_LOAD_DURATION);
     }
 }
 export function handleQuit(document, canvas, menus) {
