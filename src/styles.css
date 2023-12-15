@@ -197,7 +197,9 @@ progress::-webkit-progress-value {
     visibility: hidden;
 }
 
-#main {
+#main,
+#win,
+#lose {
     margin: auto;
     margin-top: -50px;
     width: 500px;

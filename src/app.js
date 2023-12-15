@@ -50,6 +50,7 @@ camera.position.add(cameraOffset);
 // Set up renderer, canvas, and minor CSS adjustments
 renderer.setPixelRatio(window.devicePixelRatio);
 const canvas = renderer.domElement;
+canvas.id = 'canvas';
 canvas.style.display = 'block'; // Removes padding below canvas
 document.body.style.margin = 0; // Removes margin around page
 document.body.style.overflow = 'hidden'; // Fix scrolling

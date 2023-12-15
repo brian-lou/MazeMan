@@ -2,6 +2,7 @@ import PAUSE from '../pauseScreen.html';
 import GAME from '../gameScreen.html';
 import MAIN from '../mainScreen.html';
 import WIN from '../winScreen.html';
+import LOSE from '../loseScreen.html';
 import { handleHpBuy, handleAtkBuy, handleDefBuy } from './handlers';
 
 // concept from https://github.com/harveyw24/Glider/blob/main/src/js/pages.js
@@ -21,17 +22,30 @@ export function win(document) {
     win.id = 'win';
     win.innerHTML = WIN;
     document.body.appendChild(win);
+
+    document.getElementById('canvas').remove();
+    document.getElementById('statBox').remove();
+    document.getElementById('instructions').remove();
+    document.getElementById('pause').remove();
+}
+
+// death screen
+export function lose(document) {
+    let lose = document.createElement('div');
+    lose.id = 'lose';
+    lose.innerHTML = LOSE;
+    document.body.appendChild(lose);
+
+    document.getElementById('canvas').remove();
+    document.getElementById('statBox').remove();
+    document.getElementById('instructions').remove();
+    document.getElementById('pause').remove();
 }
 
 // game screen
 export function game(document, canvas) {
-    document.getElementById('main').remove();
-    document.getElementById('intro').remove();
-
-    document.body.appendChild(canvas);
-    let game = document.createElement('div');
-    game.innerHTML = GAME;
-    document.body.appendChild(game);
+    document.body.innerHTML = GAME;
+    document.body.insertBefore(canvas, document.getElementById('instructions'));
 
     let pause = document.createElement('div');
     pause.id = 'pause';

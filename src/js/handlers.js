@@ -1,6 +1,14 @@
+import { STRING } from 'mysql/lib/protocol/constants/types.js';
 import { EXP_PER_LEVEL } from './constants.js';
 import * as pages from './pages.js';
-import { BaseStats, BonusStatsMisc, BonusStatsFromLevels, Stats, StatsMultipliers, ActiveItemCount } from './stats.js';
+import {
+    BaseStats,
+    BonusStatsMisc,
+    BonusStatsFromLevels,
+    Stats,
+    StatsMultipliers,
+    ActiveItemCount,
+} from './stats.js';
 
 // when key is pressed down
 export function handleKeyDown(event, keypress) {
@@ -32,7 +40,7 @@ export function handleKeyUp(event, keypress) {
     // if (event.key == 'd') keypress['right'] = false;
 }
 
-// switches between main, pause, and ending menus.
+// switches between main, pause, and win/lose ending menus.
 export function handleMenus(document, event, menus, canvas) {
     // start game from main menu
     if (event.key == ' ' && menus['main']) {
@@ -40,8 +48,25 @@ export function handleMenus(document, event, menus, canvas) {
         pages.game(document, canvas);
         pages.initCoinButtons(document);
     }
+    // losing screen back to main menu
+    else if (event.key == ' ' && menus['lose']) {
+        menus['main'] = true;
+        menus['lose'] = false;
+        pages.main(document);
+    }
+    // win screen back to game (next level)
+    else if (event.key == ' ' && menus['win']) {
+        menus['main'] = true;
+        menus['win'] = false;
+        pages.game(document, canvas);
+    }
+    // test win screen
+    else if (event.key == 't') {
+        menus['win'] = true;
+        pages.win(document);
+    }
     // handle pause menu
-    if (event.key == 'p' || event.key == 'Escape') {
+    else if (event.key == 'p' || event.key == 'Escape') {
         let pause = document.getElementById('pause');
         if (!menus['pause']) {
             menus['pause'] = true;
@@ -53,22 +78,29 @@ export function handleMenus(document, event, menus, canvas) {
     }
 }
 
-export function updateStats(document){
+export function updateStats(document) {
     const lvl = Math.floor(Stats.score / EXP_PER_LEVEL);
     let missingHp = Math.min(0, Stats.health - Stats.maxHealth);
     let prevMaxHp = Stats.maxHealth;
     let prevHp = Stats.health;
-    for (let [k,v] of Object.entries(BaseStats)){
+    for (let [k, v] of Object.entries(BaseStats)) {
         let mult = StatsMultipliers[k];
-        Stats[k] = mult * (v + BonusStatsMisc[k] + (lvl * BonusStatsFromLevels[k]));
+        Stats[k] =
+            mult * (v + BonusStatsMisc[k] + lvl * BonusStatsFromLevels[k]);
     }
-    if (prevMaxHp < Stats.maxHealth){ // maxhp went up
+    if (prevMaxHp < Stats.maxHealth) {
+        // maxhp went up
         Stats.health = Stats.maxHealth + missingHp;
-    } else { // maxhp went down, we first take away the missing hp
+    } else {
+        // maxhp went down, we first take away the missing hp
         Stats.health = Math.min(prevHp, Stats.maxHealth);
     }
     updateScore(document);
     updateAttributes(document);
+    if (Stats.health <= 0) {
+        menus['lose'] = true;
+        pages.lose(document);
+    }
 }
 
 // update score and level to UI
@@ -91,8 +123,8 @@ export function updateAttributes(document) {
     healthBar.innerHTML = ` ${Stats.health} / ${Stats.maxHealth}`;
     atkBar.innerHTML = ` ${Stats.attack}`;
     defBar.innerHTML = ` ${Stats.defense}`;
-    coinNum.innerHTML = ` ${ActiveItemCount.coin}`
-    
+    coinNum.innerHTML = ` ${ActiveItemCount.coin}`;
+
     const speedBoostImage = document.getElementById('speed-boost-item');
     const ghostImage = document.getElementById('ghost-item');
     const expBoostImage = document.getElementById('exp-boost-item');
@@ -101,34 +133,34 @@ export function updateAttributes(document) {
     const freezeImage = document.getElementById('freeze-item');
 
     if (ActiveItemCount.speedBoost) {
-        speedBoostImage.style.display = "block";
+        speedBoostImage.style.display = 'block';
     } else {
-        speedBoostImage.style.display = "none";
+        speedBoostImage.style.display = 'none';
     }
     if (ActiveItemCount.ghost) {
-        ghostImage.style.display = "block";
+        ghostImage.style.display = 'block';
     } else {
-        ghostImage.style.display = "none";
+        ghostImage.style.display = 'none';
     }
     if (ActiveItemCount.expBoost) {
-        expBoostImage.style.display = "block";
+        expBoostImage.style.display = 'block';
     } else {
-        expBoostImage.style.display = "none";
+        expBoostImage.style.display = 'none';
     }
     if (ActiveItemCount.teleporter) {
-        teleportImage.style.display = "block";
+        teleportImage.style.display = 'block';
     } else {
-        teleportImage.style.display = "none";
+        teleportImage.style.display = 'none';
     }
     if (ActiveItemCount.buff) {
-        buffImage.style.display = "block";
+        buffImage.style.display = 'block';
     } else {
-        buffImage.style.display = "none";
+        buffImage.style.display = 'none';
     }
     if (ActiveItemCount.freeze) {
-        freezeImage.style.display = "block";
+        freezeImage.style.display = 'block';
     } else {
-        freezeImage.style.display = "none";
+        freezeImage.style.display = 'none';
     }
 }
 
@@ -142,7 +174,7 @@ export function handleHpBuy() {
 
 export function handleAtkBuy() {
     // each point of atk costs 1 point for now
-    // 1 point is also hardcoded into the html if you want to 
+    // 1 point is also hardcoded into the html if you want to
     // change that
     if (ActiveItemCount.coin > 0) {
         ActiveItemCount.coin--;
