@@ -3,7 +3,14 @@ import GAME from '../gameScreen.html';
 import MAIN from '../mainScreen.html';
 import WIN from '../winScreen.html';
 import LOSE from '../loseScreen.html';
-import { handleHpBuy, handleAtkBuy, handleDefBuy } from './handlers';
+import {
+    handleHpBuy,
+    handleAtkBuy,
+    handleDefBuy,
+    handleResume,
+    handleRestart,
+    handleQuit,
+} from './handlers';
 
 // concept from https://github.com/harveyw24/Glider/blob/main/src/js/pages.js
 
@@ -47,11 +54,15 @@ export function game(document, canvas) {
     document.body.innerHTML = GAME;
     document.body.insertBefore(canvas, document.getElementById('instructions'));
 
+    // pause menu
     let pause = document.createElement('div');
     pause.id = 'pause';
     pause.innerHTML = PAUSE;
     pause.classList.add('notVisible');
     document.body.appendChild(pause);
+
+    // redo buttons
+    initCoinButtons(document);
 }
 
 export function initIcons(document) {
@@ -68,6 +79,7 @@ export function initIcons(document) {
     document.head.appendChild(bitFont);
 }
 
+// mouse click listener for coin buttons
 export function initCoinButtons(document) {
     const coinHpButton = document.getElementById('coin-hp');
     const coinAtkButton = document.getElementById('coin-atk');
@@ -75,4 +87,18 @@ export function initCoinButtons(document) {
     coinHpButton.addEventListener('click', handleHpBuy);
     coinAtkButton.addEventListener('click', handleAtkBuy);
     coinDefButton.addEventListener('click', handleDefBuy);
+}
+
+// mouse click listener for pause menu buttons
+export function initPauseButtons(document, canvas, menus) {
+    const resume = document.getElementById('resume-btn');
+    const restart = document.getElementById('restart-btn');
+    const quit = document.getElementById('quit-btn');
+    resume.addEventListener('click', () =>
+        handleResume(document, canvas, menus)
+    );
+    restart.addEventListener('click', () =>
+        handleRestart(document, canvas, menus)
+    );
+    quit.addEventListener('click', () => handleQuit(document, canvas, menus));
 }

@@ -45,8 +45,9 @@ export function handleMenus(document, event, menus, canvas) {
     // start game from main menu
     if (event.key == ' ' && menus['main']) {
         menus['main'] = false;
+        menus['pause'] = false;
         pages.game(document, canvas);
-        pages.initCoinButtons(document);
+        pages.initPauseButtons(document, canvas, menus);
     }
     // losing screen back to main menu
     else if (event.key == ' ' && menus['lose']) {
@@ -56,7 +57,6 @@ export function handleMenus(document, event, menus, canvas) {
     }
     // win screen back to game (next level)
     else if (event.key == ' ' && menus['win']) {
-        menus['main'] = true;
         menus['win'] = false;
         pages.game(document, canvas);
     }
@@ -66,7 +66,7 @@ export function handleMenus(document, event, menus, canvas) {
         pages.win(document);
     }
     // handle pause menu
-    else if (event.key == 'p' || event.key == 'Escape') {
+    else if (!menus['main'] && (event.key == 'p' || event.key == 'Escape')) {
         let pause = document.getElementById('pause');
         if (!menus['pause']) {
             menus['pause'] = true;
@@ -76,6 +76,29 @@ export function handleMenus(document, event, menus, canvas) {
             pause.classList.add('notVisible');
         }
     }
+}
+
+// handle pause menu buttons
+export function handleResume(document, canvas, menus) {
+    let pause = document.getElementById('pause');
+    if (!pause.classList.contains('notVisible')) {
+        window.dispatchEvent(new KeyboardEvent('keydown', { key: 'p' }));
+    }
+}
+export function handleRestart(document, canvas, menus) {
+    let pause = document.getElementById('pause');
+    if (!pause.classList.contains('notVisible')) {
+        // TODO: restart level
+        menus['pause'] = false;
+        pages.game(document, canvas);
+
+        pages.initPauseButtons(document, canvas, menus);
+    }
+}
+export function handleQuit(document, canvas, menus) {
+    menus['main'] = true;
+    menus['pause'] = false;
+    pages.main(document);
 }
 
 export function updateStats(document) {

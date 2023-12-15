@@ -16,6 +16,9 @@ import {
     updateAttributes,
     handleMenus,
     updateStats,
+    handleResume,
+    handleRestart,
+    handleMain,
 } from './js/handlers';
 import * as pages from './js/pages.js';
 import './styles.css';
@@ -91,6 +94,7 @@ const onAnimationFrameHandler = (timeStamp) => {
     if (!(menus['main'] || menus['lose'] || menus['win'] || menus['pause'])) {
         updateStats(document);
     }
+
     window.requestAnimationFrame(onAnimationFrameHandler);
     prevTimestamp = timeStamp;
 };
@@ -123,5 +127,4 @@ window.addEventListener(
 );
 // ******** INIT ***********
 pages.initIcons(document);
-//pages.game(document, canvas);
 pages.main(document);
