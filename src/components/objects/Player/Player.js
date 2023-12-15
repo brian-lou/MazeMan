@@ -84,6 +84,7 @@ class Player extends Group {
     }
 
     update(deltaT) {
+        console.log(this.position)
         if (this.state.twirl > 0) {
             // Lazy implementation of twirl
             this.state.twirl -= Math.PI / 8;
