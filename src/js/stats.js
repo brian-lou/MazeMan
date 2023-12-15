@@ -61,4 +61,7 @@ export const Stats = {
 export const EnemyHpByLvl = [10, 20, 40];
 export const EnemyAtkByLvl = [10, 15, 30];
 export const EnemyDefByLvl = [0, 5, 15];
-export const EnemySpdByLvl = [2, 3, 4];
+export const EnemySpdByLvl = [2, 2.5, 3];
+
+export const NormalEnemiesByLvl = [10, 15, 20];
+export const EliteEnemiesByLvl = [2, 3, 4];
