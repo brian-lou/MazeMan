@@ -2,7 +2,7 @@ body,
 html {
     font-family: 'DotGothic16', sans-serif;
     height: 100%;
-    color: white;
+    background-color: white;
 }
 
 .bitFont {
@@ -128,11 +128,12 @@ progress::-webkit-progress-value {
     padding: 150px;
     line-height: 20px;
     text-align: center;
+    font-weight: bold;
 }
 
 #title {
     font-size: 4rem;
-    margin-bottom: 10%;
+    margin-bottom: 20%;
 }
 
 .left-align {
