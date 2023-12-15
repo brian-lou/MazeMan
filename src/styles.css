@@ -167,6 +167,8 @@ progress::-webkit-progress-value {
     height: 300px;
     margin-left: -200px;
     margin-top: -200px;
+    border-radius: 10px;
+    padding: 10px;
     background-color: black;
 }
 
