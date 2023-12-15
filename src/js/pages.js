@@ -1,9 +1,11 @@
 import PAUSE from '../pauseScreen.html';
 import GAME from '../gameScreen.html';
 import MAIN from '../mainScreen.html';
+import WIN from '../winScreen.html';
 
 // concept from https://github.com/harveyw24/Glider/blob/main/src/js/pages.js
 
+// main menu screen
 export function main(document) {
     document.body.innerHTML = '';
     let intro = document.createElement('div');
@@ -12,6 +14,15 @@ export function main(document) {
     document.body.appendChild(intro);
 }
 
+// victory screen
+export function win(document) {
+    let win = document.createElement('div');
+    win.id = 'win';
+    win.innerHTML = WIN;
+    document.body.appendChild(win);
+}
+
+// game screen
 export function game(document, canvas) {
     document.getElementById('main').remove();
     document.getElementById('intro').remove();

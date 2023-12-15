@@ -89,6 +89,7 @@ progress::-webkit-progress-value {
 
 #pause p {
     margin-top: 10%;
+    color: white;
 }
 
 #pause-menu {
