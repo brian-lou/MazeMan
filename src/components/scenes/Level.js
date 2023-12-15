@@ -1,5 +1,6 @@
 import MazeScene from "./MazeScene";
 import { EnemyAtkByLvl, EnemyDefByLvl, EnemyHpByLvl, EnemySpdByLvl, Stats } from '../../js/stats';
+import { WALL_TEXTURES } from "../../js/constants";
 
 
 class Level extends MazeScene {
@@ -15,7 +16,7 @@ class Level extends MazeScene {
         const generalInfo = {
             maxAtk: maxAtk,
             minAtk: minAtk,
-            wallTexture: wallTexture,
+            wallTexture: WALL_TEXTURES[Math.floor(Math.random() * WALL_TEXTURES.length)],
         };
         if (true){ // DEVELOPER TEST MODE
             enemies.push({
