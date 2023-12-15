@@ -77,7 +77,7 @@ export function handleMenus(document, event, menus, canvas) {
     else if (event.key == ' ' && menus['win']) {
         menus['win'] = false;
         pages.game(document, canvas);
-
+        pages.initPauseButtons(document, canvas, menus);
         // countdown before start
         menus['countdown'] = true;
         countdown.classList.remove('notVisible');
@@ -91,10 +91,29 @@ export function handleMenus(document, event, menus, canvas) {
             }, STARTING_IMMUNITY_DURATION);
         }, COUNTDOWN_DURATION);
     }
-    // test win screen
-    else if (event.key == 't') {
-        menus['win'] = true;
-        pages.win(document);
+    // next level screen back to game (next level)
+    else if (event.key == ' ' && menus['nextLevel']) {
+        menus['nextLevel'] = false;
+        pages.game(document, canvas);
+
+        pages.initPauseButtons(document, canvas, menus);
+        // countdown before start
+        menus['countdown'] = true;
+        countdown.classList.remove('notVisible');
+        setTimeout(() => {
+            menus['countdown'] = false;
+            countdown.classList.add('notVisible');
+            // starting immunity
+            Stats.immune = true;
+            setTimeout(() => {
+                Stats.immune = false;
+            }, STARTING_IMMUNITY_DURATION);
+        }, COUNTDOWN_DURATION);
+    }
+    // test next level screen
+    else if (event.key == 't' && !menus['nextLevel']) {
+        menus['nextLevel'] = true;
+        pages.nextLevel(document);
     }
     // handle pause menu
     else if (!menus['main'] && (event.key == 'p' || event.key == 'Escape')) {

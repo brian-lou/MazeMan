@@ -35,6 +35,7 @@ export function win(document) {
     document.getElementById('canvas').remove();
     document.getElementById('statBox').remove();
     document.getElementById('instructions').remove();
+    document.getElementById('countdown').remove();
     document.getElementById('pause').remove();
 }
 // next level screen
@@ -47,6 +48,7 @@ export function nextLevel(document) {
     document.getElementById('canvas').remove();
     document.getElementById('statBox').remove();
     document.getElementById('instructions').remove();
+    document.getElementById('countdown').remove();
     document.getElementById('pause').remove();
 }
 
@@ -60,6 +62,7 @@ export function lose(document) {
     document.getElementById('canvas').remove();
     document.getElementById('statBox').remove();
     document.getElementById('instructions').remove();
+    document.getElementById('countdown').remove();
     document.getElementById('pause').remove();
 }
 

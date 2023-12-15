@@ -154,7 +154,7 @@ progress::-webkit-progress-value {
 }
 
 #countdown {
-    position: absolute; 
+    position: absolute;
     left: 50%;
     top: 70%;
     margin-left: -125px;
@@ -177,7 +177,7 @@ progress::-webkit-progress-value {
 }
 
 #pause {
-    position: absolute; 
+    position: absolute;
     left: 50%;
     top: 75%;
     width: 400px;
@@ -226,7 +226,8 @@ progress::-webkit-progress-value {
 
 #main,
 #win,
-#lose {
+#lose,
+#next {
     margin: auto;
     margin-top: -50px;
     width: 500px;
