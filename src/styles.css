@@ -155,9 +155,9 @@ progress::-webkit-progress-value {
 
 #countdown {
     position: absolute; 
-    left: 55%;
+    left: 50%;
     top: 70%;
-    margin-left: -200px;
+    margin-left: -125px;
     margin-top: -400px;
     z-index: 1;
     height: 100px;
