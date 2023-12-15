@@ -1,9 +1,9 @@
 {
-    "name": "lower-case-dashed-name-of-project",
+    "name": "maze-runner",
     "repository": "cos426finalproject",
     "version": "0.1.0",
     "title": "Maze Runner",
-    "description": "A Pacman inspired rogue-like featuring infinite procedural maze generation.",
+    "description": "A Pacman inspired rogue-like featuring procedural maze generation with non-deterministic enemy behavior.",
     "keywords": [
         "Princeton",
         "graphics",
@@ -22,6 +22,7 @@
         "deploy": "npm run prebuild && webpack --mode production --progress && gh-pages -d build"
     },
     "dependencies": {
+        "chroma-js": "^2.4.2",
         "dat.gui": "^0.7.7",
         "three": "^0.133.1",
         "three-obj-loader": "^1.1.3",

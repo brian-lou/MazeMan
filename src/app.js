@@ -8,7 +8,7 @@
  */
 import { WebGLRenderer, PerspectiveCamera, Vector3 } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import { MazeScene } from 'scenes';
+import { Level } from 'scenes';
 import {
     handleKeyDown,
     handleKeyUp,
@@ -24,7 +24,7 @@ import * as pages from './js/pages.js';
 import './styles.css';
 
 // ******** Global Vars ***********
-const keypress = {
+export const keypress = {
     ' ': 0,
     up: 0,
     down: 0,
@@ -38,16 +38,18 @@ const menus = {
     win: false,
     pause: false,
 };
-
 // ******** Initialize Core ThreeJS components ***********
 
-const camera = new PerspectiveCamera(65);
-const scene = new MazeScene(keypress, camera);
+export const elements = {
+    camera: new PerspectiveCamera(65),
+    scene: null,
+}
+elements.scene = new Level(keypress, elements.camera);
 const renderer = new WebGLRenderer({ antialias: true });
 
 // ******** Camera ***********
 const cameraOffset = new Vector3(-5, 10, 0);
-camera.position.add(cameraOffset);
+elements.camera.position.add(cameraOffset);
 // camera.lookAt(new Vector3(40, 40, 40));
 
 // Set up renderer, canvas, and minor CSS adjustments
@@ -60,7 +62,7 @@ document.body.style.overflow = 'hidden'; // Fix scrolling
 document.body.appendChild(canvas);
 
 // ******** Controls ***********
-const controls = new OrbitControls(camera, canvas);
+const controls = new OrbitControls(elements.camera, canvas);
 controls.enableDamping = true;
 controls.enablePan = false;
 // disable camera panning by user
@@ -74,21 +76,23 @@ let prevTimestamp = 0;
 const onAnimationFrameHandler = (timeStamp) => {
     controls.update();
 
-    // Update scene based on player movement
-    let playerPosition = new Vector3();
-    let player = scene.getPlayer();
-    player.getWorldPosition(playerPosition);
-    scene.update &&
-        scene.update(
-            Math.round(playerPosition.x),
-            Math.round(playerPosition.z),
-            timeStamp - prevTimestamp,
-            renderer
-        );
+    if (!menus["pause"]){
+        // Update scene based on player movement
+        let playerPosition = new Vector3();
+        let player = elements.scene.getPlayer();
+        player.getWorldPosition(playerPosition);
+        elements.scene.update &&
+            elements.scene.update(
+                Math.round(playerPosition.x),
+                Math.round(playerPosition.z),
+                timeStamp - prevTimestamp,
+                renderer
+            );
 
-    camera.position.copy(playerPosition).add(cameraOffset);
-    camera.lookAt(playerPosition);
-    renderer.render(scene, camera);
+        elements.camera.position.copy(playerPosition).add(cameraOffset);
+        elements.camera.lookAt(playerPosition);
+        renderer.render(elements.scene, elements.camera);
+    }
 
     // update score and attributes
     if (!(menus['main'] || menus['lose'] || menus['win'] || menus['pause'])) {
@@ -104,8 +108,8 @@ window.requestAnimationFrame(onAnimationFrameHandler);
 const windowResizeHandler = () => {
     const { innerHeight, innerWidth } = window;
     renderer.setSize(innerWidth, innerHeight);
-    camera.aspect = innerWidth / innerHeight;
-    camera.updateProjectionMatrix();
+    elements.camera.aspect = innerWidth / innerHeight;
+    elements.camera.updateProjectionMatrix();
 };
 windowResizeHandler();
 // ******** Handlers ***********

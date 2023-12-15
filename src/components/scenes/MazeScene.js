@@ -6,7 +6,7 @@ import { Stats } from '../../js/stats';
 // import { Enemy } from 'enemies';
 
 class MazeScene extends Scene {
-    constructor(keypress, camera) {
+    constructor(keypress, camera, enemiesList) {
         // Call parent Scene() constructor
         super();
         this.keypress = keypress;
@@ -28,9 +28,10 @@ class MazeScene extends Scene {
         const lights = new BasicLights(player, camera);
         this.lights = lights;
         // const axesHelper = new AxesHelper(5);
+
         this.enemies = new Set();
-        for (let i = 0; i < 20; i++) { 
-            const enemy = new Enemy(this, maze);
+        for (let info of enemiesList){
+            const enemy = new Enemy(this, maze, info);
             this.enemies.add(enemy);
             this.add(enemy);
         }
@@ -103,35 +104,35 @@ class MazeScene extends Scene {
                         const pl = this.player.position;
                         const e = enemy.position;
                         if (playerDir.y = 1 && enemyDir.x == 1){
-                            if (pl.x > e.x){ // enemy attacking
+                            if (pl.x >= e.x){ // enemy attacking
                                 playerAtking = false;
                             }
                         } else if (playerDir.y = -1 && enemyDir.x == 1){
-                            if (pl.x > e.x){ // enemy attacking
+                            if (pl.x >= e.x){ // enemy attacking
                                 playerAtking = false;
                             }
                         } else if (playerDir.y = 1 && enemyDir.x == -1){
-                            if (pl.x < e.x){ // enemy attacking
+                            if (pl.x <= e.x){ // enemy attacking
                                 playerAtking = false;
                             }
                         } else if (playerDir.y = -1 && enemyDir.x == -1){
-                            if (pl.x < e.x){ // enemy attacking
+                            if (pl.x <= e.x){ // enemy attacking
                                 playerAtking = false;
                             }
                         } else if (playerDir.x = 1 && enemyDir.y == 1){
-                            if (pl.x > e.x){ // enemy attacking
+                            if (pl.x >= e.x){ // enemy attacking
                                 playerAtking = false;
                             }
                         } else if (playerDir.x = 1 && enemyDir.y == -1){
-                            if (pl.x > e.x){ // enemy attacking
+                            if (pl.x >= e.x){ // enemy attacking
                                 playerAtking = false;
                             }
                         } else if (playerDir.x = -1 && enemyDir.y == 1){
-                            if (pl.x < e.x){ // enemy attacking
+                            if (pl.x <= e.x){ // enemy attacking
                                 playerAtking = false;
                             }
                         } else if (playerDir.x = -1 && enemyDir.y == -1){
-                            if (pl.x < e.x){ // enemy attacking
+                            if (pl.x <= e.x){ // enemy attacking
                                 playerAtking = false;
                             }
                         } 
