@@ -6,7 +6,7 @@ import MODEL from './ghost.glb';
 import chroma from 'chroma-js';
 
 class Enemy extends Group {
-    constructor(parent, mazeObj, enemyInfo) {
+    constructor(parent, mazeObj, enemyInfo, generalInfo) {
         super();
 
         this.mazeObj = mazeObj;
@@ -25,14 +25,14 @@ class Enemy extends Group {
         let [x, z] = mazeObj.getRandomAllowedPoint();
         this.position.set(x, 0, z);
 
-        
+    
         const loader = new GLTFLoader();
         this.name = 'enemy';
 
         if (enemyInfo.model == "ghost"){
             loader.load(MODEL, (gltf) => {
                 this.model = gltf.scene;
-                this.model.scale.set(0.5, 0.5, 0.5);
+                this.model.scale.set(0.4*enemyInfo.scale, 0.4*enemyInfo.scale, 0.4*enemyInfo.scale);
                 this.add(this.model);
             });
         }
@@ -54,12 +54,12 @@ class Enemy extends Group {
         this.timeSinceLastTurn = 0;
 
         let hpRatio = this.maxHp / enemyInfo.upperBoundHp;
-        let atkRatio = (this.atk) / EnemyAtkByLvl[EnemyAtkByLvl.length-1];
+        let atkRatio = (this.atk - generalInfo.minAtk) / generalInfo.maxAtk;
 
         const chr = chroma.scale([0x00ff00, 0xFFFF00, 0x8B0000]);
         atkRatio = Math.max(0, Math.min(atkRatio, 1));
         let color = chr(atkRatio).hex();
-        const hpBarGeometry = new BoxGeometry(0.1, 0.2, 2 * hpRatio); // Width and height of the HP bar
+        const hpBarGeometry = new BoxGeometry(0.1, 0.2, 1 + hpRatio); // Width and height of the HP bar
         const hpBarMaterial = new MeshBasicMaterial({ color: color}); // Green color for full health
         const hpBar = new Mesh(hpBarGeometry, hpBarMaterial);
         this.hpBarOffset = new Vector3(0,1,0);

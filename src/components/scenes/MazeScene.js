@@ -6,7 +6,7 @@ import { Stats } from '../../js/stats';
 // import { Enemy } from 'enemies';
 
 class MazeScene extends Scene {
-    constructor(keypress, camera, enemiesList) {
+    constructor(keypress, camera, enemiesList, generalInfo) {
         // Call parent Scene() constructor
         super();
         this.keypress = keypress;
@@ -31,7 +31,7 @@ class MazeScene extends Scene {
 
         this.enemies = new Set();
         for (let info of enemiesList){
-            const enemy = new Enemy(this, maze, info);
+            const enemy = new Enemy(this, maze, info, generalInfo);
             this.enemies.add(enemy);
             this.add(enemy);
         }
@@ -173,6 +173,9 @@ class MazeScene extends Scene {
                     }
                 }
         }
+    }
+    getNumEnemies(){
+        return this.enemies.size;
     }
 }
 

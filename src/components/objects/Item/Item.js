@@ -96,7 +96,7 @@ class Item {
         })
         break;
       case "exp_orb":
-        const orbGeometry = new SphereGeometry(0.2);
+        const orbGeometry = new SphereGeometry(0.15);
         const orbMaterial = new MeshBasicMaterial({
             color: 0xfff800
         });

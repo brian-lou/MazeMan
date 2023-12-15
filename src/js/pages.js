@@ -36,6 +36,18 @@ export function win(document) {
     document.getElementById('instructions').remove();
     document.getElementById('pause').remove();
 }
+// next level screen
+export function nextLevel(document) {
+    let win = document.createElement('div');
+    win.id = 'win';
+    win.innerHTML = WIN;
+    document.body.appendChild(win);
+
+    document.getElementById('canvas').remove();
+    document.getElementById('statBox').remove();
+    document.getElementById('instructions').remove();
+    document.getElementById('pause').remove();
+}
 
 // death screen
 export function lose(document) {

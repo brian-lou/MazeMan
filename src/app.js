@@ -22,6 +22,7 @@ import {
 } from './js/handlers';
 import * as pages from './js/pages.js';
 import './styles.css';
+import { EnemyHpByLvl, Stats } from './js/stats.js';
 
 // ******** Global Vars ***********
 export const keypress = {
@@ -38,13 +39,14 @@ const menus = {
     win: false,
     pause: false,
     countdown: false,
+    nextLevel: false,
 };
 // ******** Initialize Core ThreeJS components ***********
 
 export const elements = {
     camera: new PerspectiveCamera(65),
     scene: null,
-}
+};
 elements.scene = new Level(keypress, elements.camera);
 export const renderer = new WebGLRenderer({ antialias: true });
 
@@ -89,6 +91,22 @@ const onAnimationFrameHandler = (timeStamp) => {
                 timeStamp - prevTimestamp,
                 renderer
             );
+        if (elements.scene.getNumEnemies() <= 0) {
+            // menus['win'] = true;
+            // Add next level screen here
+            // also reset the level
+            Stats.level += 1;
+            if (Stats.level == EnemyHpByLvl.length) {
+                // Win Screen here
+                menus['win'] = true;
+                pages.win(document);
+            } else {
+                // Next level screen here (similar to game start)
+                // also need to recreate the elements.scene = Level()
+                menus['nextLevel'] = true;
+                pages.nextLevel(document);
+            }
+        }
 
         elements.camera.position.copy(playerPosition).add(cameraOffset);
         elements.camera.lookAt(playerPosition);
@@ -96,7 +114,15 @@ const onAnimationFrameHandler = (timeStamp) => {
     }
 
     // update score and attributes
-    if (!(menus['main'] || menus['lose'] || menus['win'] || menus['pause'])) {
+    if (
+        !(
+            menus['main'] ||
+            menus['lose'] ||
+            menus['win'] ||
+            menus['pause'] ||
+            menus['nextLevel']
+        )
+    ) {
         updateStats(document, menus);
     }
 
