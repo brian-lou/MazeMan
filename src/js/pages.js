@@ -35,6 +35,7 @@ export function win(document) {
     document.getElementById('canvas').remove();
     document.getElementById('statBox').remove();
     document.getElementById('instructions').remove();
+    document.getElementById('countdown').remove();
     document.getElementById('pause').remove();
 }
 // next level screen
@@ -47,6 +48,7 @@ export function nextLevel(document) {
     document.getElementById('canvas').remove();
     document.getElementById('statBox').remove();
     document.getElementById('instructions').remove();
+    document.getElementById('countdown').remove();
     document.getElementById('pause').remove();
 }
 
@@ -60,6 +62,7 @@ export function lose(document) {
     document.getElementById('canvas').remove();
     document.getElementById('statBox').remove();
     document.getElementById('instructions').remove();
+    document.getElementById('countdown').remove();
     document.getElementById('pause').remove();
 }
 
@@ -67,6 +70,11 @@ export function lose(document) {
 export function game(document, canvas) {
     document.body.innerHTML = GAME;
     document.body.insertBefore(canvas, document.getElementById('instructions'));
+
+    let background = document.createElement('div');
+    background.id = 'background';
+    background.style.pointerEvents = 'none';
+    document.body.appendChild(background);
 
     // pause menu
     let pause = document.createElement('div');
