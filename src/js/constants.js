@@ -4,6 +4,9 @@ export const MOVEMENT_EPS = 0.025; // turning EPS for smoother turns, use smalle
 export const MOVEMENT_FACTOR = 500;
 export const EXP_PER_LEVEL = 50;
 
+export const COUNTDOWN_DURATION = 2000;
+export const STARTING_IMMUNITY_DURATION = 2000;
+
 // Item variables
 // If you change this, update the item menu at mainScreen.html
 export const SPEED_BOOST_COUNT = 8;

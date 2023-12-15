@@ -3,6 +3,7 @@ import GAME from '../gameScreen.html';
 import MAIN from '../mainScreen.html';
 import WIN from '../winScreen.html';
 import LOSE from '../loseScreen.html';
+import COUNTDOWN from '../countdownScreen.html';
 import {
     handleHpBuy,
     handleAtkBuy,
@@ -60,6 +61,13 @@ export function game(document, canvas) {
     pause.innerHTML = PAUSE;
     pause.classList.add('notVisible');
     document.body.appendChild(pause);
+
+    // countdown timer
+    let countdown = document.createElement('div');
+    countdown.id = 'countdown';
+    countdown.innerHTML = COUNTDOWN;
+    countdown.classList.add('notVisible');
+    document.body.appendChild(countdown)
 
     // redo buttons
     initCoinButtons(document);

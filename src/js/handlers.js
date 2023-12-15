@@ -1,6 +1,7 @@
-import { elements, keypress } from '../app.js';
+import { elements, renderer, keypress } from '../app.js';
+import { Vector3 } from 'three';
 import { Level } from 'scenes';
-import { EXP_PER_LEVEL } from './constants.js';
+import { EXP_PER_LEVEL, COUNTDOWN_DURATION, STARTING_IMMUNITY_DURATION } from './constants.js';
 import * as pages from './pages.js';
 import {
     BaseStats,
@@ -48,6 +49,18 @@ export function handleMenus(document, event, menus, canvas) {
         menus['main'] = false;
         pages.game(document, canvas);
         pages.initPauseButtons(document, canvas, menus);
+        // countdown before start
+        menus['countdown'] = true;
+        countdown.classList.remove('notVisible');
+        setTimeout(() => {
+            menus['countdown'] = false;
+            countdown.classList.add('notVisible');
+            // starting immunity
+            Stats.immune = true;
+            setTimeout(() => {
+                Stats.immune = false;
+            }, STARTING_IMMUNITY_DURATION)
+        }, COUNTDOWN_DURATION);
     }
     // losing screen back to main menu
     else if (event.key == ' ' && menus['lose']) {
@@ -59,6 +72,19 @@ export function handleMenus(document, event, menus, canvas) {
     else if (event.key == ' ' && menus['win']) {
         menus['win'] = false;
         pages.game(document, canvas);
+
+        // countdown before start
+        menus['countdown'] = true;
+        countdown.classList.remove('notVisible');
+        setTimeout(() => {
+            menus['countdown'] = false;
+            countdown.classList.add('notVisible');
+            // starting immunity
+            Stats.immune = true;
+            setTimeout(() => {
+                Stats.immune = false;
+            }, STARTING_IMMUNITY_DURATION)
+        }, COUNTDOWN_DURATION);
     }
     // test win screen
     else if (event.key == 't') {
@@ -74,6 +100,13 @@ export function handleMenus(document, event, menus, canvas) {
         } else {
             menus['pause'] = false;
             pause.classList.add('notVisible');
+            // countdown before start on unpause
+            menus['countdown'] = true;
+            countdown.classList.remove('notVisible');
+            setTimeout(() => {
+                menus['countdown'] = false;
+                countdown.classList.add('notVisible')
+            }, COUNTDOWN_DURATION);
         }
     }
 }
@@ -88,13 +121,45 @@ export function handleResume(document, canvas, menus) {
 export function handleRestart(document, canvas, menus) {
     let pause = document.getElementById('pause');
     if (!pause.classList.contains('notVisible')) {
-        // TODO: restart level
+        elements.scene = new Level(keypress, elements.camera);
         menus['pause'] = false;
         pages.game(document, canvas);
-        // pages.main(document);
-        elements.scene = new Level(keypress, elements.camera);
-
         pages.initPauseButtons(document, canvas, menus);
+        
+        // Do an initial render
+        let playerPosition = new Vector3();
+        let player = elements.scene.getPlayer();
+        player.getWorldPosition(playerPosition);
+        elements.scene.update &&
+            elements.scene.update(
+                Math.round(playerPosition.x),
+                Math.round(playerPosition.z),
+                0,
+                renderer
+            );
+        const cameraOffset = new Vector3(-5, 10, 0);
+        elements.camera.position.copy(playerPosition).add(cameraOffset);
+        elements.camera.lookAt(playerPosition);
+        renderer.render(elements.scene, elements.camera);
+        
+        // delay so stuff can load in
+        setTimeout(
+            () => {
+                // countdown
+                menus['countdown'] = true;
+                countdown.classList.remove('notVisible');
+                setTimeout(() => {
+                    menus['countdown'] = false;
+                    countdown.classList.add('notVisible')
+                    // starting immunity
+                    Stats.immune = true;
+                    setTimeout(() => {
+                        Stats.immune = false;
+                    }, STARTING_IMMUNITY_DURATION)
+                }, COUNTDOWN_DURATION);
+            },
+            700
+        )
     }
 }
 export function handleQuit(document, canvas, menus) {

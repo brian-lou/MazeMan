@@ -37,6 +37,7 @@ const menus = {
     lose: false,
     win: false,
     pause: false,
+    countdown: false,
 };
 // ******** Initialize Core ThreeJS components ***********
 
@@ -45,7 +46,7 @@ export const elements = {
     scene: null,
 }
 elements.scene = new Level(keypress, elements.camera);
-const renderer = new WebGLRenderer({ antialias: true });
+export const renderer = new WebGLRenderer({ antialias: true });
 
 // ******** Camera ***********
 const cameraOffset = new Vector3(-5, 10, 0);
@@ -76,7 +77,7 @@ let prevTimestamp = 0;
 const onAnimationFrameHandler = (timeStamp) => {
     controls.update();
 
-    if (!menus["pause"]){
+    if (!menus["pause"] && !menus["countdown"]){
         // Update scene based on player movement
         let playerPosition = new Vector3();
         let player = elements.scene.getPlayer();

@@ -147,7 +147,7 @@ class Item {
   // does nothing if the item has already been collected,
   // otherwise applies the item's effect.
   collectItem() {
-    if (!this.collected) {
+    if (!this.collected && this.object) {
       switch(this.type) {
         case "speed_boost":
           if (ActiveItemCount.speedBoost == 0) {
