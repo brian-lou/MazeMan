@@ -3,6 +3,12 @@ body {
     margin: 0;
     padding: 0;
     width: 100%;
+
+    background: linear-gradient(
+        89.7deg,
+        rgb(0, 32, 95) 2.8%,
+        rgb(132, 53, 142) 97.8%
+    );
 }
 html {
     height: 100vh;
