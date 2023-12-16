@@ -55,9 +55,7 @@ function clearStats() {
         BonusStatsMisc[k] = 0;
     }
     for (const [k, v] of Object.entries(Stats)) {
-        if (k != "totalEnemies") {
-            Stats[k] = 0;
-        }
+        Stats[k] = 0;
     }
     Stats.immune = false;
     for (const [k, v] of Object.entries(ActiveItemCount)) {
@@ -229,6 +227,7 @@ export function updateStats(document, menus) {
     }
     Stats.health = Stats.maxHealth + missingHp;
     const totalEnemies = NormalEnemiesByLvl[Stats.level] + EliteEnemiesByLvl[Stats.level];
+    Stats.totalEnemies = totalEnemies;
     Stats.defeatedEnemies = totalEnemies - elements.scene.getNumEnemies();
     // if (prevMaxHp < Stats.maxHealth){ // maxhp went up
     //     Stats.health = Stats.maxHealth + missingHp;
