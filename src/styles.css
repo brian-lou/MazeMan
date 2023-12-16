@@ -311,7 +311,7 @@ progress::-webkit-progress-value {
 
 #title {
     font-size: 4rem;
-    margin-bottom: 15%;
+    margin-bottom: 10%;
 }
 
 .left-align {
@@ -348,4 +348,9 @@ li {
         rgb(0, 32, 95) 2.8%,
         rgb(132, 53, 142) 97.8%
     );
+}
+
+hr {
+    border-color: black;
+    border-width: 2px;
 }
