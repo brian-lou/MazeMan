@@ -11,8 +11,7 @@ Our project is Maze-Man, an isometric Pac-Man-inspired rogue-like game built usi
 
 
 ## CC Attributes and Credits
-
-This skeleton project was adapted from edwinwebb's ThreeJS [seed project](https://github.com/edwinwebb/three-seed) by Reilly Bova (Princeton ’20), and published [here on github](https://github.com/ReillyBova/three-seed). It was later slightly updated and setup as a github template by Adam Finkelstein and Joseph Lou, and is hosted [here on github](https://github.com/adamfinkelstein/cos426finalproject).
+The skeleton code was adapted from edwinwebb's ThreeJS [seed project](https://github.com/edwinwebb/three-seed) by Reilly Bova (Princeton ’20), and published [here on github](https://github.com/ReillyBova/three-seed). It was later slightly updated and setup as a github template by Adam Finkelstein and Joseph Lou, and is hosted [here on github](https://github.com/adamfinkelstein/cos426finalproject).
 
 * Maze generation algorithm was adapted from the open source project [here](https://github.com/shaunlebron/pacman-mazegen)
 
@@ -33,12 +32,17 @@ This skeleton project was adapted from edwinwebb's ThreeJS [seed project](https:
 * [Coin Item](https://sketchfab.com/3d-models/stylized-coin-8cd6f95c44994ed5944a42892d0ffc10)
 
 * [Freeze Item](https://sketchfab.com/3d-models/crystal-bd3bea3e89fd465390792c4108762113)
+  
 * [Crate Wall Texture](https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/crate.gif)
+  
 * [Misc Wall Textures](https://stock.adobe.com/images/different-texture-tile-seamless-pattern-set-for-pixel-art-style-game-ground-or-stone-and-brick-wall-isolated-vector-illustration-8-bit-design-for-stickers-logo-mobile-app/289657265?continue-checkout=1&asset_id=289657265)
+  
 * [More Wall Textures](https://stock.adobe.com/images/different-texture-tile-seamless-pattern-set-for-pixel-art-style-game-ground-or-stone-and-brick-wall-isolated-vector-illustration-8-bit-design-for-stickers-logo-mobile-app/289657265?asset_id=289975932)
+  
 * [More Wall Textures](https://stock.adobe.com/images/different-texture-tile-seamless-pattern-set-for-pixel-art-style-game-ground-or-stone-and-brick-wall-isolated-vector-illustration-8-bit-design-for-stickers-logo-mobile-app/289657265?asset_id=290898501)
+  
 * All Sound effects not otherwise mentioned were obtained from [Pixabay](https://pixabay.com/sound-effects)
- * [Background Music](https://www.chosic.com/download-audio/58136/)
+* [Background Music](https://www.chosic.com/download-audio/58136/)
 
 ## License
 [MIT](./LICENSE)
