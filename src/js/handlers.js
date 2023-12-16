@@ -20,6 +20,7 @@ import {
     EliteEnemiesByLvl,
     NUM_LEVELS,
 } from './stats.js';
+import { loadSounds } from '../sounds/sounds.js';
 
 // when key is pressed down
 export function handleKeyDown(event, keypress) {
@@ -91,6 +92,9 @@ function initRender() {
 
 // switches between main, pause, and win/lose ending menus.
 export function handleMenus(document, event, menus, canvas) {
+    if (!SOUNDS.loaded){
+        loadSounds(SOUNDS);
+    }
     // start game from main menu
     if (event.key == ' ' && menus['main']) {
         menus['main'] = false;

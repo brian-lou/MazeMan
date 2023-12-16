@@ -59,10 +59,12 @@ export const SOUNDS = {
     bgMusic: null,
     levelUp: null,
     pickUpSound: null,
+    loaded: false,
+    listener: listener,
 };
-loadSounds(SOUNDS, listener);
 
 export const renderer = new WebGLRenderer({ antialias: true });
+
 
 // ******** Camera ***********
 const cameraOffset = new Vector3(-5, 10, 0);

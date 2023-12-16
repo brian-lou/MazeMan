@@ -1,7 +1,7 @@
 import { Audio, AudioLoader } from "three";
 // Load in all sound assets
-export function loadSounds(sounds, listener){
-    
+export function loadSounds(sounds){
+    const listener = sounds.listener;
     const audioLoader = new AudioLoader();
     const enemyDeathSound = new Audio(listener);
     audioLoader.load('https://raw.githubusercontent.com/brian-lou/MazeMan/main/src/sounds/enemy_kill.mp3', function(buffer) {
@@ -58,7 +58,7 @@ export function loadSounds(sounds, listener){
         gameWin.setVolume(1);
     });
 
-
+    sounds.loaded = true;
     sounds.enemyDeathSound = enemyDeathSound;
     sounds.playerDeathSound = playerDeathSound;
     sounds.bgMusic = bgMusic;
