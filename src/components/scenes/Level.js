@@ -16,7 +16,7 @@ class Level extends MazeScene {
             wallTexture: selection[1],
             floorColor: selection[0],
         };
-        if (true){ // DEVELOPER TEST MODE
+        if (false){ // DEVELOPER TEST MODE
             enemies.push({
                 model: "ghost",
                 hp: 5,

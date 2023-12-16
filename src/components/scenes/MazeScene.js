@@ -171,7 +171,9 @@ class MazeScene extends Scene {
                         if (enemy.hp <= 0){
                             this.remove(enemy);
                             this.enemies.delete(enemy);
-                            SOUNDS.enemyDeathSound.play();
+                            if (this.enemies.size > 0){
+                                SOUNDS.enemyDeathSound.play();
+                            }
                             // add their hp to the score for now
                             Stats.score += enemy.maxHp;
                         } else {
