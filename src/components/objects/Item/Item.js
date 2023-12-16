@@ -13,15 +13,14 @@ import {
   StatsMultipliers, Stats, ActiveItemCount
 } from "../../../js/stats";
 class Item {
-  constructor(parentScene, type="exp_orb", x, z, teleportDir=null, listener) {
+  constructor(parentScene, type="exp_orb", x, z, teleportDir=null) {
     this.parentScene = parentScene;
     this.type = type;
     this.x = x;
     this.z = z;
     this.teleportDir = teleportDir;
     this.collected = false;
-    this.listener = listener;
-    console.log(this.listener)
+    this.listener = parentScene.listener;
 
     // construct item based on its type
     const loader = new GLTFLoader();
@@ -264,13 +263,13 @@ class Item {
         this.object.visible = false;
         this.collected = true;
       }
-      if (this.type != "exp_orb"){ // play sound
+      if (this.type != "exp_orb" && this.listener != null){ // play sound
         const audioLoader = new AudioLoader();
         const explosion = new Audio(this.listener);
-        audioLoader.load('https://raw.githubusercontent.com/brian-lou/MazeMan/blob/main/src/sounds/coin_pickup.mp3', function(buffer) {
+        audioLoader.load('https://raw.githubusercontent.com/brian-lou/MazeMan/main/src/sounds/coin_pickup.mp3', function(buffer) {
             explosion.setBuffer(buffer);
             explosion.setLoop(false);
-            explosion.setVolume(0.75);
+            explosion.setVolume(1);
             explosion.play();
         });
       }
