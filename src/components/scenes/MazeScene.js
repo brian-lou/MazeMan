@@ -23,7 +23,6 @@ class MazeScene extends Scene {
         // Set background to a nice color
         this.background = new Color(0x000000);
        
-        this.prevLevel = 0;
         // Add meshes to scene
         const maze = new Maze(this, generalInfo);
         this.maze = maze;
@@ -69,10 +68,6 @@ class MazeScene extends Scene {
             const [x, z] = this.maze.getRandomAllowedPoint();
             this.player.position.set(x, 0, z);
             return;
-        }
-        if (Math.floor(Stats.score / EXP_PER_LEVEL) > this.prevLevel){
-            this.prevLevel = Math.floor(Stats.score / EXP_PER_LEVEL);
-            this.levelUpSound.play();
         }
 
         // Call update for each object in the updateList

@@ -221,6 +221,10 @@ export function handleQuit(document, canvas, menus) {
 
 export function updateStats(document, menus) {
     const lvl = Math.floor(Stats.score / EXP_PER_LEVEL);
+    if (lvl > Stats.prevLevel){
+        Stats.prevLevel = lvl;
+        SOUNDS.levelUp.play();
+    }
     let missingHp = Math.min(0, Stats.health - Stats.maxHealth);
     let prevMaxHp = Stats.maxHealth;
     let prevHp = Stats.health;

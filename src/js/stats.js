@@ -58,6 +58,8 @@ export const Stats = {
     totalEnemies: 0,
     defeatedEnemies: 0,
 };
+export let prevLevel = 0;
+
 // Enemy Stat scalings by level
 // Invariant: all lists must be of equal length
 export const NUM_LEVELS = 3;
