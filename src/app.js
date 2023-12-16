@@ -6,7 +6,15 @@
  * handles window resizes.
  *
  */
-import { WebGLRenderer, PerspectiveCamera, Vector3, Clock, AudioListener, Audio, AudioLoader } from 'three';
+import {
+    WebGLRenderer,
+    PerspectiveCamera,
+    Vector3,
+    Clock,
+    AudioListener,
+    Audio,
+    AudioLoader,
+} from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { Level } from 'scenes';
 import {
@@ -65,7 +73,6 @@ export const SOUNDS = {
 
 export const renderer = new WebGLRenderer({ antialias: true });
 
-
 // ******** Camera ***********
 const cameraOffset = new Vector3(-5, 10, 0);
 elements.camera.position.add(cameraOffset);
@@ -77,7 +84,6 @@ const canvas = renderer.domElement;
 canvas.id = 'canvas';
 canvas.style.display = 'block'; // Removes padding below canvas
 document.body.style.margin = 0; // Removes margin around page
-document.body.style.overflow = 'hidden'; // Fix scrolling
 document.body.appendChild(canvas);
 
 // ******** Controls ***********

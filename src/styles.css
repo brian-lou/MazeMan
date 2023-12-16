@@ -2,8 +2,7 @@ html,
 body {
     margin: 0;
     padding: 0;
-    width: 100%;
-
+    width: 100vw;
     background: linear-gradient(
         89.7deg,
         rgb(0, 32, 95) 2.8%,
@@ -12,13 +11,14 @@ body {
 }
 html {
     height: 100vh;
+    overflow-y: scroll;
 }
+
 body {
     font-family: 'DotGothic16', sans-serif;
-    min-height: 100%;
     position: fixed;
-    min-width: fit-content;
     background-color: white;
+    position: absolute;
 }
 
 .bitFont {
@@ -292,15 +292,16 @@ progress::-webkit-progress-value {
     color: rgb(255, 221, 0);
     text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000,
         2px 2px 0 #000;
-
     padding: 150px;
     line-height: 20px;
     text-align: center;
     font-weight: bold;
 }
-
 #main {
-    margin-top: -50px;
+    display: block;
+    padding: 0;
+    margin-top: 10%;
+    height: 100vh;
 }
 
 #win,
@@ -311,7 +312,7 @@ progress::-webkit-progress-value {
 
 #title {
     font-size: 4rem;
-    margin-bottom: 10%;
+    margin-bottom: 15%;
 }
 
 .left-align {
@@ -321,6 +322,7 @@ progress::-webkit-progress-value {
 ul {
     list-style-type: square;
     font-size: 0.8rem;
+    margin: 3%;
 }
 
 li {
@@ -328,7 +330,7 @@ li {
 }
 
 #bottom {
-    margin-top: 25px;
+    margin-top: 15%;
     font-size: 1.2rem;
 }
 
