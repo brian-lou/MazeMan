@@ -88,7 +88,7 @@ class Maze extends Group {
             floorHeight
         );
         const floorMaterial = new MeshBasicMaterial({
-            color: FLOOR_COLOR,
+            color: generalInfo.floorColor,
             side: DoubleSide,
         });
         const floor = new Mesh(floorGeometry, floorMaterial);
