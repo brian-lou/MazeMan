@@ -18,7 +18,7 @@ class Level extends MazeScene {
             minAtk: minAtk,
             wallTexture: WALL_TEXTURES[Math.floor(Math.random() * WALL_TEXTURES.length)],
         };
-        if (true){ // DEVELOPER TEST MODE
+        if (false){ // DEVELOPER TEST MODE
             enemies.push({
                 model: "ghost",
                 hp: 5,

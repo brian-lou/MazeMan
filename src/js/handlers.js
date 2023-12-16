@@ -47,6 +47,27 @@ export function handleKeyUp(event, keypress) {
     // if (event.key == 'a') keypress['left'] = false;
     // if (event.key == 'd') keypress['right'] = false;
 }
+// clear stats when resetting the game
+function clearStats() {
+    for (const [k, v] of Object.entries(BonusStatsMisc)) {
+        BonusStatsMisc[k] = 0;
+    }
+    for (const [k, v] of Object.entries(Stats)) {
+        Stats[k] = 0;
+    }
+    Stats.immune = false;
+    for (const [k, v] of Object.entries(ActiveItemCount)) {
+        ActiveItemCount[k] = 0;
+    }
+}
+// clear items when moving to the next level (not coins)
+function clearActiveItems() {
+    const temp = ActiveItemCount.coin
+    for (const [k, v] of Object.entries(ActiveItemCount)) {
+        ActiveItemCount[k] = 0;
+    }
+    ActiveItemCount.coin = temp
+}
 
 function initRender() {
     let playerPosition = new Vector3();
@@ -73,6 +94,7 @@ export function handleMenus(document, event, menus, canvas) {
         pages.game(document, canvas);
         pages.initPauseButtons(document, canvas, menus);
         initRender();
+        clearStats();
 
         // countdown before start
         const countdown = document.getElementById('countdown');
@@ -104,6 +126,8 @@ export function handleMenus(document, event, menus, canvas) {
     }
     // next level screen back to game (next level)
     else if (event.key == ' ' && menus['nextLevel']) {
+        elements.scene = new Level(keypress, elements.camera);
+        clearActiveItems();
         menus['nextLevel'] = false;
         pages.game(document, canvas);
         pages.initPauseButtons(document, canvas, menus);
@@ -124,11 +148,6 @@ export function handleMenus(document, event, menus, canvas) {
                 Stats.immune = false;
             }, STARTING_IMMUNITY_DURATION);
         }, COUNTDOWN_DURATION);
-    }
-    // test next level screen
-    else if (event.key == 't' && !menus['nextLevel']) {
-        menus['nextLevel'] = true;
-        pages.nextLevel(document);
     }
     // handle pause menu
     else if (!menus['main'] && (event.key == 'p' || event.key == 'Escape')) {
@@ -168,6 +187,7 @@ export function handleRestart(document, canvas, menus) {
         pages.game(document, canvas);
         pages.initPauseButtons(document, canvas, menus);
         initRender();
+        clearStats();
         
         setTimeout(() => {
             // countdown
@@ -211,28 +231,24 @@ export function updateStats(document, menus) {
     // }
     updateScore(document);
     updateAttributes(document);
-
+    // If you lose all your health, you lose
+    if (Stats.health <= 0) {
+        menus['lose'] = true;
+        pages.lose(document);
+    }
+    // If you defeat all the enemies, you go up a level or win
     if (elements.scene.getNumEnemies() <= 0) {
-        // menus['win'] = true;
-        // Add next level screen here
-        // also reset the level
-        Stats.level += 1;
+        Stats.level++;
         if (!menus['win'] && Stats.level == EnemyHpByLvl.length) {
             // Win Screen here
             menus['win'] = true;
             pages.win(document);
         } else if (!menus['nextLevel']) {
-            // Next level screen here (similar to game start)
-            // also need to recreate the elements.scene = Level()
+            // Next level screen here
             menus['nextLevel'] = true;
             pages.nextLevel(document);
         }
-    } /* 
-    if (Stats.health <= 0) {
-        menus['lose'] = true;
-        pages.lose(document);
-        Stats.health = 20;
-    } */
+    }
 }
 
 // update score and level to UI

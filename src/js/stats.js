@@ -52,7 +52,6 @@ export const Stats = {
     maxHealth: 0, // maxHealth
     attack: 0, // attack
     defense: 0, // defense
-    items: null, // itemsnotez
     playerMovementSpeed: 0,
     enemyMovementSpeed: 0,
     immune: false, // immune?

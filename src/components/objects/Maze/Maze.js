@@ -34,16 +34,10 @@ class Maze extends Group {
         const MAZE_LEN = 15; // Have to change pacmangen as well, hardcoded
         this.MAZE_LEN = MAZE_LEN;
         this.maze = new Generator(MAZE_LEN, MAZE_LEN);
-        // console.log(maze.maze)
         this.maze.generate();
         const mazeArray = this.maze.maze;
         const wallGeo = new BoxGeometry(WALL_LEN, WALL_LEN, WALL_LEN);
-        // const wallMat = new MeshBasicMaterial({ color: WALL_COLOR });
-        
         const texture = new TextureLoader().load( generalInfo.wallTexture );
-
-        // const wallMat = new MeshLambertMaterial( { map: texture, side: DoubleSide } );
-
         const wallMat = new MeshBasicMaterial( { map: texture } );
         this.mazeHeight = mazeArray.length;
         this.mazeWidth = mazeArray[0].length;
