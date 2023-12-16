@@ -21,12 +21,13 @@ import { Item } from '../Item';
 import * as constants from '../../../js/constants';
 
 class Maze extends Group {
-    constructor(parent, generalInfo) {
+    constructor(parent, generalInfo, listener) {
         // Call parent Group() constructor
         super();
         // Add self to parent's update list
         parent.addToUpdateList(this);
-
+        this.listener = listener;
+        console.log(this.listener)
         this.name = 'maze';
         const EPS = 1e-2;
         const WALL_LEN = 1;
@@ -46,7 +47,7 @@ class Maze extends Group {
         this.items = Array(this.mazeHeight).fill().map(() => Array(this.mazeWidth).fill(null));
         this.leftTeleporters = Array(); // array of [i, j] indexes where a teleporter is
         this.rightTeleporters = Array(); // separate array for left and right side of map
-    
+        
         // add walls
         for (let i = 0; i < mazeArray.length; i++) {
             for (let j = 0; j < mazeArray[i].length; j++) {
@@ -111,10 +112,10 @@ class Maze extends Group {
                     if (wallCount == 3) {
                         if (j <= 3) {
                             this.leftTeleporters.push([i, j]);
-                            this.items[i][j] = new Item(this, "teleporter", i, j, "left");
+                            this.items[i][j] = new Item(this, "teleporter", i, j, "left", listener);
                         } else {
                             this.rightTeleporters.push([i, j])
-                            this.items[i][j] = new Item(this, "teleporter", i, j, "right");
+                            this.items[i][j] = new Item(this, "teleporter", i, j,"right", listener);
                         }
                         parent.addToUpdateList(this.items[i][j]);
                     }
@@ -126,7 +127,7 @@ class Maze extends Group {
             const randomPos = this.getRandomEmptyPoint();
             if (randomPos) {
                 const [x, z] = randomPos;
-                this.items[x][z] = new Item(this, "speed_boost", x, z)
+                this.items[x][z] = new Item(this, "speed_boost", x, z, listener)
                 parent.addToUpdateList(this.items[x][z])
             }
         }
@@ -135,7 +136,7 @@ class Maze extends Group {
             const randomPos = this.getRandomEmptyPoint();
             if (randomPos) {
                 const [x, z] = randomPos;
-                this.items[x][z] = new Item(this, "ghost", x, z)
+                this.items[x][z] = new Item(this, "ghost", x, z, listener)
                 parent.addToUpdateList(this.items[x][z])
             }
         }
@@ -144,7 +145,7 @@ class Maze extends Group {
             const randomPos = this.getRandomEmptyPoint();
             if (randomPos) {
                 const [x, z] = randomPos;
-                this.items[x][z] = new Item(this, "exp_boost", x, z)
+                this.items[x][z] = new Item(this, "exp_boost", x, z, listener)
                 parent.addToUpdateList(this.items[x][z])
             }
         }
@@ -153,7 +154,7 @@ class Maze extends Group {
             const randomPos = this.getRandomEmptyPoint();
             if (randomPos) {
                 const [x, z] = randomPos;
-                this.items[x][z] = new Item(this, "hp_restore", x, z)
+                this.items[x][z] = new Item(this, "hp_restore", x, z, listener)
                 parent.addToUpdateList(this.items[x][z])
             }
         }
@@ -162,7 +163,7 @@ class Maze extends Group {
             const randomPos = this.getRandomEmptyPoint();
             if (randomPos) {
                 const [x, z] = randomPos;
-                this.items[x][z] = new Item(this, "buff", x, z)
+                this.items[x][z] = new Item(this, "buff", x, z, listener)
                 parent.addToUpdateList(this.items[x][z])
             } 
         }
@@ -171,7 +172,7 @@ class Maze extends Group {
             const randomPos = this.getRandomEmptyPoint();
             if (randomPos) {
                 const [x, z] = randomPos;
-                this.items[x][z] = new Item(this, "coin", x, z)
+                this.items[x][z] = new Item(this, "coin", x, z, listener)
                 parent.addToUpdateList(this.items[x][z])
             } 
         }
@@ -180,7 +181,7 @@ class Maze extends Group {
             const randomPos = this.getRandomEmptyPoint();
             if (randomPos) {
                 const [x, z] = randomPos;
-                this.items[x][z] = new Item(this, "freeze", x, z)
+                this.items[x][z] = new Item(this, "freeze", x, z, listener)
                 parent.addToUpdateList(this.items[x][z])
             } 
         }
@@ -188,7 +189,7 @@ class Maze extends Group {
         for (let i = 0; i < mazeArray.length; i++) {
             for (let j = 0; j < mazeArray[i].length; j++) {
                 if (this.checkEmptyPosition(i, j)) {
-                    this.items[i][j] = new Item(this, "exp_orb", i, j);
+                    this.items[i][j] = new Item(this, "exp_orb", i, j, listener);
                 }
             }
         }

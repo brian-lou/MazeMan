@@ -33,7 +33,7 @@ class MazeScene extends Scene {
             explosion.play();
         });
         // Add meshes to scene
-        const maze = new Maze(this, generalInfo);
+        const maze = new Maze(this, generalInfo, listener);
         this.maze = maze;
         const player = new Player(this, maze, keypress);
         this.player = player;

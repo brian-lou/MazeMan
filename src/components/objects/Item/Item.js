@@ -1,5 +1,5 @@
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import { SphereGeometry, MeshBasicMaterial, Mesh } from "three";
+import { SphereGeometry, MeshBasicMaterial, Mesh, AudioLoader, Audio } from "three";
 import SPEED_BOOST_MODEL from './speed_boost.glb';
 import GHOST_MODEL from './ghost.glb';
 import EXP_BOOST_MODEL from './exp_boost.glb';
@@ -13,13 +13,15 @@ import {
   StatsMultipliers, Stats, ActiveItemCount
 } from "../../../js/stats";
 class Item {
-  constructor(parentScene, type="exp_orb", x, z, teleportDir=null) {
+  constructor(parentScene, type="exp_orb", x, z, teleportDir=null, listener) {
     this.parentScene = parentScene;
     this.type = type;
     this.x = x;
     this.z = z;
     this.teleportDir = teleportDir;
     this.collected = false;
+    this.listener = listener;
+    console.log(this.listener)
 
     // construct item based on its type
     const loader = new GLTFLoader();
@@ -263,12 +265,12 @@ class Item {
         this.collected = true;
       }
       if (this.type != "exp_orb"){ // play sound
-        const audioLoader = new THREE.AudioLoader();
-        const explosion = new THREE.Audio(listener);
-        audioLoader.load('https://raw.githubusercontent.com/brian-lou/MazeMan/blob/main/src/sounds/music.mp3', function(buffer) {
+        const audioLoader = new AudioLoader();
+        const explosion = new Audio(this.listener);
+        audioLoader.load('https://raw.githubusercontent.com/brian-lou/MazeMan/blob/main/src/sounds/coin_pickup.mp3', function(buffer) {
             explosion.setBuffer(buffer);
-            explosion.setLoop(true);
-            explosion.setVolume(1);
+            explosion.setLoop(false);
+            explosion.setVolume(0.75);
             explosion.play();
         });
       }
