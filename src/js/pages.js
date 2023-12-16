@@ -17,7 +17,9 @@ import {
 // concept from https://github.com/harveyw24/Glider/blob/main/src/js/pages.js
 
 // main menu screen
-export function main(document) {
+export function main(document, startCanvas) {
+    document.body.innerHTML = '';
+    document.body.appendChild(startCanvas);
     document.body.innerHTML = '';
     let intro = document.createElement('div');
     intro.id = 'intro';
@@ -119,7 +121,7 @@ export function initCoinButtons(document) {
 }
 
 // mouse click listener for pause menu buttons
-export function initPauseButtons(document, canvas, menus) {
+export function initPauseButtons(document, canvas, menus, startCanvas) {
     const resume = document.getElementById('resume-btn');
     const restart = document.getElementById('restart-btn');
     const quit = document.getElementById('quit-btn');
@@ -129,5 +131,7 @@ export function initPauseButtons(document, canvas, menus) {
     restart.addEventListener('click', () =>
         handleRestart(document, canvas, menus)
     );
-    quit.addEventListener('click', () => handleQuit(document, canvas, menus));
+    quit.addEventListener('click', () =>
+        handleQuit(document, startCanvas, menus)
+    );
 }
