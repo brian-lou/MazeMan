@@ -9,10 +9,10 @@
         "graphics",
         "three.js",
         "COS 426",
-        "keywor0d",
-        "keyword1",
-        "keyword2-etc",
-        "but this last entry CANNOT have a comma after it ->"
+        "procedural maze generation",
+        "pacman",
+        "ghosts",
+        "rogue-like"
     ],
     "scripts": {
         "start": "webpack-dev-server --mode development --output-public-path \"\"",
