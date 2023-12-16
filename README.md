@@ -68,11 +68,6 @@ Once you are happy with your project, try building a production bundle using `np
 Once you have a working production build and are ready for the site to go live, you can deploy your project straight to GitHub Pages via `npm run deploy`. Note that this requires that (1) your project is part of a repository, and (2) you have correctly set up your project's `package.json` file.
 
 ## CC Attributes and Credits
-Both models were downloaded from the Google Poly project:
-
-* [Floating island](https://poly.google.com/view/eEz9hdknXOi)
-
-* [Flower](https://poly.google.com/view/eydI4__jXpi)
 
 This skeleton project was adapted from edwinwebb's ThreeJS [seed project](https://github.com/edwinwebb/three-seed) by Reilly Bova (Princeton ’20), and published [here on github](https://github.com/ReillyBova/three-seed). It was later slightly updated and setup as a github template by Adam Finkelstein and Joseph Lou, and is hosted [here on github](https://github.com/adamfinkelstein/cos426finalproject).
 

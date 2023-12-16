@@ -1,3 +1,5 @@
+// Code Adapted from open source project: https://github.com/shaunlebron/pacman-mazegen
+
 var getRandomInt = function(min,max) {
     return Math.floor(Math.random() * (max-min+1)) + min;
 };

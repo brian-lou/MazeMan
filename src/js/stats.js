@@ -12,7 +12,7 @@ export const BonusStatsFromLevels = {
     maxHealth: 2,
     attack: 1,
     defense: 1,
-    playerMovementSpeed: 0.1,
+    playerMovementSpeed: 0.05,
     enemyMovementSpeed: 0,
 };
 
@@ -59,10 +59,12 @@ export const Stats = {
     defeatedEnemies: 0,
 };
 // Enemy Stat scalings by level
+// Invariant: all lists must be of equal length
+export const NUM_LEVELS = 3;
 export const EnemyHpByLvl = [10, 20, 40];
 export const EnemyAtkByLvl = [10, 15, 30];
 export const EnemyDefByLvl = [0, 5, 15];
 export const EnemySpdByLvl = [2, 2.5, 3];
 
-export const NormalEnemiesByLvl = [10, 15, 20];
-export const EliteEnemiesByLvl = [2, 3, 4];
+export const NormalEnemiesByLvl = [13, 11, 9];
+export const EliteEnemiesByLvl = [2, 4, 6];

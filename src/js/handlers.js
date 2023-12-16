@@ -17,7 +17,8 @@ import {
     ActiveItemCount,
     EnemyHpByLvl,
     NormalEnemiesByLvl,
-    EliteEnemiesByLvl
+    EliteEnemiesByLvl,
+    NUM_LEVELS
 } from './stats.js';
 
 // when key is pressed down
@@ -226,6 +227,8 @@ export function updateStats(document, menus) {
             mult * (v + BonusStatsMisc[k] + lvl * BonusStatsFromLevels[k]);
     }
     Stats.health = Stats.maxHealth + missingHp;
+    // Cap player speed
+    Stats.playerMovementSpeed = Math.min(5, Stats.playerMovementSpeed);
     const totalEnemies = NormalEnemiesByLvl[Stats.level] + EliteEnemiesByLvl[Stats.level];
     Stats.totalEnemies = totalEnemies;
     Stats.defeatedEnemies = totalEnemies - elements.scene.getNumEnemies();
@@ -244,7 +247,7 @@ export function updateStats(document, menus) {
     // If you defeat all the enemies, you go up a level or win
     if (elements.scene.getNumEnemies() <= 0) {
         Stats.level++;
-        if (!menus['win'] && Stats.level == EnemyHpByLvl.length) {
+        if (!menus['win'] && Stats.level == NUM_LEVELS) {
             // Win Screen here
             menus['win'] = true;
             pages.win(document);

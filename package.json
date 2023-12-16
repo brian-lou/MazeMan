@@ -1,8 +1,8 @@
 {
-    "name": "maze-runner",
-    "repository": "cos426finalproject",
+    "name": "maze-man",
+    "repository": "MazeMan",
     "version": "0.1.0",
-    "title": "Maze Runner",
+    "title": "Maze-Man",
     "description": "A Pacman inspired rogue-like featuring procedural maze generation with non-deterministic enemy behavior.",
     "keywords": [
         "Princeton",
