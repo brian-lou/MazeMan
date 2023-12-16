@@ -6,8 +6,6 @@ import {
     COUNTDOWN_DURATION,
     STARTING_IMMUNITY_DURATION,
     STARTING_LOAD_DURATION,
-    NORMAL_ENEMY_COUNT,
-    BOSS_ENEMY_COUNT
 } from './constants.js';
 import * as pages from './pages.js';
 import {
@@ -18,6 +16,8 @@ import {
     StatsMultipliers,
     ActiveItemCount,
     EnemyHpByLvl,
+    NormalEnemiesByLvl,
+    EliteEnemiesByLvl
 } from './stats.js';
 
 // when key is pressed down
@@ -228,7 +228,8 @@ export function updateStats(document, menus) {
             mult * (v + BonusStatsMisc[k] + lvl * BonusStatsFromLevels[k]);
     }
     Stats.health = Stats.maxHealth + missingHp;
-    Stats.defeatedEnemies = (NORMAL_ENEMY_COUNT + BOSS_ENEMY_COUNT) - elements.scene.getNumEnemies();
+    const totalEnemies = NormalEnemiesByLvl[Stats.level] + EliteEnemiesByLvl[Stats.level];
+    Stats.defeatedEnemies = totalEnemies - elements.scene.getNumEnemies();
     // if (prevMaxHp < Stats.maxHealth){ // maxhp went up
     //     Stats.health = Stats.maxHealth + missingHp;
     // } else { // maxhp went down, we first take away the missing hp

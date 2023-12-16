@@ -82,7 +82,7 @@ class Level extends MazeScene {
         }
         generalInfo.maxAtk = maxAtk;
         generalInfo.minAtk = minAtk;
-        Stats.totalEnemies = NORMAL_ENEMY_COUNT + BOSS_ENEMY_COUNT
+        Stats.totalEnemies = NormalEnemiesByLvl[Stats.level] + EliteEnemiesByLvl[Stats.level];
 
         // Call parent MazeScene() constructor
         super(keypress, camera, enemies, generalInfo);
