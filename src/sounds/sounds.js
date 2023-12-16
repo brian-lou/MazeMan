@@ -1,5 +1,5 @@
 import { Audio, AudioLoader } from "three";
-
+// Load in all sound assets
 export function loadSounds(sounds, listener){
     
     const audioLoader = new AudioLoader();
@@ -7,7 +7,7 @@ export function loadSounds(sounds, listener){
     audioLoader.load('https://raw.githubusercontent.com/brian-lou/MazeMan/main/src/sounds/enemy_kill.mp3', function(buffer) {
         enemyDeathSound.setBuffer(buffer);
         enemyDeathSound.setLoop(false);
-        enemyDeathSound.setVolume(1);
+        enemyDeathSound.setVolume(0.5);
     });
     const audioLoader2 = new AudioLoader();
     const playerDeathSound = new Audio(listener);
@@ -22,7 +22,7 @@ export function loadSounds(sounds, listener){
     audioLoader3.load('https://raw.githubusercontent.com/brian-lou/MazeMan/main/src/sounds/music.mp3', function(buffer) {
         bgMusic.setBuffer(buffer);
         bgMusic.setLoop(true);
-        bgMusic.setVolume(0.3);
+        bgMusic.setVolume(0.2);
         bgMusic.play();
     });
     const audioLoaderLvlUp = new AudioLoader();
