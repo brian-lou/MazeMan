@@ -5,7 +5,9 @@ import {
     EXP_PER_LEVEL,
     COUNTDOWN_DURATION,
     STARTING_IMMUNITY_DURATION,
-    STARTING_LOAD_DURATION
+    STARTING_LOAD_DURATION,
+    NORMAL_ENEMY_COUNT,
+    BOSS_ENEMY_COUNT
 } from './constants.js';
 import * as pages from './pages.js';
 import {
@@ -53,7 +55,9 @@ function clearStats() {
         BonusStatsMisc[k] = 0;
     }
     for (const [k, v] of Object.entries(Stats)) {
-        Stats[k] = 0;
+        if (k != "totalEnemies") {
+            Stats[k] = 0;
+        }
     }
     Stats.immune = false;
     for (const [k, v] of Object.entries(ActiveItemCount)) {
@@ -224,6 +228,7 @@ export function updateStats(document, menus) {
             mult * (v + BonusStatsMisc[k] + lvl * BonusStatsFromLevels[k]);
     }
     Stats.health = Stats.maxHealth + missingHp;
+    Stats.defeatedEnemies = (NORMAL_ENEMY_COUNT + BOSS_ENEMY_COUNT) - elements.scene.getNumEnemies();
     // if (prevMaxHp < Stats.maxHealth){ // maxhp went up
     //     Stats.health = Stats.maxHealth + missingHp;
     // } else { // maxhp went down, we first take away the missing hp
@@ -251,14 +256,16 @@ export function updateStats(document, menus) {
     }
 }
 
-// update score and level to UI
+// update score and level to UI (and # enemies left)
 export function updateScore(document) {
     let expBar = document.getElementById('exp');
     let level = document.getElementById('level');
+    const enemiesLeft = document.getElementById('enemiesLeft');
     const modScore = Stats.score % EXP_PER_LEVEL;
     expBar.value = modScore;
     let lvl = Math.floor(Stats.score / EXP_PER_LEVEL);
     level.innerHTML = 'LVL '.concat(lvl);
+    enemiesLeft.innerHTML = Stats.totalEnemies - Stats.defeatedEnemies;
 }
 
 // update attributes to UI

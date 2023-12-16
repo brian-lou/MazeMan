@@ -7,6 +7,9 @@ export const COUNTDOWN_DURATION = 2000;
 export const STARTING_IMMUNITY_DURATION = 2000;
 export const STARTING_LOAD_DURATION = 100;
 
+export const NORMAL_ENEMY_COUNT = 20;
+export const BOSS_ENEMY_COUNT = 2;
+
 // Item variables
 // If you change this, update the item menu at mainScreen.html
 export const SPEED_BOOST_COUNT = 8;

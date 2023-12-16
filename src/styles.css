@@ -19,6 +19,19 @@ body {
     font-family: 'DotGothic16', sans-serif;
 }
 
+.enemiesBox {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    color: black;
+    width: 160px;
+    height: 30px;
+    border-radius: 12px;
+    gap: 5px;
+}
+
 .item-menu {
     margin-top: -12px;
 }
@@ -87,6 +100,10 @@ body {
 
 #instructions {
     position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
     top: 3%;
     width: 100%;
     margin: 0;

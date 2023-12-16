@@ -1,6 +1,6 @@
 import MazeScene from "./MazeScene";
 import { EnemyAtkByLvl, EnemyDefByLvl, EnemyHpByLvl, EnemySpdByLvl, Stats } from '../../js/stats';
-import { WALL_TEXTURES } from "../../js/constants";
+import { WALL_TEXTURES, NORMAL_ENEMY_COUNT, BOSS_ENEMY_COUNT } from "../../js/constants";
 
 
 class Level extends MazeScene {
@@ -34,7 +34,7 @@ class Level extends MazeScene {
             return
         }
         // Normal enemies
-        for (let i = 0; i<20; i++){
+        for (let i = 0; i<NORMAL_ENEMY_COUNT; i++){
             // Hp between upperBoundHp/2 and upperBoundHp
             const upperBoundHp = EnemyHpByLvl[Stats.level];
             let hp = Math.floor(upperBoundHp/2) + Math.round(upperBoundHp * Math.random() / 2);
@@ -59,7 +59,7 @@ class Level extends MazeScene {
             });
         }
         // elite / boss enemies
-        for (let i = 0; i<2; i++){
+        for (let i = 0; i<BOSS_ENEMY_COUNT; i++){
             // Hp between 2*upperBoundHp and 3*upperBoundHp
             const upperBoundHp = EnemyHpByLvl[Stats.level];
             let hp = upperBoundHp * 2 + (Math.round(upperBoundHp * Math.random()));
@@ -85,6 +85,8 @@ class Level extends MazeScene {
         }
         generalInfo.maxAtk = maxAtk;
         generalInfo.minAtk = minAtk;
+        Stats.totalEnemies = NORMAL_ENEMY_COUNT + BOSS_ENEMY_COUNT
+
         // Call parent MazeScene() constructor
         super(keypress, camera, enemies, generalInfo);
     }
