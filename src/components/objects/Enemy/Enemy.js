@@ -53,9 +53,9 @@ class Enemy extends Group {
         this.timeSinceLastTurn = 0;
 
         let hpRatio = this.maxHp / enemyInfo.upperBoundHp;
-        let atkRatio = (this.atk - generalInfo.minAtk) / generalInfo.maxAtk;
+        let atkRatio = (this.atk - generalInfo.minAtk) / (generalInfo.maxAtk - generalInfo.minAtk);
 
-        const chr = chroma.scale([0x00ff00, 0xFFFF00, 0x8B0000]);
+        const chr = chroma.scale([0x00ff00, 0xFFFF00, 0xFF0000]);
         atkRatio = Math.max(0, Math.min(atkRatio, 1));
         let color = chr(atkRatio).hex();
         const hpBarGeometry = new BoxGeometry(0.1, 0.2, 1 + hpRatio); // Width and height of the HP bar

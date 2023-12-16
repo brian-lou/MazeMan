@@ -263,6 +263,7 @@ export function updateStats(document, menus) {
             menus['win'] = true;
             pages.win(document);
             SOUNDS.gameWin.play();
+            Stats.level = 0;
         } else if (!menus['nextLevel']) {
             // Next level screen here
             menus['nextLevel'] = true;
