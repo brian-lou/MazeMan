@@ -4,7 +4,7 @@ export function loadSounds(sounds, listener){
     
     const audioLoader = new AudioLoader();
     const enemyDeathSound = new Audio(listener);
-    audioLoader.load('https://raw.githubusercontent.com/brian-lou/MazeMan/main/src/sounds/music.mp3', function(buffer) {
+    audioLoader.load('https://raw.githubusercontent.com/brian-lou/MazeMan/main/src/sounds/enemy_kill.mp3', function(buffer) {
         enemyDeathSound.setBuffer(buffer);
         enemyDeathSound.setLoop(false);
         enemyDeathSound.setVolume(1);
@@ -40,10 +40,30 @@ export function loadSounds(sounds, listener){
       pickUpSound.setLoop(false);
       pickUpSound.setVolume(1);
     });
+    
+    const audioLoader5 = new AudioLoader();
+    const levelPass = new Audio(listener);
+    audioLoader5.load('https://raw.githubusercontent.com/brian-lou/MazeMan/main/src/sounds/level_pass.mp3', function(buffer) {
+      levelPass.setBuffer(buffer);
+      levelPass.setLoop(false);
+      levelPass.setVolume(1);
+    });
+
+    
+    const audioLoader6 = new AudioLoader();
+    const gameWin = new Audio(listener);
+    audioLoader6.load('https://raw.githubusercontent.com/brian-lou/MazeMan/main/src/sounds/game_win.mp3', function(buffer) {
+        gameWin.setBuffer(buffer);
+        gameWin.setLoop(false);
+        gameWin.setVolume(1);
+    });
+
 
     sounds.enemyDeathSound = enemyDeathSound;
     sounds.playerDeathSound = playerDeathSound;
     sounds.bgMusic = bgMusic;
     sounds.levelUp = levelUp;
     sounds.pickUpSound = pickUpSound;
+    sounds.levelPass = levelPass;
+    sounds.gameWin = gameWin;
 }

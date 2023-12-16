@@ -4,6 +4,7 @@ import { Player, Maze, Enemy, Item } from 'objects';
 import { BasicLights } from 'lights';
 import { Stats } from '../../js/stats';
 import { EXP_PER_LEVEL } from '../../js/constants';
+import { SOUNDS } from '../../app';
 // import { Enemy } from 'enemies';
 
 class MazeScene extends Scene {
@@ -175,6 +176,7 @@ class MazeScene extends Scene {
                         if (enemy.hp <= 0){
                             this.remove(enemy);
                             this.enemies.delete(enemy);
+                            SOUNDS.enemyDeathSound.play();
                             // add their hp to the score for now
                             Stats.score += enemy.maxHp;
                         } else {

@@ -1,4 +1,4 @@
-import { elements, renderer, keypress } from '../app.js';
+import { elements, renderer, keypress, SOUNDS } from '../app.js';
 import { Vector3 } from 'three';
 import { Level } from 'scenes';
 import {
@@ -245,6 +245,7 @@ export function updateStats(document, menus) {
     if (Stats.health <= 0) {
         menus['lose'] = true;
         pages.lose(document);
+        SOUNDS.playerDeathSound.play();
     }
     // If you defeat all the enemies, you go up a level or win
     if (elements.scene.getNumEnemies() <= 0) {
@@ -253,10 +254,12 @@ export function updateStats(document, menus) {
             // Win Screen here
             menus['win'] = true;
             pages.win(document);
+            SOUNDS.gameWin.play();
         } else if (!menus['nextLevel']) {
             // Next level screen here
             menus['nextLevel'] = true;
             pages.nextLevel(document);
+            SOUNDS.levelPass.play();
         }
     }
 }
