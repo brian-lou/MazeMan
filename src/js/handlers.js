@@ -117,12 +117,14 @@ export function handleMenus(document, event, menus, canvas) {
     }
     // losing screen back to main menu
     else if (event.key == ' ' && menus['lose']) {
+        elements.scene = new Level(keypress, elements.camera);
         menus['main'] = true;
         menus['lose'] = false;
         pages.main(document);
     }
     // win screen back to main menu
     else if (event.key == ' ' && menus['win']) {
+        elements.scene = new Level(keypress, elements.camera);
         menus['main'] = true;
         menus['win'] = false;
         pages.main(document);
@@ -211,6 +213,7 @@ export function handleRestart(document, canvas, menus) {
     }
 }
 export function handleQuit(document, canvas, menus) {
+    elements.scene = new Level(keypress, elements.camera);
     menus['main'] = true;
     menus['pause'] = false;
     pages.main(document);
