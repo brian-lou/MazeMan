@@ -22,28 +22,9 @@ class MazeScene extends Scene {
         // Set background to a nice color
         this.background = new Color(0x000000);
        
-        const listener = new AudioListener();
-        camera.add(listener);
-        const audioLoader = new AudioLoader();
-        const bgMusic = new Audio(listener);
-        audioLoader.load('https://raw.githubusercontent.com/brian-lou/MazeMan/main/src/sounds/music.mp3', function(buffer) {
-            bgMusic.setBuffer(buffer);
-            bgMusic.setLoop(true);
-            bgMusic.setVolume(0.3);
-            bgMusic.play();
-        });
-        this.bgMusic = bgMusic;
-        const audioLoaderLvlUp = new AudioLoader();
-        const levelUp = new Audio(listener);
-        audioLoaderLvlUp.load('https://raw.githubusercontent.com/brian-lou/MazeMan/main/src/sounds/level_up.mp3', function(buffer) {
-            levelUp.setBuffer(buffer);
-            levelUp.setLoop(false);
-            levelUp.setVolume(1);
-        });
-        this.levelUpSound = levelUp;
         this.prevLevel = 0;
         // Add meshes to scene
-        const maze = new Maze(this, generalInfo, listener);
+        const maze = new Maze(this, generalInfo);
         this.maze = maze;
         const player = new Player(this, maze, keypress);
         this.player = player;
@@ -60,12 +41,6 @@ class MazeScene extends Scene {
         this.add(player, maze, lights);
        // Populate GUI
         // this.state.gui.add(this.state, 'rotationSpeed', 0, 0 );
-    }
-    stopMusic(){
-        this.bgMusic.stop();
-    }
-    startMusic(){
-        this.bgMusic.start();
     }
     getPlayer(){
         return this.player;

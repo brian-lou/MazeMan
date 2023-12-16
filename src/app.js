@@ -6,7 +6,7 @@
  * handles window resizes.
  *
  */
-import { WebGLRenderer, PerspectiveCamera, Vector3, Clock } from 'three';
+import { WebGLRenderer, PerspectiveCamera, Vector3, Clock, AudioListener, Audio, AudioLoader } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { Level } from 'scenes';
 import {
@@ -22,6 +22,7 @@ import {
 } from './js/handlers';
 import * as pages from './js/pages.js';
 import './styles.css';
+import { loadSounds } from './sounds/sounds.js';
 
 // ******** Global Vars ***********
 export const keypress = {
@@ -45,8 +46,22 @@ const menus = {
 export const elements = {
     camera: new PerspectiveCamera(65),
     scene: null,
+    listener: null,
 };
+const listener = new AudioListener();
+elements.camera.add(listener);
+elements.listener = listener;
 elements.scene = new Level(keypress, elements.camera);
+
+export const SOUNDS = {
+    enemyDeathSound: null,
+    playerDeath: null,
+    bgMusic: null,
+    levelUp: null,
+    pickUpSound: null,
+};
+loadSounds(SOUNDS, listener);
+
 export const renderer = new WebGLRenderer({ antialias: true });
 
 // ******** Camera ***********

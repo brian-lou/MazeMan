@@ -12,6 +12,7 @@ import * as constants from '../../../js/constants';
 import {
   StatsMultipliers, Stats, ActiveItemCount
 } from "../../../js/stats";
+import { SOUNDS } from "../../../app";
 class Item {
   constructor(parentScene, type="exp_orb", x, z, teleportDir=null) {
     this.parentScene = parentScene;
@@ -20,15 +21,6 @@ class Item {
     this.z = z;
     this.teleportDir = teleportDir;
     this.collected = false;
-    this.listener = parentScene.listener;
-    const audioLoader = new AudioLoader();
-    const pickUpSound = new Audio(this.listener);
-    audioLoader.load('https://raw.githubusercontent.com/brian-lou/MazeMan/main/src/sounds/coin_pickup.mp3', function(buffer) {
-      pickUpSound.setBuffer(buffer);
-      pickUpSound.setLoop(false);
-      pickUpSound.setVolume(1);
-    });
-    this.pickUpSound = pickUpSound;
 
     // construct item based on its type
     const loader = new GLTFLoader();
@@ -271,8 +263,8 @@ class Item {
         this.object.visible = false;
         this.collected = true;
       }
-      if (this.type != "exp_orb" && this.listener != null){ // play sound
-        this.pickUpSound.play();
+      if (this.type != "exp_orb"){ // play sound
+        SOUNDS.pickUpSound.play();
       }
     }
   }
