@@ -1,3 +1,5 @@
+# Maze-Man
+[Demo Video](https://drive.google.com/file/d/1UEZ4fY2EC_F_YwfBh5GYVpC9Zr8rQHIJ/view?usp=drive_link)
 # COS 426 Final Project Template
 This skeleton project will help you get started with a ThreeJS project and provide a strong foundation for extension. It sets up a simple scene, camera, and renderer in a modern JavaScript environment, and is written using some common best-practices that you may want to draw from.
 
