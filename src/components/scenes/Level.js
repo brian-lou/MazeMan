@@ -12,11 +12,12 @@ class Level extends MazeScene {
         const mcGrassTexture = "https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/minecraft/atlas.png";
         const crateTexture = "https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/crate.gif";
         const wallTexture = "https://raw.githubusercontent.com/brian-lou/GraphicsFinalProject/main/src/textures/brickBlue.png";
-
+        let selection = WALL_TEXTURES[Math.floor(Math.random() * WALL_TEXTURES.length)];
         const generalInfo = {
             maxAtk: maxAtk,
             minAtk: minAtk,
-            wallTexture: WALL_TEXTURES[Math.floor(Math.random() * WALL_TEXTURES.length)],
+            wallTexture: selection[1],
+            floorColor: selection[0],
         };
         if (true){ // DEVELOPER TEST MODE
             enemies.push({
