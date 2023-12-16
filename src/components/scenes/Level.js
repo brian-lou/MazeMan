@@ -82,7 +82,7 @@ class Level extends MazeScene {
         }
         generalInfo.maxAtk = maxAtk;
         generalInfo.minAtk = minAtk;
-        console.log(generalInfo)
+        // console.log(generalInfo)
 
         // Call parent MazeScene() constructor
         super(keypress, camera, enemies, generalInfo);
