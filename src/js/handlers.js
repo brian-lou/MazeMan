@@ -18,7 +18,7 @@ import {
     EnemyHpByLvl,
     NormalEnemiesByLvl,
     EliteEnemiesByLvl,
-    NUM_LEVELS
+    NUM_LEVELS,
 } from './stats.js';
 
 // when key is pressed down
@@ -227,7 +227,8 @@ export function updateStats(document, menus) {
             mult * (v + BonusStatsMisc[k] + lvl * BonusStatsFromLevels[k]);
     }
     Stats.health = Stats.maxHealth + missingHp;
-    const totalEnemies = NormalEnemiesByLvl[Stats.level] + EliteEnemiesByLvl[Stats.level];
+    const totalEnemies =
+        NormalEnemiesByLvl[Stats.level] + EliteEnemiesByLvl[Stats.level];
     Stats.totalEnemies = totalEnemies;
     Stats.defeatedEnemies = totalEnemies - elements.scene.getNumEnemies();
     // if (prevMaxHp < Stats.maxHealth){ // maxhp went up
@@ -276,7 +277,7 @@ export function updateAttributes(document) {
     let defBar = document.getElementById('defNum');
     let coinBar = document.getElementById('coinNum');
 
-    healthBar.innerHTML = ` ${Stats.health} / ${Stats.maxHealth}`;
+    healthBar.innerHTML = ` ${Stats.health.toFixed()} / ${Stats.maxHealth}`;
     atkBar.innerHTML = ` ${Stats.attack}`;
     defBar.innerHTML = ` ${Stats.defense}`;
     coinNum.innerHTML = ` ${ActiveItemCount.coin}`;
