@@ -18,9 +18,8 @@ class Enemy extends Group {
         };
         this.boxSize = new Vector3(0.7, 0.7, 0.7);
         this.bbox = new Box3().setFromCenterAndSize(this.position, this.boxSize);
-        this.helper = new Box3Helper(this.bbox, 0x000000);
+        // this.helper = new Box3Helper(this.bbox, 0x000000);
         this.renderOrder = 10;
-        this.add(this.helper);
 
         let [x, z] = mazeObj.getRandomAllowedPoint();
         this.position.set(x, 0, z);

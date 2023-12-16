@@ -1,5 +1,5 @@
 import MazeScene from "./MazeScene";
-import { EnemyAtkByLvl, EnemyDefByLvl, EnemyHpByLvl, EnemySpdByLvl, Stats } from '../../js/stats';
+import { EliteEnemiesByLvl, EnemyAtkByLvl, EnemyDefByLvl, EnemyHpByLvl, EnemySpdByLvl, NormalEnemiesByLvl, Stats } from '../../js/stats';
 import { WALL_TEXTURES } from "../../js/constants";
 
 
@@ -9,9 +9,6 @@ class Level extends MazeScene {
         let maxAtk = 0;
         let minAtk = 100000;
 
-        const mcGrassTexture = "https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/minecraft/atlas.png";
-        const crateTexture = "https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/crate.gif";
-        const wallTexture = "https://raw.githubusercontent.com/brian-lou/GraphicsFinalProject/main/src/textures/brickBlue.png";
         let selection = WALL_TEXTURES[Math.floor(Math.random() * WALL_TEXTURES.length)];
         const generalInfo = {
             maxAtk: maxAtk,
@@ -19,7 +16,7 @@ class Level extends MazeScene {
             wallTexture: selection[1],
             floorColor: selection[0],
         };
-        if (true){ // DEVELOPER TEST MODE
+        if (false){ // DEVELOPER TEST MODE
             enemies.push({
                 model: "ghost",
                 hp: 5,
@@ -34,7 +31,7 @@ class Level extends MazeScene {
             return
         }
         // Normal enemies
-        for (let i = 0; i<20; i++){
+        for (let i = 0; i<NormalEnemiesByLvl[Stats.level]; i++){
             // Hp between upperBoundHp/2 and upperBoundHp
             const upperBoundHp = EnemyHpByLvl[Stats.level];
             let hp = Math.floor(upperBoundHp/2) + Math.round(upperBoundHp * Math.random() / 2);
@@ -59,7 +56,7 @@ class Level extends MazeScene {
             });
         }
         // elite / boss enemies
-        for (let i = 0; i<2; i++){
+        for (let i = 0; i<EliteEnemiesByLvl[Stats.level]; i++){
             // Hp between 2*upperBoundHp and 3*upperBoundHp
             const upperBoundHp = EnemyHpByLvl[Stats.level];
             let hp = upperBoundHp * 2 + (Math.round(upperBoundHp * Math.random()));
