@@ -90,12 +90,12 @@ function initRender() {
 }
 
 // switches between main, pause, and win/lose ending menus.
-export function handleMenus(document, event, menus, canvas, startCanvas) {
+export function handleMenus(document, event, menus, canvas) {
     // start game from main menu
     if (event.key == ' ' && menus['main']) {
         menus['main'] = false;
         pages.game(document, canvas);
-        pages.initPauseButtons(document, canvas, menus, startCanvas);
+        pages.initPauseButtons(document, canvas, menus);
         initRender();
         clearStats();
 
@@ -119,13 +119,13 @@ export function handleMenus(document, event, menus, canvas, startCanvas) {
     else if (event.key == ' ' && menus['lose']) {
         menus['main'] = true;
         menus['lose'] = false;
-        pages.main(document, startCanvas);
+        pages.main(document);
     }
     // win screen back to main menu
     else if (event.key == ' ' && menus['win']) {
         menus['main'] = true;
         menus['win'] = false;
-        pages.main(document, startCanvas);
+        pages.main(document);
     }
     // next level screen back to game (next level)
     else if (event.key == ' ' && menus['nextLevel']) {
@@ -133,7 +133,7 @@ export function handleMenus(document, event, menus, canvas, startCanvas) {
         clearActiveItems();
         menus['nextLevel'] = false;
         pages.game(document, canvas);
-        pages.initPauseButtons(document, canvas, menus, startCanvas);
+        pages.initPauseButtons(document, canvas, menus);
         initRender();
 
         // countdown before start
@@ -188,7 +188,7 @@ export function handleRestart(document, canvas, menus) {
         elements.scene = new Level(keypress, elements.camera);
         menus['pause'] = false;
         pages.game(document, canvas);
-        pages.initPauseButtons(document, canvas, menus, startCanvas);
+        pages.initPauseButtons(document, canvas, menus);
         initRender();
         clearStats();
 
@@ -210,10 +210,10 @@ export function handleRestart(document, canvas, menus) {
         }, STARTING_LOAD_DURATION);
     }
 }
-export function handleQuit(document, startCanvas, menus) {
+export function handleQuit(document, canvas, menus) {
     menus['main'] = true;
     menus['pause'] = false;
-    pages.main(document, startCanvas);
+    pages.main(document);
 }
 
 export function updateStats(document, menus) {
@@ -227,8 +227,6 @@ export function updateStats(document, menus) {
             mult * (v + BonusStatsMisc[k] + lvl * BonusStatsFromLevels[k]);
     }
     Stats.health = Stats.maxHealth + missingHp;
-    // Cap player speed
-    Stats.playerMovementSpeed = Math.min(5, Stats.playerMovementSpeed);
     const totalEnemies = NormalEnemiesByLvl[Stats.level] + EliteEnemiesByLvl[Stats.level];
     Stats.totalEnemies = totalEnemies;
     Stats.defeatedEnemies = totalEnemies - elements.scene.getNumEnemies();

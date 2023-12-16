@@ -13,13 +13,12 @@ import {
     handleRestart,
     handleQuit,
 } from './handlers';
+import { Stats } from './stats';
 
 // concept from https://github.com/harveyw24/Glider/blob/main/src/js/pages.js
 
 // main menu screen
-export function main(document, startCanvas) {
-    document.body.innerHTML = '';
-    document.body.appendChild(startCanvas);
+export function main(document) {
     document.body.innerHTML = '';
     let intro = document.createElement('div');
     intro.id = 'intro';
@@ -33,6 +32,8 @@ export function win(document) {
     win.id = 'win';
     win.innerHTML = WIN;
     document.body.appendChild(win);
+    const finalScore = document.getElementById('finalScore');
+    finalScore.innerHTML = `Final Score: ${Stats.score}`;
 
     document.getElementById('canvas').remove();
     document.getElementById('statBox').remove();
@@ -60,6 +61,8 @@ export function lose(document) {
     lose.id = 'lose';
     lose.innerHTML = LOSE;
     document.body.appendChild(lose);
+    const finalScore = document.getElementById('finalScore');
+    finalScore.innerHTML = `Final Score: ${Stats.score}`;
 
     document.getElementById('canvas').remove();
     document.getElementById('statBox').remove();
@@ -121,7 +124,7 @@ export function initCoinButtons(document) {
 }
 
 // mouse click listener for pause menu buttons
-export function initPauseButtons(document, canvas, menus, startCanvas) {
+export function initPauseButtons(document, canvas, menus) {
     const resume = document.getElementById('resume-btn');
     const restart = document.getElementById('restart-btn');
     const quit = document.getElementById('quit-btn');
@@ -131,7 +134,5 @@ export function initPauseButtons(document, canvas, menus, startCanvas) {
     restart.addEventListener('click', () =>
         handleRestart(document, canvas, menus)
     );
-    quit.addEventListener('click', () =>
-        handleQuit(document, startCanvas, menus)
-    );
+    quit.addEventListener('click', () => handleQuit(document, canvas, menus));
 }
