@@ -16,6 +16,8 @@ import {
     StatsMultipliers,
     ActiveItemCount,
     EnemyHpByLvl,
+    NormalEnemiesByLvl,
+    EliteEnemiesByLvl
 } from './stats.js';
 
 // when key is pressed down
@@ -224,6 +226,9 @@ export function updateStats(document, menus) {
             mult * (v + BonusStatsMisc[k] + lvl * BonusStatsFromLevels[k]);
     }
     Stats.health = Stats.maxHealth + missingHp;
+    const totalEnemies = NormalEnemiesByLvl[Stats.level] + EliteEnemiesByLvl[Stats.level];
+    Stats.totalEnemies = totalEnemies;
+    Stats.defeatedEnemies = totalEnemies - elements.scene.getNumEnemies();
     // if (prevMaxHp < Stats.maxHealth){ // maxhp went up
     //     Stats.health = Stats.maxHealth + missingHp;
     // } else { // maxhp went down, we first take away the missing hp
@@ -251,14 +256,16 @@ export function updateStats(document, menus) {
     }
 }
 
-// update score and level to UI
+// update score and level to UI (and # enemies left)
 export function updateScore(document) {
     let expBar = document.getElementById('exp');
     let level = document.getElementById('level');
+    const enemiesLeft = document.getElementById('enemiesLeft');
     const modScore = Stats.score % EXP_PER_LEVEL;
     expBar.value = modScore;
     let lvl = Math.floor(Stats.score / EXP_PER_LEVEL);
     level.innerHTML = 'LVL '.concat(lvl);
+    enemiesLeft.innerHTML = Stats.totalEnemies - Stats.defeatedEnemies;
 }
 
 // update attributes to UI

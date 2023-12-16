@@ -13,6 +13,7 @@ import {
     handleRestart,
     handleQuit,
 } from './handlers';
+import { Stats } from "./stats"
 
 // concept from https://github.com/harveyw24/Glider/blob/main/src/js/pages.js
 
@@ -33,6 +34,8 @@ export function win(document) {
     win.id = 'win';
     win.innerHTML = WIN;
     document.body.appendChild(win);
+    const finalScore = document.getElementById("finalScore")
+    finalScore.innerHTML = `Final Score: ${Stats.score}`
 
     document.getElementById('canvas').remove();
     document.getElementById('statBox').remove();
@@ -60,6 +63,8 @@ export function lose(document) {
     lose.id = 'lose';
     lose.innerHTML = LOSE;
     document.body.appendChild(lose);
+    const finalScore = document.getElementById("finalScore")
+    finalScore.innerHTML = `Final Score: ${Stats.score}`
 
     document.getElementById('canvas').remove();
     document.getElementById('statBox').remove();

@@ -25,7 +25,7 @@ class Player extends Group {
         );
         // this.helper = new Box3Helper(this.bbox, 0x000000);
         this.renderOrder = 10;
-        this.add(this.helper);
+        // this.add(this.helper);
 
         // Set random spawn point (for now)
         let [x,z] = mazeObj.getRandomAllowedPoint();

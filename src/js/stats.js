@@ -55,6 +55,8 @@ export const Stats = {
     playerMovementSpeed: 0,
     enemyMovementSpeed: 0,
     immune: false, // immune?
+    totalEnemies: 0,
+    defeatedEnemies: 0,
 };
 // Enemy Stat scalings by level
 export const EnemyHpByLvl = [10, 20, 40];
