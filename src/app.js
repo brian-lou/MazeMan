@@ -8,7 +8,7 @@
  */
 import { WebGLRenderer, PerspectiveCamera, Vector3, Clock } from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-import { Level, StartScene } from 'scenes';
+import { Level } from 'scenes';
 import {
     handleKeyDown,
     handleKeyUp,
@@ -62,18 +62,6 @@ canvas.style.display = 'block'; // Removes padding below canvas
 document.body.style.margin = 0; // Removes margin around page
 document.body.style.overflow = 'hidden'; // Fix scrolling
 document.body.appendChild(canvas);
-
-// Start Menu Scene
-const startScene = new StartScene();
-const startCamera = new PerspectiveCamera();
-const startRenderer = new WebGLRenderer({ antialias: true });
-startCamera.position.set(-0.5, 0.5, -3);
-startCamera.lookAt(new Vector3(-2, 0.5, 0));
-
-startRenderer.setPixelRatio(window.devicePixelRatio);
-const startCanvas = startRenderer.domElement;
-startCanvas.id = 'startCanvas';
-startCanvas.style.display = 'block'; // Removes padding below canvas
 
 // ******** Controls ***********
 const controls = new OrbitControls(elements.camera, canvas);
@@ -147,7 +135,7 @@ window.addEventListener(
 );
 window.addEventListener(
     'keydown',
-    (event) => handleMenus(document, event, menus, canvas, startCanvas),
+    (event) => handleMenus(document, event, menus, canvas),
     false
 );
 /****************************AUDIO*************************************/
@@ -162,4 +150,4 @@ window.addEventListener(
 // });
 // ******** INIT ***********
 pages.initIcons(document);
-pages.main(document, startCanvas);
+pages.main(document);
