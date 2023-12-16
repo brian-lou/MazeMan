@@ -129,6 +129,7 @@ export function handleMenus(document, event, menus, canvas) {
     }
     // next level screen back to game (next level)
     else if (event.key == ' ' && menus['nextLevel']) {
+        elements.scene.stopMusic();
         elements.scene = new Level(keypress, elements.camera);
         clearActiveItems();
         menus['nextLevel'] = false;
@@ -185,6 +186,7 @@ export function handleResume(document, canvas, menus) {
 export function handleRestart(document, canvas, menus) {
     let pause = document.getElementById('pause');
     if (!pause.classList.contains('notVisible')) {
+        elements.scene.stopMusic();
         elements.scene = new Level(keypress, elements.camera);
         menus['pause'] = false;
         pages.game(document, canvas);

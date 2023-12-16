@@ -21,6 +21,14 @@ class Item {
     this.teleportDir = teleportDir;
     this.collected = false;
     this.listener = parentScene.listener;
+    const audioLoader = new AudioLoader();
+    const pickUpSound = new Audio(this.listener);
+    audioLoader.load('https://raw.githubusercontent.com/brian-lou/MazeMan/main/src/sounds/coin_pickup.mp3', function(buffer) {
+      pickUpSound.setBuffer(buffer);
+      pickUpSound.setLoop(false);
+      pickUpSound.setVolume(1);
+    });
+    this.pickUpSound = pickUpSound;
 
     // construct item based on its type
     const loader = new GLTFLoader();
@@ -264,14 +272,7 @@ class Item {
         this.collected = true;
       }
       if (this.type != "exp_orb" && this.listener != null){ // play sound
-        const audioLoader = new AudioLoader();
-        const explosion = new Audio(this.listener);
-        audioLoader.load('https://raw.githubusercontent.com/brian-lou/MazeMan/main/src/sounds/coin_pickup.mp3', function(buffer) {
-            explosion.setBuffer(buffer);
-            explosion.setLoop(false);
-            explosion.setVolume(1);
-            explosion.play();
-        });
+        this.pickUpSound.play();
       }
     }
   }
