@@ -203,13 +203,14 @@ progress::-webkit-progress-value {
     margin-top: -450px;
     border-radius: 10px;
     padding: 10px;
-    background-color: black;
     z-index: 2;
 }
 
 #pause p {
     margin-top: 10%;
-    color: white;
+    color: rgb(255, 221, 0);
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+        1px 1px 0 #000;
 }
 
 #pause-menu {
@@ -226,15 +227,19 @@ progress::-webkit-progress-value {
     font-size: 16px;
     border-radius: 10px;
     width: 50%;
+    color: rgb(255, 221, 0);
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+        1px 1px 0 #000;
+    background-color: black;
 }
 
 /* https://www.w3schools.com/howto/howto_css_animate_buttons.asp */
 #pause-menu button:hover {
-    background-color: #ebff53;
+    background-color: rgb(255, 221, 0);
 }
 
 #pause-menu button:active {
-    background-color: #ebff53;
+    background-color: rgb(255, 221, 0);
     transform: translateY(2px);
 }
 
@@ -260,7 +265,10 @@ progress::-webkit-progress-value {
     margin: auto;
     margin-top: -50px;
     width: 500px;
-    color: black;
+    color: rgb(255, 221, 0);
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+        1px 1px 0 #000;
+
     padding: 150px;
     line-height: 20px;
     text-align: center;
@@ -298,4 +306,16 @@ li {
 #bottom {
     margin-top: 25px;
     font-size: 1.2rem;
+}
+
+.enemiesBox {
+    background-color: red;
+}
+
+.coolBG {
+    background: linear-gradient(
+        89.7deg,
+        rgb(0, 32, 95) 2.8%,
+        rgb(132, 53, 142) 97.8%
+    );
 }
