@@ -3,6 +3,7 @@ import { Scene, Color, AxesHelper, Box3, Vector2 } from 'three';
 import { Player, Maze, Enemy, Item } from 'objects';
 import { BasicLights } from 'lights';
 import { Stats } from '../../js/stats';
+import * as THREE from 'three';
 // import { Enemy } from 'enemies';
 
 class MazeScene extends Scene {
@@ -20,7 +21,17 @@ class MazeScene extends Scene {
 
         // Set background to a nice color
         this.background = new Color(0x000000);
-
+       
+        const listener = new THREE.AudioListener();
+        camera.add(listener);
+        const audioLoader = new THREE.AudioLoader();
+        const explosion = new THREE.Audio(listener);
+        audioLoader.load('../sounds/music.mp3', function(buffer) {
+            explosion.setBuffer(buffer);
+            explosion.setLoop(true);
+            explosion.setVolume(1);
+            explosion.play();
+        });
         // Add meshes to scene
         const maze = new Maze(this, generalInfo);
         this.maze = maze;
