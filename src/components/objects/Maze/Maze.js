@@ -21,12 +21,12 @@ import { Item } from '../Item';
 import * as constants from '../../../js/constants';
 
 class Maze extends Group {
-    constructor(parent, generalInfo) {
+    constructor(parent, generalInfo, listener) {
         // Call parent Group() constructor
         super();
         // Add self to parent's update list
         parent.addToUpdateList(this);
-
+        this.listener = listener;
         this.name = 'maze';
         const EPS = 1e-2;
         const WALL_LEN = 1;

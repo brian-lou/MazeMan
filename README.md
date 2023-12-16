@@ -94,6 +94,8 @@ This skeleton project was adapted from edwinwebb's ThreeJS [seed project](https:
 * [Misc Wall Textures](https://stock.adobe.com/images/different-texture-tile-seamless-pattern-set-for-pixel-art-style-game-ground-or-stone-and-brick-wall-isolated-vector-illustration-8-bit-design-for-stickers-logo-mobile-app/289657265?continue-checkout=1&asset_id=289657265)
 * [More Wall Textures](https://stock.adobe.com/images/different-texture-tile-seamless-pattern-set-for-pixel-art-style-game-ground-or-stone-and-brick-wall-isolated-vector-illustration-8-bit-design-for-stickers-logo-mobile-app/289657265?asset_id=289975932)
 * [More Wall Textures](https://stock.adobe.com/images/different-texture-tile-seamless-pattern-set-for-pixel-art-style-game-ground-or-stone-and-brick-wall-isolated-vector-illustration-8-bit-design-for-stickers-logo-mobile-app/289657265?asset_id=290898501)
+* [Item pickup sound effect](https://pixabay.com/sound-effects)
+ * [Background Music](https://www.chosic.com/download-audio/58136/)
 
 ## License
 [MIT](./LICENSE)

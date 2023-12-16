@@ -1,9 +1,9 @@
 import * as Dat from 'dat.gui';
-import { Scene, Color, AxesHelper, Box3, Vector2 } from 'three';
+import { Scene, Color, AxesHelper, Box3, Vector2, AudioListener, AudioLoader, Audio } from 'three';
 import { Player, Maze, Enemy, Item } from 'objects';
 import { BasicLights } from 'lights';
 import { Stats } from '../../js/stats';
-import * as THREE from 'three';
+import { EXP_PER_LEVEL } from '../../js/constants';
 // import { Enemy } from 'enemies';
 
 class MazeScene extends Scene {
@@ -22,18 +22,28 @@ class MazeScene extends Scene {
         // Set background to a nice color
         this.background = new Color(0x000000);
        
-        const listener = new THREE.AudioListener();
+        const listener = new AudioListener();
         camera.add(listener);
-        const audioLoader = new THREE.AudioLoader();
-        const explosion = new THREE.Audio(listener);
-        audioLoader.load('../sounds/music.mp3', function(buffer) {
-            explosion.setBuffer(buffer);
-            explosion.setLoop(true);
-            explosion.setVolume(1);
-            explosion.play();
+        const audioLoader = new AudioLoader();
+        const bgMusic = new Audio(listener);
+        audioLoader.load('https://raw.githubusercontent.com/brian-lou/MazeMan/main/src/sounds/music.mp3', function(buffer) {
+            bgMusic.setBuffer(buffer);
+            bgMusic.setLoop(true);
+            bgMusic.setVolume(0.3);
+            bgMusic.play();
         });
+        this.bgMusic = bgMusic;
+        const audioLoaderLvlUp = new AudioLoader();
+        const levelUp = new Audio(listener);
+        audioLoaderLvlUp.load('https://raw.githubusercontent.com/brian-lou/MazeMan/main/src/sounds/level_up.mp3', function(buffer) {
+            levelUp.setBuffer(buffer);
+            levelUp.setLoop(false);
+            levelUp.setVolume(1);
+        });
+        this.levelUpSound = levelUp;
+        this.prevLevel = 0;
         // Add meshes to scene
-        const maze = new Maze(this, generalInfo);
+        const maze = new Maze(this, generalInfo, listener);
         this.maze = maze;
         const player = new Player(this, maze, keypress);
         this.player = player;
@@ -50,6 +60,12 @@ class MazeScene extends Scene {
         this.add(player, maze, lights);
        // Populate GUI
         // this.state.gui.add(this.state, 'rotationSpeed', 0, 0 );
+    }
+    stopMusic(){
+        this.bgMusic.stop();
+    }
+    startMusic(){
+        this.bgMusic.start();
     }
     getPlayer(){
         return this.player;
@@ -78,6 +94,11 @@ class MazeScene extends Scene {
             this.player.position.set(x, 0, z);
             return;
         }
+        if (Math.floor(Stats.score / EXP_PER_LEVEL) > this.prevLevel){
+            this.prevLevel = Math.floor(Stats.score / EXP_PER_LEVEL);
+            this.levelUpSound.play();
+        }
+
         // Call update for each object in the updateList
         for (const obj of this.state.updateList) {
             if (obj instanceof Maze) {
