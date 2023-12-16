@@ -267,9 +267,19 @@ progress::-webkit-progress-value {
     font-weight: bold;
 }
 
+#main {
+    margin-top: -50px;
+}
+
+#win,
+#lose,
+#next {
+    margin-top: 20%;
+}
+
 #title {
     font-size: 4rem;
-    margin-bottom: 20%;
+    margin-bottom: 15%;
 }
 
 .left-align {
@@ -278,8 +288,14 @@ progress::-webkit-progress-value {
 
 ul {
     list-style-type: square;
+    font-size: 0.8rem;
 }
 
 li {
     padding: 5px;
+}
+
+#bottom {
+    margin-top: 25px;
+    font-size: 1.2rem;
 }
