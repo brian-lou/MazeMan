@@ -71,6 +71,9 @@ body {
 
 .item-text-gui {
     font-size: 20px;
+    color: white;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+        1px 1px 0 #000;
 }
 
 .coin-buttons {
@@ -81,20 +84,23 @@ body {
 }
 
 .spend-coins-btn {
-    background-color: #d9d3d2;
+    background-color: black;
     width: 140px;
     height: 40px;
     border: solid;
     border-color: black;
     border-width: 3px;
     border-radius: 12px;
-    color: black;
-    text-align: center;
-    font-size: 16px;
+
+    font-family: 'DotGothic16', sans-serif;
+    color: rgb(255, 221, 0);
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+        1px 1px 0 #000;
+    background-color: black;
 }
 
 .spend-coins-btn:hover {
-    background-color: #bababa;
+    background-color: rgb(255, 221, 0);
     transition: 0.2s;
 }
 
@@ -129,11 +135,15 @@ body {
     position: absolute;
     top: 3%;
     left: 2%;
-    background-color: grey;
     padding: 1% 2% 0 2%;
     border-style: solid;
     border-color: black;
     border-width: 5px;
+    background: linear-gradient(
+        89.7deg,
+        rgb(3, 80, 235) 2.8%,
+        rgb(132, 53, 142) 97.8%
+    );
 }
 .attribute {
     margin: 15% 0 15% 0;
@@ -158,6 +168,10 @@ progress {
     width: 300px;
     height: 25px;
     margin: auto;
+    border: solid;
+    border-color: black;
+    border-width: 2px;
+    border-radius: 8px;
 }
 
 progress::-webkit-progress-bar {
@@ -204,6 +218,9 @@ progress::-webkit-progress-value {
     border-radius: 10px;
     padding: 10px;
     z-index: 2;
+    border-style: solid;
+    border-color: black;
+    border-width: 3px;
 }
 
 #pause p {
@@ -236,6 +253,7 @@ progress::-webkit-progress-value {
 /* https://www.w3schools.com/howto/howto_css_animate_buttons.asp */
 #pause-menu button:hover {
     background-color: rgb(255, 221, 0);
+    transition: 0.2s;
 }
 
 #pause-menu button:active {
@@ -266,8 +284,8 @@ progress::-webkit-progress-value {
     margin-top: -50px;
     width: 500px;
     color: rgb(255, 221, 0);
-    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
-        1px 1px 0 #000;
+    text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000,
+        2px 2px 0 #000;
 
     padding: 150px;
     line-height: 20px;
@@ -310,7 +328,13 @@ li {
 
 .enemiesBox {
     background-color: red;
+    border: solid;
+    border-color: black;
+    border-width: 3px;
+    border-radius: 12px;
 }
+
+/* https://www.w3schools.com/css/css3_gradients.asp */
 
 .coolBG {
     background: linear-gradient(
