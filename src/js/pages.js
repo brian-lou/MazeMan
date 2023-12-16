@@ -23,7 +23,6 @@ export function main(document) {
     let intro = document.createElement('div');
     intro.id = 'intro';
     intro.innerHTML = MAIN;
-    intro.classList.add('coolBG');
     document.body.appendChild(intro);
 }
 
@@ -32,7 +31,6 @@ export function win(document) {
     let win = document.createElement('div');
     win.id = 'win';
     win.innerHTML = WIN;
-    win.classList.add('coolBG');
     document.body.appendChild(win);
     const finalScore = document.getElementById('finalScore');
     finalScore.innerHTML = `Final Score: ${Stats.score}`;
@@ -48,7 +46,6 @@ export function nextLevel(document) {
     let next = document.createElement('div');
     next.id = 'next';
     next.innerHTML = NEXT;
-    next.classList.add('coolBG');
     document.body.appendChild(next);
 
     document.getElementById('canvas').remove();
@@ -63,7 +60,6 @@ export function lose(document) {
     let lose = document.createElement('div');
     lose.id = 'lose';
     lose.innerHTML = LOSE;
-    lose.classList.add('coolBG');
     document.body.appendChild(lose);
     const finalScore = document.getElementById('finalScore');
     finalScore.innerHTML = `Final Score: ${Stats.score}`;
