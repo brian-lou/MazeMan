@@ -26,7 +26,7 @@ class MazeScene extends Scene {
         camera.add(listener);
         const audioLoader = new THREE.AudioLoader();
         const explosion = new THREE.Audio(listener);
-        audioLoader.load('../sounds/music.mp3', function(buffer) {
+        audioLoader.load('https://raw.githubusercontent.com/brian-lou/MazeMan/blob/main/src/sounds/music.mp3', function(buffer) {
             explosion.setBuffer(buffer);
             explosion.setLoop(true);
             explosion.setVolume(1);

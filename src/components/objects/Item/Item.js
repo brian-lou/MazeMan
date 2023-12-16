@@ -262,6 +262,16 @@ class Item {
         this.object.visible = false;
         this.collected = true;
       }
+      if (this.type != "exp_orb"){ // play sound
+        const audioLoader = new THREE.AudioLoader();
+        const explosion = new THREE.Audio(listener);
+        audioLoader.load('https://raw.githubusercontent.com/brian-lou/MazeMan/blob/main/src/sounds/music.mp3', function(buffer) {
+            explosion.setBuffer(buffer);
+            explosion.setLoop(true);
+            explosion.setVolume(1);
+            explosion.play();
+        });
+      }
     }
   }
 }

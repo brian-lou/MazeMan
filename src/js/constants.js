@@ -37,10 +37,10 @@ export const FREEZE_COUNT = 6;
 export const FREEZE_DURATION = 3000;
 
 export const WALL_TEXTURES = [
-    [0x4c4c4c, "https://raw.githubusercontent.com/brian-lou/GraphicsFinalProject/main/src/textures/brickBlueShiny.png"],
-    [0x7f7f7f, "https://raw.githubusercontent.com/brian-lou/GraphicsFinalProject/main/src/textures/lightBlue.png"],
-    [0x4c4c4c, "https://raw.githubusercontent.com/brian-lou/GraphicsFinalProject/main/src/textures/largerBricks.png"],
-    [0x4c4c4c, "https://raw.githubusercontent.com/brian-lou/GraphicsFinalProject/main/src/textures/crate.png"],
-    [0x323232, "https://raw.githubusercontent.com/brian-lou/GraphicsFinalProject/main/src/textures/obsidian.png"],
-    [0x4c4c4c, "https://raw.githubusercontent.com/brian-lou/GraphicsFinalProject/main/src/textures/redBrick.png"]
+    [0x4c4c4c, "https://raw.githubusercontent.com/brian-lou/MazeMan/main/src/textures/brickBlueShiny.png"],
+    [0x7f7f7f, "https://raw.githubusercontent.com/brian-lou/MazeMan/main/src/textures/lightBlue.png"],
+    [0x4c4c4c, "https://raw.githubusercontent.com/brian-lou/MazeMan/main/src/textures/largerBricks.png"],
+    [0x4c4c4c, "https://raw.githubusercontent.com/brian-lou/MazeMan/main/src/textures/crate.png"],
+    [0x323232, "https://raw.githubusercontent.com/brian-lou/MazeMan/main/src/textures/obsidian.png"],
+    [0x4c4c4c, "https://raw.githubusercontent.com/brian-lou/MazeMan/main/src/textures/redBrick.png"]
 ]
