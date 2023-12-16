@@ -153,13 +153,9 @@ window.addEventListener(
 /****************************AUDIO*************************************/
 // const listener = new THREE.AudioListener();
 // camera.add(listener);
-// const sounds = [];
-// const whirring = new THREE.Audio(listener);
-
-// sounds['whirring'] = whirring;
-
 // const audioLoader = new THREE.AudioLoader();
-// audioLoader.load('https://raw.githubusercontent.com/brian-lou/GraphicsFinalProject/src/components/scenes/pacman.wav', function(buffer) {
+// const whirring = new THREE.Audio(listener);
+// audioLoader.load('https://raw.githubusercontent.com/brian-lou/GraphicsFinalProject/src/sounds/music.mp3', function(buffer) {
 //     explosion.setBuffer(buffer);
 //     explosion.setLoop(false);
 //     explosion.setVolume(0.3);
